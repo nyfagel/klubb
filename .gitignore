@@ -1,7 +1,9 @@
-*/config/development
-*/logs/log-*.php
+# Mac
 .DS_Store
 
+# CodeIgniter
+*/config/development
+*/logs/log-*.php
 application/cache/*
 !application/cache/index.html
 !application/cache/.htaccess
@@ -9,3 +11,6 @@ application/cache/*
 application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
+
+# Compass
+.sass-cache
