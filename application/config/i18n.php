@@ -14,8 +14,8 @@
 */
 
 $config['languages'] = array(
-    'se' => 'swedish',
-    'en' => 'english'
+    'sv' => 'sv',
+    'en' => 'en'
 );
 
 
