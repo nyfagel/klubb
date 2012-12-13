@@ -10,7 +10,13 @@
 |
 */
 
-
+$hook['pre_system'] = array(
+    'class'    => 'Router_Hook',
+    'function' => 'get_routes',
+    'filename' => 'Router_Hook.php',
+    'filepath' => 'hooks',
+    'params'   => array()
+);
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */
