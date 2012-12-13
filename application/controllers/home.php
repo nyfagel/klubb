@@ -4,9 +4,10 @@ class Home extends CI_Controller {
 
 	public function index() {
 		$data['title'] = "Medlemsregistret";
-		$data['html'] = heading($this->lang->line('welcome'),1);
-		$data['html'] .= $this->lang->lang();
-		$data['html'] .= anchor($this->lang->switch_uri('en'),'Display current page in English');
+		
+		$html = row(columns(heading($this->lang->line('welcome'), 1), 12));
+		$html .= row(columns(p($this->lang->line('intro_text')), 12));
+		$data['html'] = $html;
 		$this->load->view('template', $data);
 	}
 }

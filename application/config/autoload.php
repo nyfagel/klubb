@@ -115,7 +115,7 @@ $autoload['model'] = array();
 | Sparks
 */
 
-$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3');
+$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3', 'morehtml/0.3.3');
 
 
 /* End of file autoload.php */
