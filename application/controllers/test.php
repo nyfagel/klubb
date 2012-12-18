@@ -1,0 +1,156 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/**
+ * Test class.
+ * 
+ * @extends CI_Controller
+ */
+class Test extends CI_Controller {
+
+	/**
+	 * __construct function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct() {
+		parent::__construct();
+		
+		$this->load->model('log_model');
+		$this->load->model('user_model');
+		
+		$this->load->helper('language');
+		
+		$this->load->library('unit_test');
+		
+		$str = '<tr>
+		{rows}
+			<td>{result}</td>
+		{/rows}
+		</tr>';
+
+		$this->unit->set_template($str);
+		$this->unit->set_test_items(array('test_name', 'result', 'notes'));
+	}
+
+	/**
+	 * index function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function index() {
+		$th = '<thead><tr><th>'.lang('ut_test_name').'</th><th>'.lang('ut_result').'</th><th>'.lang('ut_notes').'</th></tr></thead>';
+		$data['title'] = "Test Results";
+		
+		$html = row(columns(heading('Test Results', 1), 12));
+		$html .= '<table>'.$th.'<tbody>';
+		
+		$create_user['result'] = $this->create_user();
+		$create_user['query'] = $this->db->last_query();
+		$get_user['result'] = $this->get_user($create_user['result']);
+		$get_user['query'] = $this->db->last_query();
+		$update_user['result'] = $this->update_user($create_user['result'], $get_user['result']);
+		$update_user['query'] = $this->db->last_query();
+		$log_write['result'] = $this->log_write($create_user['result']);
+		$log_write['query'] = $this->db->last_query();
+		$log_read['result'] = $this->log_read($log_write['result']);
+		$log_read['query'] = $this->db->last_query();
+		$remove_log['result'] = $this->remove_log($log_write['result']);
+		$remove_log['query'] = $this->db->last_query();
+		$remove_user['result'] = $this->remove_user($create_user['result']);
+		$remove_user['query'] = $this->db->last_query();
+		
+		$html .= $this->unit->run($create_user['result'], 'is_int', 'user_model::create_user()', $create_user['query']);
+		$html .= $this->unit->run($get_user['result'], 'is_array', 'user_model::get_user()', $get_user['query']);
+		$html .= $this->unit->run($update_user['result'], 'is_true', 'user_model::update_user()', $update_user['query']);
+		$html .= $this->unit->run($remove_user['result'], 'is_true', 'user_model::remove_user()', $remove_user['query']);
+		
+		$html .= $this->unit->run($log_write['result'], 'is_int', 'log_model::add_entry()', $log_write['query']);
+		$html .= $this->unit->run($log_read['result'], 'is_array', 'log_model::get_entry()', $log_read['query']);
+		$html .= $this->unit->run($remove_log['result'], 'is_true', 'log_model::remove_entry()', $remove_log['query']);
+		
+		$html .= '</tbody></table>';
+		$data['html'] = $html;
+		$this->load->view('template', $data);
+	}
+	
+	/**
+	 * create_user function.
+	 * 
+	 * @access private
+	 * @return void
+	 */
+	private function create_user() {
+		return $this->user_model->create_user(array('name' => 'jan', 'password' => 'test', 'email' => 'jan@nyfagel.se', 'key' => md5('test')));
+	}
+	
+	/**
+	 * get_user function.
+	 * 
+	 * @access private
+	 * @param mixed $user
+	 * @return void
+	 */
+	private function get_user($user) {
+		return $this->user_model->get_user($user);
+	}
+	
+	/**
+	 * update_user function.
+	 * 
+	 * @access private
+	 * @param mixed $user
+	 * @param mixed $data
+	 * @return void
+	 */
+	private function update_user($user, $data) {
+		return $this->user_model->update_user($user, $data);
+	}
+	
+	/**
+	 * remove_user function.
+	 * 
+	 * @access private
+	 * @param mixed $user
+	 * @return void
+	 */
+	private function remove_user($user) {
+		return $this->user_model->remove_user(intval($user));
+	}
+	
+	/**
+	 * log_write function.
+	 * 
+	 * @access private
+	 * @param mixed $user
+	 * @return void
+	 */
+	private function log_write($user) {
+		return $this->log_model->add_entry($user);
+	}
+	
+	/**
+	 * log_read function.
+	 * 
+	 * @access private
+	 * @param mixed $entry
+	 * @return void
+	 */
+	private function log_read($entry) {
+		return $this->log_model->get_entry($entry);
+	}
+	
+	/**
+	 * remove_log function.
+	 * 
+	 * @access private
+	 * @param mixed $entry
+	 * @return void
+	 */
+	private function remove_log($entry) {
+		return $this->log_model->remove_entry(intval($entry));
+	}
+}
+
+?>
