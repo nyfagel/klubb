@@ -3,7 +3,7 @@
 		<hr />
 		<div class="row">
 			<div class="four columns">
-				<p>Copyright &copy; 2012 Ung Cancer.</p>
+				<p>Copyright &copy; 2012 <?php echo $this->system_model->get('org_name'); ?>.</p>
 			</div>
 			<div class="four columns">
 				<p>Page rendered in <strong>{elapsed_time}</strong> seconds</p>

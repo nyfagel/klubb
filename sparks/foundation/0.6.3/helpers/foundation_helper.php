@@ -210,6 +210,30 @@ if ( ! function_exists('link_list')) {
 	}
 }
 
+if ( ! function_exists('breadcrumbs')) {
+	/**
+	 * breadcrumbs function.
+	 * 
+	 * @access public
+	 * @param array $elements (default: array())
+	 * @param string $class (default: '')
+	 * @param string $id (default: '')
+	 * @return void
+	 */
+	function breadcrumbs($elements = array(), $class = '', $id = '') {
+		$class = ($class != '') ? ' '.$class : $class;
+		$id = ($id != '') ? ' id="'.$id.'"' : $id;
+		$result = '';
+		$result .= '<ul class="breadcrumbs'.$class.'"'.$id.'>';
+		foreach ($elements as $element) {
+			$eclass = (array_key_exists('mode', $element)) ? ' class="'.$element['mode'].'"' : '';
+			$result .= '<li'.$eclass.'>'.$element['data'].'</li>';
+		}
+		$result .= '</ul>';
+		return $result;
+	}
+}
+
 if ( ! function_exists('button_bar')) {
 	/**
 	 * Create a Foundation button bar.

@@ -1,61 +1,48 @@
 <!-- Top Bar -->
 <div class="row fixed">
-<nav class="top-bar">
-	<ul>
-		<!-- Title Area -->
-		<li class="name">
-			<h1>
-				<a href="<?php echo site_url() ?>">
-					<?php echo $title ?>
-				</a>
-			</h1>
-		</li>
-		<li class="toggle-topbar"><a href="#"></a></li>
-	</ul>
-	<section>
-		<!-- Right Nav Section -->
-		<ul class="left">
-			<li class="divider"></li>
-			<li class="has-dropdown">
-				<a href="<?php echo site_url('/home'); ?>">Hem</a>
-				<ul class="dropdown">
-					<li><label>Section Name</label></li>
-					<li class="has-dropdown">
-						<a href="#" class="">Has Dropdown, Level 1</a>
-						<ul class="dropdown">
-							<li><a href="#">Dropdown Options</a></li>
-							<li><a href="#">Dropdown Options</a></li>
-							<li><a href="#">Level 2</a></li>
-							<li><a href="#">Subdropdown Option</a></li>
-							<li><a href="#">Subdropdown Option</a></li>
-							<li><a href="#">Subdropdown Option</a></li>
-						</ul>
-					</li>
-					<li><a href="#">Dropdown Option</a></li>
-					<li><a href="#">Dropdown Option</a></li>
-					<li class="divider"></li>
-					<li><label>Section Name</label></li>
-					<li><a href="#">Dropdown Option</a></li>
-            <li><a href="#">Dropdown Option</a></li>
-            <li><a href="#">Dropdown Option</a></li>
-            <li class="divider"></li>
-            <li><a href="#">See all &rarr;</a></li>
-          </ul>
-        </li>
-        <li class="divider"></li>
-        <li><a href="#">Main Item 2</a></li>
-        <li class="divider"></li>
-        <li class="has-dropdown">
-          <a href="#">Main Item 3</a>
-          <ul class="dropdown">
-            <li><a href="#">Dropdown Option</a></li>
-            <li><a href="#">Dropdown Option</a></li>
-            <li><a href="#">Dropdown Option</a></li>
-            <li class="divider"></li>
-            <li><a href="#">See all &rarr;</a></li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-  </nav>
+	<nav class="top-bar">
+		<ul>
+			<!-- Title Area -->
+			<li class="name">
+				<h1>
+					<a href="/">
+						<?php echo $title ?>
+					</a>
+				</h1>
+			</li>
+			<li class="toggle-topbar"><a href="#"></a></li>
+		</ul>
+		<?php if ($this->auth->loggedin()): ?>
+		<section>
+			<!-- Right Nav Section -->
+			<ul class="left">
+				<li class="divider"></li>
+				<li<?php if (uri_string() == 'home') { echo ' class="active"'; } ?>><?php echo anchor('home', ucfirst(lang('home'))); ?></li>
+				<li class="divider"></li>
+				<li<?php if (uri_string() == 'members') { echo ' class="active"'; } ?>><?php echo anchor('members', ucfirst(lang('members'))); ?></li>
+				<li class="divider"></li>
+				<li class="has-dropdown<?php if (stristr(uri_string(), 'admin')) { echo ' active'; } ?>">
+					<?php echo anchor('admin', ucfirst(lang('administration'))); ?>
+					<ul class="dropdown">
+						<li<?php if (uri_string() == 'admin/users') { echo ' class="active"'; } ?>><?php echo anchor('admin/users', ucfirst(lang('users'))); ?></li>
+						<li<?php if (uri_string() == 'admin/org') { echo ' class="active"'; } ?>><?php echo anchor('admin/org', ucfirst(lang('the_organization'))); ?></li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<section>
+			<ul class="right">
+				<li class="divider"></li>
+				<li><?php echo anchor('user/logout', ucfirst(lang('logout'))); ?></li>
+			</ul>
+		</section>
+		<?php else: ?>
+		<section>
+			<ul class="right">
+				<li class="divider"></li>
+				<li><?php echo anchor('user/login', ucfirst(lang('login'))); ?></li>
+			</ul>
+		</section>
+		<?php endif; ?>
+	</nav>
 </div>

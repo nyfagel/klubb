@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database', 'session', 'encrypt');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('language', 'html');
+$autoload['helper'] = array('language', 'html', 'url');
 
 
 /*
@@ -96,7 +96,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array('calendar', 'date', 'db', 'email', 'form_validation', 'ftp', 'imglib', 'number', 'profiler', 'unit_test', 'upload', 'validation', 'klubb');
+$autoload['language'] = array('calendar', 'date', 'db', 'email', 'form_validation', 'ftp', 'imglib', 'number', 'profiler', 'unit_test', 'upload', 'validation');
 
 
 /*
@@ -109,13 +109,13 @@ $autoload['language'] = array('calendar', 'date', 'db', 'email', 'form_validatio
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array('system_model');
 
 /*
 | Sparks
 */
 
-$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3', 'morehtml/0.3.3');
+$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3', 'morehtml/0.3.3', 'secure-auth/2.0.0', 'messages/1.0.3');
 
 
 /* End of file autoload.php */

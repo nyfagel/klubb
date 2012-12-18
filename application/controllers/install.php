@@ -2,13 +2,22 @@
 
 class Install extends CI_Controller {
 
-	public function index() {
-		$this->load->view('install_start');
-	}
-	
-	public function database() {
-		$this->load->view('install_database');
-	}
+	/**
+     * This is a demo controller that allows you to add your first user account
+     * to the database, please remove this controller afterwards.
+     */
+    public function index() {
+        // load the model
+        $this->load->model('user_model');
+        
+        /* EDIT THESE FIELDS */
+        $user = array();
+        $user['username'] = 'jan';
+        $user['password'] = 'Syster12';
+        $user['email'] = 'jan@nyfagel.se';
+        
+        $id = $this->user_model->create_user($user);
+    }
 }
 
 ?>

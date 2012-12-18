@@ -15,6 +15,8 @@ class User_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 		$this->load->database();
+		$this->load->library("auth");
+		$this->load->library('encrypt');
 	}
 	
 	/**
@@ -25,6 +27,10 @@ class User_model extends CI_Model {
 	 * @return int user id.
 	 */
 	public function create_user($data = array()) {
+		$data['password'] = $this->hash($data['password']);
+		$data['registered'] = time();
+		$data['key'] = $this->encrypt->encode($data['email'], $data['password']);
+		
 		$query = $this->db->get_where('users', $data);
 		if ($query->num_rows() < 1) {
 			$this->db->insert('users', $data);
@@ -54,8 +60,13 @@ class User_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_user($user = 0) {
-		$this->db->select('name, email, phone, password, key');
-		$query = $this->db->get_where('users', array('id' => intval($user)));
+		$data = array();
+		if (is_int($user)) {
+			$data = array('id' => intval($user));
+		} else if (is_string($user)) {
+			$data = array('username' => $user);
+		}
+		$query = $this->db->get_where('users', $data);
 		if ($query->num_rows() > 0) {
 			return $query->row_array();
 		}
@@ -72,11 +83,37 @@ class User_model extends CI_Model {
 	 */
 	public function update_user($user = 0, $data = array()) {
 		$this->db->where('id', intval($user));
+		if (isset($data['password']) && $data['password']) {
+			$data['password'] = $this->hash($data['password']);
+		} else {
+			unset($data['password']);
+		}
 		return $this->db->update('users', $data);
 	}
 	
-	public function forge() {
+	/**
+	 * Password hashing function
+	 * 
+	 * @param string $password
+	 */
+	public function hash($password) {
+		$this->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => FALSE));
 		
+		// hash password
+		return $this->passwordhash->HashPassword($password);
+	}
+	
+	/**
+	 * Compare user input password to stored hash
+	 * 
+	 * @param string $password
+	 * @param string $stored_hash
+	 */
+	public function check_password($password, $stored_hash) {
+		$this->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => FALSE));
+		
+		// check password
+		return $this->passwordhash->CheckPassword($password, $stored_hash);
 	}
 }
 ?>

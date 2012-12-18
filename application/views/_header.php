@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="<?php echo $this->lang->lang() ?>"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="<?php echo $this->lang->lang() ?>"> <!--<![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="<?php echo $this->config->item('language'); ?>"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="<?php echo $this->config->item('language'); ?>"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width" />

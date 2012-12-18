@@ -41,25 +41,5 @@
 $route['default_controller'] = "home";
 $route['404_override'] = '';
 
-/*
-| -------------------------------------------------------------------------
-| Codeigniter 2 Internationalization (i18n) Library Hook
-| -------------------------------------------------------------------------
-| This hack allows your app to set the routing for the localized url's
-| ie. http://www.example.com/en/home would trigger the 'Home' Controller
-|
-| NOTE: you have to enable Hooks in config.php: $config["enable_hooks"] = TRUE;
-| 
-|
-*/
-
-global $I18N_ROUTES;
-
-if ( !empty( $I18N_ROUTES ) && is_array($I18N_ROUTES) ) {
-
-    $route = array_merge( $route, $I18N_ROUTES );
-
-}
-
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
