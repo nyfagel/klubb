@@ -25,7 +25,7 @@
 					<?php echo anchor('admin', ucfirst(lang('administration'))); ?>
 					<ul class="dropdown">
 						<li<?php if (uri_string() == 'admin/users') { echo ' class="active"'; } ?>><?php echo anchor('admin/users', ucfirst(lang('users'))); ?></li>
-						<li<?php if (uri_string() == 'admin/org') { echo ' class="active"'; } ?>><?php echo anchor('admin/org', ucfirst(lang('the_organization'))); ?></li>
+						<li<?php if (uri_string() == 'admin/org') { echo ' class="active"'; } ?>><?php echo anchor('admin/org', ucfirst(($this->system_model->get('org_type')) ? ucfirst($this->system_model->get('org_type').lang('org_pluralizer')) : ucfirst(lang('the_organization')))); ?></li>
 					</ul>
 				</li>
 			</ul>

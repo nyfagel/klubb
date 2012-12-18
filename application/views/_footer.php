@@ -25,12 +25,7 @@
 		</div>
 	</div>
 </footer>
-<script src="<?php echo asset_url('js/foundation/jquery.js'); ?>"></script>
-<script src="<?php echo asset_url('js/foundation/jquery.cookie.js'); ?>"></script>
-<script src="<?php echo asset_url('js/foundation/jquery.event.move.js'); ?>"></script>
-<script src="<?php echo asset_url('js/foundation/jquery.event.swipe.js'); ?>"></script>
-<script src="<?php echo asset_url('js/foundation/jquery.offcanvas.js'); ?>"></script>
-<script src="<?php echo asset_url('js/foundation/jquery.placeholder.js'); ?>"></script>
+<?php echo (isset($library_src)) ? "<!-- Load JQuery -->\n".$library_src."<!-- End Load JQuery -->\n" : ''; ?>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.accordion.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.alerts.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.buttons.js'); ?>"></script>
@@ -46,5 +41,6 @@
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.tooltips.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.topbar.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/app.js'); ?>"></script>
+<?php echo (isset($script_foot)) ? "<!-- Compiled JQuery -->\n".$script_foot."<!-- End Compiled JQuery -->\n" : ''; ?>
 </body>
 </html>

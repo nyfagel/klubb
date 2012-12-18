@@ -8,6 +8,8 @@ class User extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->helper('html');
 		$this->load->helper('form');
+		
+		$this->load->library('javascript');
 	}
 
 	public function login() {

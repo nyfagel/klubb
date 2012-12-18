@@ -29,7 +29,7 @@ class Home extends CI_Controller {
 		
 		$html = row(columns($content, 12));
 		$data['html'] = $html;
-		$this->load->view('template', $data);
+		$this->system_model->view('template', $data);
 	}
 }
 

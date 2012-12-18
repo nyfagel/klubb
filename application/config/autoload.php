@@ -80,7 +80,7 @@ $autoload['helper'] = array('language', 'html', 'url');
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('javascript');
 
 
 /*
@@ -100,6 +100,12 @@ $autoload['language'] = array('calendar', 'date', 'db', 'email', 'form_validatio
 
 
 /*
+| Sparks
+*/
+
+$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3', 'morehtml/0.3.3', 'secure-auth/2.0.0', 'messages/1.0.3');
+
+/*
 | -------------------------------------------------------------------
 |  Auto-load Models
 | -------------------------------------------------------------------
@@ -111,11 +117,6 @@ $autoload['language'] = array('calendar', 'date', 'db', 'email', 'form_validatio
 
 $autoload['model'] = array('system_model');
 
-/*
-| Sparks
-*/
-
-$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3', 'morehtml/0.3.3', 'secure-auth/2.0.0', 'messages/1.0.3');
 
 
 /* End of file autoload.php */
