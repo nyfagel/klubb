@@ -8,5 +8,9 @@
 	</div>
 </div>
 <?php
-	$this->load->view('_footer');
+	if (isset($breadcrumbs)) {
+		$this->load->view('_footer', array('breadcrumbs' => $breadcrumbs));
+	} else {
+		$this->load->view('_footer');
+	}
 ?>

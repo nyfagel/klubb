@@ -22,7 +22,8 @@ class Admin extends CI_Controller {
 			$greeting = ' '.$user['username'];
 		}
 		
-		$data['title'] = "Medlemsregistret";
+		$data['title'] = $this->system_model->get('app_name');
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration'))), 'mode' => 'current'));
 		
 		$content = heading(ucfirst(lang('welcome')).$greeting.'!', 1);
 		
@@ -44,9 +45,9 @@ class Admin extends CI_Controller {
 			$greeting = ' '.$user['username'];
 		}
 		$data['title'] = $this->system_model->get('app_name');
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/org', ucfirst(lang('the_organization'))), 'mode' => 'current'));
 		
 		$content = row(columns(heading(ucfirst(lang('welcome')).$greeting.'!', 1),12));
-		$content .= row(columns(breadcrumbs(array(array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/org', ucfirst(lang('the_organization'))), 'mode' => 'current'))),12));
 		$html = $content;
 		$data['html'] = $html;
 		$this->load->view('template', $data);

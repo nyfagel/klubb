@@ -22,7 +22,8 @@ class Home extends CI_Controller {
 			$greeting = ' '.$user['username'];
 		}
 		
-		$data['title'] = "Medlemsregistret";
+		$data['title'] = $this->system_model->get('app_name');
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('home', ucfirst(lang('home'))), 'mode' => 'current'));
 		
 		$content = heading(ucfirst(lang('welcome')).$greeting.'!', 1);
 		
