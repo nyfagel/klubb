@@ -8,9 +8,11 @@ class Admin extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->helper('form');
 		$this->load->library('table');
+		$this->load->library('form_validation');
 	}
 
 	public function index() {
+		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
@@ -29,6 +31,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function users() {
+		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
@@ -55,34 +58,49 @@ class Admin extends CI_Controller {
 	}
 	
 	public function org() {
+		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
-		$greeting = '';
-		if (isset($user['firstname'])) {
-			$greeting = ' '.$user['firstname'];
-		} else {
-			$greeting = ' '.$user['username'];
+		
+		$this->form_validation->set_rules('org_name', lang('org_name'), 'trim|required');
+		$this->form_validation->set_rules('app_name', lang('app_name'), 'trim|required');
+		
+		if ($this->form_validation->run() == true) {
+			if ($this->input->post('org_name') && strlen($this->input->post('org_name')) > 0) {
+				$this->system_model->set('org_name', $this->input->post('org_name'));
+			}
+			if ($this->input->post('app_name') && strlen($this->input->post('app_name')) > 0) {
+				$this->system_model->set('app_name', $this->input->post('app_name'));
+			}
+			if ($this->input->post('org_type') && strlen($this->input->post('org_type')) > 0) {
+				$this->system_model->set('org_type', $this->input->post('org_type'));
+			}
 		}
-		$call_org = ($this->system_model->get('org_type')) ? $this->system_model->get('org_type') : lang('organization');
 		
-		$data['title'] = $this->system_model->get('app_name');
+		$org_type = $this->system_model->get('org_type');
+		$app_name = $this->system_model->get('app_name');
+		$org_name = $this->system_model->get('org_name');
 		
-		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/org', ucfirst(lang('the_organization'))), 'mode' => 'current'));
+		$call_org = ($org_type) ? $org_type : lang('organization');
+		
+		$data['title'] = $app_name;
+		
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $app_name), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/org', ucfirst(lang('the_organization'))), 'mode' => 'current'));
 		
 		$content = row(columns(heading(ucfirst(lang('administer')).' '.span($call_org, 'org_type', 'org_type').lang('org_pluralizer'), 1), 12));
 		
 		$content .= form_open('admin/org', array('class' => 'custom'));
 		
 		$content .= form_label(sprintf(lang('input_org_name'), $call_org), 'org_name');
-		$content .= form_input(array('type' => 'text', 'name' => 'org_name', 'id' => 'org_name', 'class' => 'eight', 'value' => $this->system_model->get('org_name')));
+		$content .= form_input(array('type' => 'text', 'name' => 'org_name', 'id' => 'org_name', 'class' => (form_error('org_name'))?'eight error':'eight', 'value' => $org_name));
 		$content .= form_label(lang('input_app_name'), 'app_name');
-		$content .= form_input(array('type' => 'text', 'name' => 'app_name', 'id' => 'app_name', 'class' => 'eight', 'value' => $this->system_model->get('app_name')));
+		$content .= form_input(array('type' => 'text', 'name' => 'app_name', 'id' => 'app_name', 'class' => (form_error('app_name'))?'eight error':'eight', 'value' => $app_name));
 		$content .= form_label(lang('input_org_type'), 'org_type');
-		$content .= ($this->system_model->get('org_type')) ? form_input(array('type' => 'text', 'name' => 'org_type', 'id' => 'org_type', 'class' => 'eight', 'value' => $call_org)) : form_input(array('type' => 'text', 'name' => 'org_type', 'id' => 'org_type', 'class' => 'eight', 'placeholder' => $call_org));
-		$content .= form_input(array('type' => 'submit', 'class' => 'button', 'value' => 'Spara'));
+		$content .= ($org_type) ? form_input(array('type' => 'text', 'name' => 'org_type', 'id' => 'org_type', 'class' => 'eight', 'value' => $call_org)) : form_input(array('type' => 'text', 'name' => 'org_type', 'id' => 'org_type', 'class' => 'eight', 'placeholder' => $call_org));
+		$content .= form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')));
 		$content .= form_close();
 		$this->javascript->keyup('#org_type', '$("#org_name").val($("#org_type").val());');
 		

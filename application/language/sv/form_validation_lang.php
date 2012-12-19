@@ -18,4 +18,5 @@ $lang['integer'] = '';
 $lang['matches'] = '';
 $lang['is_natural'] = '';
 $lang['is_natural_no_zero'] = '';
+$lang['is_unique'] = '';
 ?>

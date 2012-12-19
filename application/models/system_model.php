@@ -76,6 +76,10 @@ class System_model extends CI_Model {
 		return $this->db->insert('system', array('key' => $key, 'value' => $value));
 	}
 	
+	public function set($key = '', $value = '') {
+		return $this->add($key, $value);
+	}
+	
 	/**
 	 * update function.
 	 * 
