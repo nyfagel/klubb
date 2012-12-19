@@ -91,6 +91,12 @@ class User_model extends CI_Model {
 		return $this->db->update('users', $data);
 	}
 	
+	public function list_users() {
+		$this->db->select('id, username, firstname, lastname, email');
+		$query = $this->db->get('users');
+		return $query->result_array();
+	}
+	
 	/**
 	 * Password hashing function
 	 * 

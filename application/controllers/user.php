@@ -5,6 +5,7 @@ class User extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->language('klubb');
+		$this->load->model('system_model');
 		$this->load->model('user_model');
 		$this->load->helper('html');
 		$this->load->helper('form');
@@ -64,7 +65,7 @@ class User extends CI_Controller {
 		$html .= form_close();
 		
 		$data['html'] = $html;
-		$this->load->view('template', $data);
+		$this->system_model->view('template', $data);
 	}
 	
 	public function logout() {
