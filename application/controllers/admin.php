@@ -46,7 +46,7 @@ class Admin extends CI_Controller {
 		$users = $this->user_model->list_users();
 		$tdata = array(array('ID', 'Användarnamn', 'Namn', 'E-post', nbs()));
 		foreach ($users as $user) {
-			$row = array($user['id'], $user['username'], $user['firstname'].' '.$user['lastname'], mailto($user['email'],$user['email']), anchor('user/details/'.$user['id'], 'Visa'));
+			$row = array($user['id'], $user['username'], $user['firstname'].' '.$user['lastname'], mailto($user['email'],$user['email']), anchor('user/edit/'.$user['id'], 'Visa'));
 			array_push($tdata, $row);
 		}
 		$content .= row(columns(button_anchor('user/create', 'Skapa ny användare', 'small'), 12));

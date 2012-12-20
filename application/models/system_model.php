@@ -41,7 +41,10 @@ class System_model extends CI_Model {
 	
 	public function view($template = '', $data = array()) {
 		$this->javascript->compile();
+		$this->load->view('_header', $data);
+	$this->load->view('_topbar', $data);
 		$this->load->view($template, $data);
+		$this->load->view('_footer', $data);
 	}
 	
 	/**
