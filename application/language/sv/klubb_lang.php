@@ -9,6 +9,7 @@ $lang['remember_me'] = 'kom ihåg mig';
 $lang['password'] = 'lösenord';
 $lang['members'] = 'medlemmar';
 $lang['member'] = 'medlem';
+$lang['register_member'] = 'registrera '.$lang['member'];
 $lang['administration'] = 'administration';
 $lang['administer'] = 'administrera';
 $lang['users'] = 'användare';
