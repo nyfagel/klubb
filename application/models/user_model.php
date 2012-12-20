@@ -91,10 +91,82 @@ class User_model extends CI_Model {
 		return $this->db->update('users', $data);
 	}
 	
+	/**
+	 * list_users function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function list_users() {
 		$this->db->select('id, username, firstname, lastname, email');
 		$query = $this->db->get('users');
 		return $query->result_array();
+	}
+	
+	/**
+	 * count_users function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function count_users() {
+		$query = $this->db->get('users');
+		return $query->num_rows();
+	}
+	
+	/**
+	 * set_active function.
+	 * 
+	 * @access public
+	 * @param int $id (default: 0)
+	 * @return void
+	 */
+	public function set_active($id = 0) {
+		$this->db->where('id', intval($id));
+		return $this->db->update('users', array('loggedin' => 1));
+	}
+	
+	/**
+	 * set_inactive function.
+	 * 
+	 * @access public
+	 * @param int $id (default: 0)
+	 * @return void
+	 */
+	public function set_inactive($id = 0) {
+		$this->db->where('id', intval($id));
+		return $this->db->update('users', array('loggedin' => 0));
+	}
+	
+	/**
+	 * is_active function.
+	 * 
+	 * @access public
+	 * @param int $id (default: 0)
+	 * @return void
+	 */
+	public function is_active($id = 0) {
+		$query = $this->db->get_where('users', array('id' => intval($id)));
+		if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			return ($row['loggedin'] == 1);
+		}
+		return false;
+	}
+	
+	/**
+	 * get_active function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function get_active() {
+		$query = $this->db->get_where('users', array('loggedin' => 1));
+		$active = array();
+		foreach ($query->result_array() as $row) {
+			array_push($active, intval($row['id']));
+		}
+		return $active;
 	}
 	
 	/**

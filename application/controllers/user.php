@@ -16,6 +16,7 @@ class User extends CI_Controller {
 	public function login() {
 		$this->output->enable_profiler(TRUE);
 		if ($this->auth->loggedin()) {
+			$this->user_model->set_active($user['id']);
 			redirect('home');
 		}
 		
@@ -33,6 +34,7 @@ class User extends CI_Controller {
 				if ($this->user_model->check_password($this->input->post('password'), $user['password'])) {
 					// mark user as logged in
 					$this->auth->login($user['id'], $remember);
+					$this->user_model->set_active($user['id']);
 					redirect('home');
 				} else {
 					$error = 'Wrong password';
@@ -183,6 +185,7 @@ class User extends CI_Controller {
 	}
 	
 	public function logout() {
+		$this->user_model->set_inactive($user['id']);
 		$this->auth->logout();
 		redirect('user/login');
 	}
