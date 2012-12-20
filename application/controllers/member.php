@@ -13,7 +13,7 @@ class Member extends CI_Controller {
 		$this->load->library('form_validation');
 	}
 	
-	public function create() {
+	public function register() {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
