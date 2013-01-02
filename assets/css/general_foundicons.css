@@ -1,0 +1,102 @@
+/* font-face */
+@font-face { font-family: "GeneralFoundicons"; src: url("assets/fonts/general_foundicons.eot"); src: url("assets/fonts/general_foundicons.eot?#iefix") format("embedded-opentype"), url("assets/fonts/general_foundicons.woff") format("woff"), url("assets/fonts/general_foundicons.ttf") format("truetype"), url("assets/fonts/general_foundicons.svg#GeneralFoundicons") format("svg"); font-weight: normal; font-style: normal; }
+
+/* global foundicon styles */
+[class*="general-foundicon-"] { display: inline; width: auto; height: auto; line-height: inherit; vertical-align: baseline; background-image: none; background-position: 0 0; background-repeat: repeat; }
+
+[class*="general-foundicon-"]:before { font-family: "GeneralFoundicons"; font-weight: normal; font-style: normal; text-decoration: inherit; }
+
+/* icons */
+.general-foundicon-settings:before { content: "\f000"; }
+
+.general-foundicon-heart:before { content: "\f001"; }
+
+.general-foundicon-star:before { content: "\f002"; }
+
+.general-foundicon-plus:before { content: "\f003"; }
+
+.general-foundicon-minus:before { content: "\f004"; }
+
+.general-foundicon-checkmark:before { content: "\f005"; }
+
+.general-foundicon-remove:before { content: "\f006"; }
+
+.general-foundicon-mail:before { content: "\f007"; }
+
+.general-foundicon-calendar:before { content: "\f008"; }
+
+.general-foundicon-page:before { content: "\f009"; }
+
+.general-foundicon-tools:before { content: "\f00a"; }
+
+.general-foundicon-globe:before { content: "\f00b"; }
+
+.general-foundicon-home:before { content: "\f00c"; }
+
+.general-foundicon-quote:before { content: "\f00d"; }
+
+.general-foundicon-people:before { content: "\f00e"; }
+
+.general-foundicon-monitor:before { content: "\f00f"; }
+
+.general-foundicon-laptop:before { content: "\f010"; }
+
+.general-foundicon-phone:before { content: "\f011"; }
+
+.general-foundicon-cloud:before { content: "\f012"; }
+
+.general-foundicon-error:before { content: "\f013"; }
+
+.general-foundicon-right-arrow:before { content: "\f014"; }
+
+.general-foundicon-left-arrow:before { content: "\f015"; }
+
+.general-foundicon-up-arrow:before { content: "\f016"; }
+
+.general-foundicon-down-arrow:before { content: "\f017"; }
+
+.general-foundicon-trash:before { content: "\f018"; }
+
+.general-foundicon-add-doc:before { content: "\f019"; }
+
+.general-foundicon-edit:before { content: "\f01a"; }
+
+.general-foundicon-lock:before { content: "\f01b"; }
+
+.general-foundicon-unlock:before { content: "\f01c"; }
+
+.general-foundicon-refresh:before { content: "\f01d"; }
+
+.general-foundicon-paper-clip:before { content: "\f01e"; }
+
+.general-foundicon-video:before { content: "\f01f"; }
+
+.general-foundicon-photo:before { content: "\f020"; }
+
+.general-foundicon-graph:before { content: "\f021"; }
+
+.general-foundicon-idea:before { content: "\f022"; }
+
+.general-foundicon-mic:before { content: "\f023"; }
+
+.general-foundicon-cart:before { content: "\f024"; }
+
+.general-foundicon-address-book:before { content: "\f025"; }
+
+.general-foundicon-compass:before { content: "\f026"; }
+
+.general-foundicon-flag:before { content: "\f027"; }
+
+.general-foundicon-location:before { content: "\f028"; }
+
+.general-foundicon-clock:before { content: "\f029"; }
+
+.general-foundicon-folder:before { content: "\f02a"; }
+
+.general-foundicon-inbox:before { content: "\f02b"; }
+
+.general-foundicon-website:before { content: "\f02c"; }
+
+.general-foundicon-smiley:before { content: "\f02d"; }
+
+.general-foundicon-search:before { content: "\f02e"; }
