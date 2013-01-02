@@ -1,5 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Admin controller.
+ * 
+ * @extends CI_Controller
+ * @version 0.1
+ * @author Jan Lindblom <jan@nyfagel.se>
+ * @copyright Copyright (c) 2012-2013 Ung Cancer.
+ */
 class Admin extends CI_Controller {
 
 	public function __construct() {
@@ -46,7 +54,7 @@ class Admin extends CI_Controller {
 		$users = $this->user_model->list_users();
 		$tdata = array(array('ID', 'Användarnamn', 'Namn', 'E-post', nbs()));
 		foreach ($users as $user) {
-			$row = array($user['id'], $user['username'], $user['firstname'].' '.$user['lastname'], mailto($user['email'],$user['email']), anchor('user/edit/'.$user['id'], 'Visa'));
+			$row = array($user['id'], $user['username'], $user['firstname'].' '.$user['lastname'], mailto($user['email'], '<i class="general-foundicon-mail"></i>'.nbs().$user['email']), anchor('user/edit/'.$user['id'], '<i class="general-foundicon-edit"></i>'.nbs().'Visa').nbs().anchor(current_url().'#', '<i class="general-foundicon-trash"></i>'.nbs().'Ta bort'));
 			array_push($tdata, $row);
 		}
 		$content .= row(columns(button_anchor('user/create', 'Skapa ny användare', 'small'), 12));

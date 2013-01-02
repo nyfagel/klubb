@@ -1,5 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Member controller.
+ * 
+ * @extends CI_Controller
+ * @version 0.1
+ * @author Jan Lindblom <jan@nyfagel.se>
+ * @copyright Copyright (c) 2012-2013 Ung Cancer.
+ */
 class Member extends CI_Controller {
 
 	public function __construct() {
@@ -28,7 +36,9 @@ class Member extends CI_Controller {
 		$this->form_validation->set_error_delimiters('<small class="error">', '</small>');
 		
 		$data['title'] = $this->system_model->get('app_name');
-		$html = heading(ucfirst(lang('create_user')), 1);
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members')))), array('data' => anchor('member/register', ucfirst(lang('register_member'))), 'mode' => 'current'));
+		
+		$html = heading(ucfirst(lang('register_member')), 1);
 		
 		if ($this->form_validation->run() == true) {
 			$user = array();
@@ -86,7 +96,7 @@ class Member extends CI_Controller {
 				columns(
 					form_label(ucfirst(lang('lastname')).':', 'lastname').
 					form_input(array('type' => 'text', 'name' => 'lastname', 'id' => 'lastname', 'value' => $this->input->post('lastname'))), 6));
-			$html .= button_group(array(button_anchor('admin/users', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'right');
+			$html .= button_group(array(button_anchor('members', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'right');
 			$html .= form_close();
 			$html .= '</div></div>';
 		}
@@ -104,9 +114,9 @@ class Member extends CI_Controller {
 		$user = $this->user_model->get_user($uid);
 		
 		$data['title'] = $this->system_model->get('app_name');
-		$html = heading(ucfirst(lang('edit_user')), 1);
+		$html = heading(ucfirst(lang('edit_member')), 1);
 		
-		$html .= form_open('user/edit', array('class' => 'custom'));
+		$html .= form_open('member/register', array('class' => 'custom'));
 		$html .= row(columns(form_label(ucfirst(lang('username')).':'.span('*', 'required'), 'username').
 			form_input(array('type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'expand', 'value' => $user['username'])), 6, 'end'));
 		$html .= row(columns(form_label(ucfirst(lang('email_address')).':'.span('*', 'required'), 'email').
@@ -120,7 +130,7 @@ class Member extends CI_Controller {
 			columns(
 				form_label(ucfirst(lang('lastname')).':', 'lastname').
 				form_input(array('type' => 'text', 'name' => 'lastname', 'id' => 'lastname', 'value' => $user['lastname'])), 6));
-		$html .= button_group(array(button_anchor('admin/users', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'right');
+		$html .= button_group(array(button_anchor('members', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'right');
 		$html .= form_close();
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);
