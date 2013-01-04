@@ -1,5 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Home class.
+ * 
+ * @extends CI_Controller
+ * @version 0.1
+ * @author Jan Lindblom <jan@nyfagel.se>
+ * @copyright Copyright (c) 2012-2013 Ung Cancer.
+ */
 class Home extends CI_Controller {
 
 	public function __construct() {
