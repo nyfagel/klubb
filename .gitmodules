@@ -10,9 +10,6 @@
 [submodule "sparks/morehtml/0.3.3"]
 	path = sparks/morehtml/0.3.3
 	url = git://github.com/nyfagel/codeigniter-morehtml-spark.git
-[submodule "sparks/secure-auth/2.0.0"]
-	path = sparks/secure-auth/2.0.0
-	url = git://github.com/segersjens/CodeIgniter-Authentication-Library.git
 [submodule "sparks/simple-assets/1.1.0"]
 	path = sparks/simple-assets/1.1.0
 	url = git://github.com/segersjens/CodeIgniter-Simple-Assets.git
