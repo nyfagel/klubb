@@ -161,12 +161,13 @@ class User extends CI_Controller {
 		$this->system_model->view('template', $data);
 	}
 	
-	public function edit() {
+	public function edit($id = 0) {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
-		$uid = intval($this->auth->userid());
+		
+		$uid = ($id > 0) ? intval($id) : intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
 		
 		$data['title'] = $this->system_model->get('app_name');

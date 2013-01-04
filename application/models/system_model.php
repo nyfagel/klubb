@@ -9,6 +9,12 @@
  */
 class System_model extends CI_Model {
 
+	/**
+	 * __construct function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->load->database();
@@ -42,6 +48,14 @@ class System_model extends CI_Model {
 		*/
 	}
 	
+	/**
+	 * view function.
+	 * 
+	 * @access public
+	 * @param string $template (default: '')
+	 * @param array $data (default: array())
+	 * @return void
+	 */
 	public function view($template = '', $data = array()) {
 		$this->javascript->compile();
 		$this->load->view('_header', $data);
@@ -82,6 +96,14 @@ class System_model extends CI_Model {
 		return $this->db->insert('system', array('key' => $key, 'value' => $value));
 	}
 	
+	/**
+	 * set function.
+	 * 
+	 * @access public
+	 * @param string $key (default: '')
+	 * @param string $value (default: '')
+	 * @return void
+	 */
 	public function set($key = '', $value = '') {
 		return $this->add($key, $value);
 	}
