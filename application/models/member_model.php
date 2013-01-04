@@ -52,8 +52,15 @@ class Member_model extends CI_Model {
 		return $this->db->update('members', $data);
 	}
 	
-	public function list_members() {
+	public function list_members($offset = -1, $limit = -1) {
 		$this->db->select('id, firstname, lastname, email');
+		if ($limit > 0) {
+			if ($offset > 0) {
+				$this->db->limit(intval($limit), intval($offset));
+			} else {
+				$this->db->limit(intval($limit));
+			}
+		}
 		$query = $this->db->get('members');
 		return $query->result_array();
 	}

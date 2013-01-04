@@ -2,6 +2,7 @@
 
 $lang['welcome'] = 'välkommen';
 $lang['intro_text'] = 'För att använda medlemsregistret behöver du först logga in!';
+$lang['and'] = 'och';
 $lang['home'] = 'hem';
 $lang['logout'] = 'logga ut';
 $lang['login'] = 'logga in';

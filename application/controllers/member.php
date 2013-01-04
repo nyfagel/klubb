@@ -15,10 +15,12 @@ class Member extends CI_Controller {
 		$this->load->language('klubb');
 		$this->load->model('system_model');
 		$this->load->model('user_model');
+		$this->load->model('member_model');
 		$this->load->helper('html');
 		$this->load->helper('form');
 		
 		$this->load->library('form_validation');
+		$this->load->library('pagination');
 	}
 	
 	public function memberlist() {
@@ -26,12 +28,20 @@ class Member extends CI_Controller {
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
+		$config['base_url'] = base_url('members');
+		$config['total_rows'] = $this->member_model->count_members();
+		$config['per_page'] = 20; 
+
+		$this->pagination->initialize($config);
+		
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
 		
 		$data['title'] = $this->system_model->get('app_name');
 		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members'))), 'mode' => 'current'));
 		$html = heading(ucfirst(lang('members')), 1);
+		// !TODO: generate users table
+		$html .= $this->pagination->create_links();
 		
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);
