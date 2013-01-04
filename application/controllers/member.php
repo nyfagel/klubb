@@ -21,6 +21,22 @@ class Member extends CI_Controller {
 		$this->load->library('form_validation');
 	}
 	
+	public function memberlist() {
+		$this->output->enable_profiler(TRUE);
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		$uid = intval($this->auth->userid());
+		$user = $this->user_model->get_user($uid);
+		
+		$data['title'] = $this->system_model->get('app_name');
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members'))), 'mode' => 'current'));
+		$html = heading(ucfirst(lang('members')), 1);
+		
+		$data['html'] = $html;
+		$this->system_model->view('template', $data);
+	}
+	
 	public function register() {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {

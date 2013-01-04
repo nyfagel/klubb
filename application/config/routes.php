@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "home";
+$route['members'] = 'member/memberlist';
 $route['404_override'] = '';
 
 /* End of file routes.php */
