@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "home";
+$route['members/page/:num'] = 'member/memberlist/$1';
 $route['members'] = 'member/memberlist';
 $route['404_override'] = '';
 

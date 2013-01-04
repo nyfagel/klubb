@@ -23,14 +23,31 @@ class Member extends CI_Controller {
 		$this->load->library('pagination');
 	}
 	
-	public function memberlist() {
+	public function memberlist($page = -1) {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
-		$config['base_url'] = base_url('members');
+		$config['base_url'] = base_url('members/page');
 		$config['total_rows'] = $this->member_model->count_members();
-		$config['per_page'] = 20; 
+		$config['per_page'] = 20;
+		$config['use_page_numbers'] = true;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+		$config['cur_tag_open'] = '<li class="current"><a href="'.current_url().'">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = '&raquo;';
+		$config['next_tag_open'] = '<li class="arrow">';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = '&laquo;';
+		$config['prev_tag_open'] = '<li class="arrow">';
+		$config['prev_tag_close'] = '</li>';
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['last_link'] = false;
+		$config['first_link'] = false;
 
 		$this->pagination->initialize($config);
 		

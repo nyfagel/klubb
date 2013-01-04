@@ -18,6 +18,7 @@ class Test extends CI_Controller {
 		
 		$this->load->model('log_model');
 		$this->load->model('user_model');
+		$this->load->model('member_model');
 		
 		$this->load->helper('language');
 		
