@@ -16,9 +16,11 @@ class Test extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		
+		$this->load->language('klubb');
 		$this->load->model('log_model');
 		$this->load->model('user_model');
 		$this->load->model('member_model');
+		$this->load->model('system_model');
 		
 		$this->load->helper('language');
 		
@@ -41,11 +43,12 @@ class Test extends CI_Controller {
 	 * @return void
 	 */
 	public function index() {
+		$this->output->enable_profiler(true);
 		$th = '<thead><tr><th>'.lang('ut_test_name').'</th><th>'.lang('ut_result').'</th><th>'.lang('ut_notes').'</th></tr></thead>';
 		$data['title'] = "Test Results";
 		
 		$html = row(columns(heading('Test Results', 1), 12));
-		$html .= '<table>'.$th.'<tbody>';
+		$html .= '<table cellspacing="0">'.$th.'<tbody>';
 		
 		$create_user['result'] = $this->create_user();
 		$create_user['query'] = $this->db->last_query();
@@ -73,7 +76,7 @@ class Test extends CI_Controller {
 		
 		$html .= '</tbody></table>';
 		$data['html'] = $html;
-		$this->load->view('template', $data);
+		$this->system_model->view('template', $data);
 	}
 	
 	/**
@@ -83,7 +86,7 @@ class Test extends CI_Controller {
 	 * @return void
 	 */
 	private function create_user() {
-		return $this->user_model->create_user(array('name' => 'jan', 'password' => 'test', 'email' => 'jan@nyfagel.se', 'key' => md5('test')));
+		return $this->user_model->create_user(array('username' => 'test', 'password' => 'test', 'email' => 'test@nyfagel.se', 'password' => very_random_string()));
 	}
 	
 	/**
@@ -151,6 +154,20 @@ class Test extends CI_Controller {
 	 */
 	private function remove_log($entry) {
 		return $this->log_model->remove_entry(intval($entry));
+	}
+	
+	/**
+	 * add_member function.
+	 * 
+	 * @access private
+	 * @param mixed $first
+	 * @param mixed $last
+	 * @param mixed $ssid
+	 * @param mixed $phone
+	 * @return void
+	 */
+	private function add_member($first, $last, $ssid, $phone) {
+		return $this->member_model->create_member(array('firstname' => $first, 'lastname' => $last, 'ssid' => $ssid, 'phone' => $phone));
 	}
 }
 

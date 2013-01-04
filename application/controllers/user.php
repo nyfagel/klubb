@@ -21,6 +21,12 @@ class User extends CI_Controller {
 		$this->load->library('form_validation');
 	}
 
+	/**
+	 * login function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function login() {
 		$this->output->enable_profiler(false);
 		if ($this->auth->loggedin()) {
@@ -79,6 +85,12 @@ class User extends CI_Controller {
 		$this->system_model->view('template', $data);
 	}
 	
+	/**
+	 * create function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function create() {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
