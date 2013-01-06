@@ -33,13 +33,13 @@ class About extends CI_Controller {
 	 * @return void
 	 */
 	public function index() {
-		$this->output->enable_profiler(true);
+		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
 		$data['title'] = $this->system_model->get('app_name');
 		
-		$html = row(columns(heading(ucfirst(lang('about')), 1), 12));
+		$html = row(columns(heading(ucfirst(lang('about')).' '.$this->system_model->get('app_name'), 1), 12));
 		$uptime_array = explode(" ", exec("cat /proc/uptime"));
 		$seconds = round($uptime_array[0], 0);
 		$minutes = $seconds / 60;
@@ -70,7 +70,7 @@ class About extends CI_Controller {
 				strong('PHP-version: ').phpversion(),
 				strong('PHP-moduler: ').implode(', ', get_loaded_extensions())))), array('class' => 'no-bullet'));
 		$html .= row(columns($infolist));
-		
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('about', ucfirst(lang('about').' '.$data['title'])), 'mode' => 'current'));
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);
 	}
