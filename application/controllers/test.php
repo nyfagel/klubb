@@ -65,6 +65,11 @@ class Test extends CI_Controller {
 		$remove_user['result'] = $this->remove_user($create_user['result']);
 		$remove_user['query'] = $this->db->last_query();
 		
+		$create_members['result'] = $this->add_members();
+		$create_members['query'] = $this->db->last_query();
+		$remove_members['result'] = $this->remove_members($create_members['result']);
+		$remove_members['query'] = $this->db->last_query();
+		
 		$html .= $this->unit->run($create_user['result'], 'is_int', 'user_model::create_user()', $create_user['query']);
 		$html .= $this->unit->run($get_user['result'], 'is_array', 'user_model::get_user()', $get_user['query']);
 		$html .= $this->unit->run($update_user['result'], 'is_true', 'user_model::update_user()', $update_user['query']);
@@ -73,6 +78,9 @@ class Test extends CI_Controller {
 		$html .= $this->unit->run($log_write['result'], 'is_int', 'log_model::add_entry()', $log_write['query']);
 		$html .= $this->unit->run($log_read['result'], 'is_array', 'log_model::get_entry()', $log_read['query']);
 		$html .= $this->unit->run($remove_log['result'], 'is_true', 'log_model::remove_entry()', $remove_log['query']);
+		
+		$html .= $this->unit->run($create_members['result'], 'is_array', 'member_model::create_member()', $create_members['query']);
+		$html .= $this->unit->run($remove_members['result'], 'is_true', 'member_model::remove_member()', $remove_members['query']);
 		
 		$html .= '</tbody></table>';
 		$data['html'] = $html;
@@ -157,6 +165,43 @@ class Test extends CI_Controller {
 	}
 	
 	/**
+	 * add_members function.
+	 * 
+	 * @access private
+	 * @return void
+	 */
+	private function add_members() {
+		$firstnames = array('Jan', 'Eric', 'Tobias', 'Sam', 'Erik', 'Petra', 'Veronica', 'Pelle', 'Calle', 'Nisse', 'Linn');
+		$lastnames = array('Lindblom', 'Landeberg', 'Öderyd');
+		$added = array();
+		
+		foreach ($lastnames as $last) {
+			foreach ($firstnames as $first) {
+				$phone = substr(number_format(time() * rand(),0,'',''),0,10);
+				$ssid = substr(number_format(time() * rand(),0,'',''),0,6).'-'.substr(number_format(time() * rand(),0,'',''),0,4);
+				$id = $this->add_member($first, $last, $ssid, $phone);
+				array_push($added, $id);
+			}
+		}
+		return $added;
+	}
+	
+	/**
+	 * remove_members function.
+	 * 
+	 * @access private
+	 * @param mixed $list
+	 * @return void
+	 */
+	private function remove_members($list) {
+		$ok = false;
+		foreach ($list as $id) {
+			$ok = $this->remove_member($id);
+		}
+		return $ok;
+	}
+	
+	/**
 	 * add_member function.
 	 * 
 	 * @access private
@@ -168,6 +213,17 @@ class Test extends CI_Controller {
 	 */
 	private function add_member($first, $last, $ssid, $phone) {
 		return $this->member_model->create_member(array('firstname' => $first, 'lastname' => $last, 'ssid' => $ssid, 'phone' => $phone));
+	}
+	
+	/**
+	 * remove_member function.
+	 * 
+	 * @access private
+	 * @param mixed $id
+	 * @return void
+	 */
+	private function remove_member($id) {
+		return $this->member_model->remove_member($id);
 	}
 }
 
