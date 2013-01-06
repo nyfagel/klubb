@@ -44,8 +44,11 @@ class Test extends CI_Controller {
 	 */
 	public function index() {
 		$this->output->enable_profiler(true);
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
 		$th = '<thead><tr><th>'.lang('ut_test_name').'</th><th>'.lang('ut_result').'</th><th>'.lang('ut_notes').'</th></tr></thead>';
-		$data['title'] = "Test Results";
+		$data['title'] = $this->system_model->get('app_name');
 		
 		$html = row(columns(heading('Test Results', 1), 12));
 		$html .= '<table cellspacing="0">'.$th.'<tbody>';
@@ -194,11 +197,7 @@ class Test extends CI_Controller {
 	 * @return void
 	 */
 	private function remove_members($list) {
-		$ok = false;
-		foreach ($list as $id) {
-			$ok = $this->remove_member($id);
-		}
-		return $ok;
+		return $this->remove_member($list);
 	}
 	
 	/**

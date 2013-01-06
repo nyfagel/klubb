@@ -45,8 +45,13 @@ class Member_model extends CI_Model {
 	 * @param int $user (default: 0)
 	 * @return void
 	 */
-	public function remove_member($user = 0) {
-		$this->db->where('id', intval($user));
+	public function remove_member($user = null) {
+		if (is_array($user)) {
+			$this->db->where_in('id', $user);
+		} else {
+			$this->db->where('id', intval($user));
+		}
+		
 		return $this->db->delete('members');
 	}
 	

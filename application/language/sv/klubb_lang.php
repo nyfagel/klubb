@@ -33,4 +33,14 @@ $lang['input_org_type'] = 'Vad är ni? En förening, klubb, organisation?';
 $lang['button_cancel'] = 'Avbryt';
 $lang['button_save'] = 'Spara';
 
+$lang['database'] = 'databas';
+$lang['version'] = 'version';
+$lang['about'] = 'om';
+$lang['day'] = 'dag';
+$lang['days'] = $lang['day'].'ar';
+$lang['environment'] = 'miljö';
+$lang['development'] = 'utveckling';
+$lang['production'] = 'produktion';
+$lang['testing'] = 'testning';
+
 ?>
