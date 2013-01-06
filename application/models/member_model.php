@@ -138,7 +138,6 @@ class Member_model extends CI_Model {
 	 * @return void
 	 */
 	public function list_members($offset = -1, $limit = -1) {
-		$this->db->select('id, firstname, lastname, email');
 		if ($limit > 0) {
 			if ($offset > 0) {
 				$this->db->limit(intval($limit), intval($offset));

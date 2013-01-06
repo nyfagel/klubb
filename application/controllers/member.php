@@ -21,6 +21,7 @@ class Member extends CI_Controller {
 		
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
+		$this->load->library('table');
 	}
 	
 	public function memberlist($page = -1) {
@@ -28,12 +29,15 @@ class Member extends CI_Controller {
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
+		
+		$limit = 15;
+		
 		$config['base_url'] = base_url('members/page');
 		$config['total_rows'] = $this->member_model->count_members();
-		$config['per_page'] = 20;
+		$config['per_page'] = $limit;
 		$config['use_page_numbers'] = true;
 		$config['uri_segment'] = 3;
-		$config['num_links'] = 3;
+		$config['num_links'] = 2;
 		$config['full_tag_open'] = '<ul class="pagination">';
 		$config['full_tag_close'] = '</ul>';
 		$config['cur_tag_open'] = '<li class="current"><a href="'.current_url().'">';
@@ -58,6 +62,25 @@ class Member extends CI_Controller {
 		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members'))), 'mode' => 'current'));
 		$html = heading(ucfirst(lang('members')), 1);
 		// !TODO: generate users table
+		
+		$page = $this->uri->segment(3);
+		$offset = -1;
+		if (!is_null($page)) {
+			$offset = intval($page) * $limit;
+		}
+		
+		$tdata = array(array('Namn', 'Personnummer', 'Telefon'));
+		$members = $this->member_model->list_members($offset, $limit);
+		
+		if (!empty($members)) {
+			foreach ($members as $member) {
+				array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone']));
+			}
+		} else {
+			array_push($tdata, array(array('data' => 'Inget resultat!', 'colspan' => 3)));
+		}
+		
+		$html .= $this->table->generate($tdata);
 		$html .= $this->pagination->create_links();
 		
 		$data['html'] = $html;
