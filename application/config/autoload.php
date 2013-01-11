@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session', 'encrypt');
+$autoload['libraries'] = array('database', 'javascript', 'REST_Controller');
 
 
 /*
@@ -80,7 +80,7 @@ $autoload['helper'] = array('language', 'html', 'url', 'klubb');
 |
 */
 
-$autoload['config'] = array('javascript');
+$autoload['config'] = array('javascript', 'rest');
 
 
 /*
@@ -96,14 +96,14 @@ $autoload['config'] = array('javascript');
 |
 */
 
-$autoload['language'] = array('calendar', 'date', 'db', 'email', 'form_validation', 'ftp', 'imglib', 'number', 'profiler', 'unit_test', 'upload', 'validation');
+$autoload['language'] = array('calendar', 'date', 'db', 'email', 'form_validation', 'ftp', 'imglib', 'number', 'profiler', 'unit_test', 'upload', 'validation', 'klubb');
 
 
 /*
 | Sparks
 */
 
-$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3', 'morehtml/0.3.3', 'secure-auth/2.0.0', 'messages/1.0.3');
+$autoload['sparks'] = array('simple-assets/1.1.0', 'foundation/0.6.3', 'morehtml/0.3.3', 'secure-auth/2.0.0', 'messages/1.0.3', 'curl/1.2.1', 'restclient/2.1.0');
 
 /*
 | -------------------------------------------------------------------

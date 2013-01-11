@@ -17,8 +17,8 @@ class System_model extends CI_Model {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->load->database();
-		$this->load->library('javascript');
+//		$this->load->database();
+//		$this->load->library('javascript');
 		$this->jquery->plugin(base_url('assets/js/foundation/jquery.cookie.js'), true);
 		$this->jquery->plugin(base_url('assets/js/foundation/jquery.event.move.js'), true);
 		$this->jquery->plugin(base_url('assets/js/foundation/jquery.event.swipe.js'), true);
