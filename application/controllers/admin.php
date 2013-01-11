@@ -12,11 +12,19 @@ class Admin extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->language('klubb');
+//		$this->load->language('klubb');
+		
 		$this->load->model('user_model');
+		$this->load->model('role_model');
+		$this->load->model('rights_model');
+		
 		$this->load->helper('form');
+		
 		$this->load->library('table');
 		$this->load->library('form_validation');
+//		$this->load->library('encrypt');
+//		$this->load->library('rest');
+		
 		log_message('debug', 'Controller loaded: admin');
 	}
 
@@ -51,15 +59,49 @@ class Admin extends CI_Controller {
 		
 		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users'))), 'mode' => 'current'));
 		
+		$allroles = $this->role_model->list_roles();
+		$default_role = $this->role_model->get_default_role();
+		
 		$content = row(columns(heading(ucfirst(lang('administer')).' '.lang('users'), 1), 12));
 		$users = $this->user_model->list_users();
-		$tdata = array(array('ID', 'Användarnamn', 'Namn', 'E-post', nbs()));
+		$tdata = array(array(ucfirst(lang('name')), ucfirst(lang('role')), ucfirst(lang('email')), nbs()));
 		foreach ($users as $user) {
-			$row = array($user['id'], $user['username'], $user['firstname'].' '.$user['lastname'], mailto($user['email'], '<i class="general-foundicon-mail"></i>'.nbs().$user['email']), anchor('user/edit/'.$user['id'], '<i class="general-foundicon-edit"></i>'.nbs().'Visa').nbs().anchor(current_url().'#', '<i class="general-foundicon-trash"></i>'.nbs().'Ta bort'));
+			$role = $this->role_model->user_mapping($user['id']);
+			$role = $this->role_model->get_role($role['role']);
+			$row = array(
+				$user['firstname'].' '.$user['lastname'],
+				form_open('user/role', array('class' => 'custom collapse', 'style' => 'margin: 0;')).
+					form_hidden('role_'.$user['id'], $role['id']).
+					form_dropdown('user_role_'.$user['id'], $allroles, $role['id'], 'class="expand" style="margin: 0;"').form_close(),
+				mailto($user['email'],
+				'<i class="general-foundicon-mail"></i>'.nbs().$user['email']),
+				anchor('user/edit/'.$user['id'], '<i class="general-foundicon-edit"></i>'.nbs().'Visa').nbs().
+				anchor(current_url().'#', '<i class="general-foundicon-trash"></i>'.nbs().'Ta bort'));
 			array_push($tdata, $row);
 		}
-		$content .= row(columns(button_anchor('user/create', 'Skapa ny användare', 'small'), 12));
-		$content .= row(columns($this->table->generate($tdata), 12));
+		
+		$roles = div_open('radius panel').heading('Användarroller', 4).
+			form_open('role/add', array('class' => 'custom')).
+			form_hidden('source', $this->encrypt->encode(current_url())).
+			form_label('Skapa ny roll:', 'new_role_name').
+			form_input(array('type' => 'text', 'name' => 'new_role_name', 'id' => 'new_role_name')).
+			form_submit(array('type' => 'submit', 'name' => 'submit_new_role', 'id' => 'submit_new_role', 'class' => 'small button', 'value' => 'Skapa roll')).
+			form_close().
+			hr().
+			form_open('role/update', array('class' => 'custom')).
+			form_hidden('source', $this->encrypt->encode(current_url())).
+			form_label('Uppdatera befintlig roll:', 'select_role').
+			form_dropdown('select_role', $allroles, $default_role['id'], 'class="expand" onchange="switchRole(this);"').
+			form_fieldset('Rättigheter för &ldquo;'.span($default_role['name'], '', 'role_name_span').'&rdquo;').
+			div('{spinner}','','role_rights_div').
+			form_fieldset_close().
+			button_group(array(form_submit(array('type' => 'submit', 'name' => 'submit_update_role', 'id' => 'submit_update_role', 'class' => 'small button', 'value' => 'Uppdatera roll')), form_button(array('type' => 'button', 'name' => 'delete_role', 'id' => 'delete_role', 'content' => 'Radera roll', 'class' => 'small button')))).
+			form_close().
+			div_close();
+		
+		$content .= row(
+			columns($this->table->generate($tdata).button_group(array(button_anchor('user/create', 'Skapa ny användare', 'small'))), 8).
+			columns($roles, 4));
 		
 		$html = $content;
 		$data['html'] = $html;
