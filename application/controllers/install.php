@@ -2,31 +2,44 @@
 
 class Install extends CI_Controller {
 
-	/**
-	 * This is a demo controller that allows you to add your first user account
-	 * to the database, please remove this controller afterwards.
-	 */
-	public function index() {
-		// load the model
+	public function __construct() {
+		parent::__construct();
+		$this->load->language('klubb');
+		$this->load->model('system_model');
 		$this->load->model('user_model');
+		$this->load->helper('html');
 		
-		/* EDIT THESE FIELDS */
-		$user = array();
-		$user['username'] = 'jan';
-		$user['password'] = 'Syster12';
-		$user['email'] = 'jan@nyfagel.se';
-		
-		$id = $this->user_model->create_user($user);
+		$this->load->library('migration');
+		log_message('debug', 'Controller loaded: install');
 	}
 	
 	public function database() {
+		$this->output->enable_profiler(true);
 		$this->load->database();
 		$this->load->dbutil();
 		$this->load->dbforge();
-		$this->load->library('migration');
-		if ( ! $this->migration->current()) {
-			show_error($this->migration->error_string());
+		
+		$data['title'] = $this->system_model->get('app_name');
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('install', ucfirst(lang('install'))), 'mode' => 'unavailable'), array('data' => anchor('install/database', ucfirst(lang('install').' '.lang('database'))), 'mode' => 'current'));
+		$html = heading(ucfirst(lang('install')).' '.lang('database'), 1);
+		$current = $this->migration->current();
+		
+		if ( is_null($current)) {
+			$html .= div($this->migration->error_string(), 'alert-box error');
+		} else {
+			$html .= div('Klubb database version: '.$current, 'alert-box success');
 		}
+		
+		$tables = $this->db->list_tables();
+		foreach ($tables as $table) {
+			$fields = $this->db->list_fields($table);
+			array_unshift($fields, strong('Fält:'));
+			$fields = ul($fields, array('class' => 'inline-list'));
+			$html .= div(heading('Tabell: '.$table, 4).$fields,'radius panel');
+		}
+		
+		$data['html'] = $html;
+		$this->system_model->view('template', $data);
 	}
 }
 

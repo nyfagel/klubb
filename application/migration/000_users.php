@@ -14,7 +14,6 @@ class Migration_Users extends CI_Migration {
 	 * @return void
 	 */
 	public function up() {
-		$this->dbforge->create_table('users', TRUE);
 		$this->dbforge->add_field(array(
 			'id' => array(
 				'type' => 'INT',
@@ -75,7 +74,7 @@ class Migration_Users extends CI_Migration {
 			),
 		));
 		
-		$this->dbforge->create_table('users');
+		$this->dbforge->create_table('users', true);
 	}
 
 	/**

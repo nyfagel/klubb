@@ -32,6 +32,7 @@ $lang['input_org_type'] = 'Vad är ni? En förening, klubb, organisation?';
 
 $lang['button_cancel'] = 'Avbryt';
 $lang['button_save'] = 'Spara';
+$lang['install'] = 'installera';
 
 $lang['database'] = 'databas';
 $lang['version'] = 'version';
