@@ -93,7 +93,9 @@ class User_model extends CI_Model {
 			unset($data['password']);
 		}
 		foreach ($data as $key => $val) {
-			$this->db->set($key, $val);
+			if ($key != 'username') {
+				$this->db->set($key, $val);
+			}
 		}
 		return $this->db->update('users');
 	}
