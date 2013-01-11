@@ -34,7 +34,7 @@ $config['rest_default_format'] = 'json';
 |	Default: false
 |
 */
-$config['enable_emulate_request'] = TRUE;
+$config['enable_emulate_request'] = true;
 
 
 /*
@@ -71,7 +71,7 @@ $config['rest_auth'] = '';
 | '' = use config based users, 'ldap' = use LDAP authencation
 |
 */
-$config['auth_source'] = '';
+$config['auth_source'] = false;
 
 /*
 |--------------------------------------------------------------------------

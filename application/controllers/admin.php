@@ -19,6 +19,7 @@ class Admin extends CI_Controller {
 		$this->load->model('rights_model');
 		
 		$this->load->helper('form');
+		$this->load->helper('url');
 		
 		$this->load->library('table');
 		$this->load->library('form_validation');
@@ -61,6 +62,11 @@ class Admin extends CI_Controller {
 		
 		$allroles = $this->role_model->list_roles();
 		$default_role = $this->role_model->get_default_role();
+//		$this->load->library('rest');
+//		$this->rest->initialize(array('server' => base_url('/')));
+//		$this->rest->api_key('b84b9eb779c6706ce75584c29b8005b1');
+//		$rights_html = $this->rest->get('role/rights/role/'.$default_role['id']);
+		$this->javascript->ready('$.get("/role/rights/role/'.$default_role['id'].'/X-API-KEY/b84b9eb779c6706ce75584c29b8005b1", function(html) { $("#role_rights_div").html(html); $("#role_rights_div").foundationCustomForms(); }, "html");');
 		
 		$content = row(columns(heading(ucfirst(lang('administer')).' '.lang('users'), 1), 12));
 		$users = $this->user_model->list_users();
@@ -93,7 +99,7 @@ class Admin extends CI_Controller {
 			form_label('Uppdatera befintlig roll:', 'select_role').
 			form_dropdown('select_role', $allroles, $default_role['id'], 'class="expand" onchange="switchRole(this);"').
 			form_fieldset('Rättigheter för &ldquo;'.span($default_role['name'], '', 'role_name_span').'&rdquo;').
-			div('{spinner}','','role_rights_div').
+			div('','','role_rights_div').
 			form_fieldset_close().
 			button_group(array(form_submit(array('type' => 'submit', 'name' => 'submit_update_role', 'id' => 'submit_update_role', 'class' => 'small button', 'value' => 'Uppdatera roll')), form_button(array('type' => 'button', 'name' => 'delete_role', 'id' => 'delete_role', 'content' => 'Radera roll', 'class' => 'small button')))).
 			form_close().
