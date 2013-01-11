@@ -67,7 +67,7 @@ class CI_DB_postgre_forge extends CI_DB_forge {
 	{
 		$sql = 'CREATE TABLE ';
 
-		if ($if_not_exists === TRUE)
+		if ($if_not_exists)
 		{
 			if ($this->db->table_exists($table))
 			{
