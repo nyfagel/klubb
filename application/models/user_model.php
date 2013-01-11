@@ -20,6 +20,7 @@ class User_model extends CI_Model {
 		$this->load->database();
 		$this->load->library("auth");
 		$this->load->library('encrypt');
+		log_message('debug', 'Model loaded: user_model');
 	}
 	
 	/**
@@ -126,7 +127,7 @@ class User_model extends CI_Model {
 	 */
 	public function set_active($id = 0) {
 		$this->db->where('id', intval($id));
-		return $this->db->update('users', array('loggedin' => 1));
+		return $this->db->update('users', array('loggedin' => true));
 	}
 	
 	/**
@@ -138,7 +139,7 @@ class User_model extends CI_Model {
 	 */
 	public function set_inactive($id = 0) {
 		$this->db->where('id', intval($id));
-		return $this->db->update('users', array('loggedin' => 0));
+		return $this->db->update('users', array('loggedin' => false));
 	}
 	
 	/**
@@ -152,7 +153,7 @@ class User_model extends CI_Model {
 		$query = $this->db->get_where('users', array('id' => intval($id)));
 		if ($query->num_rows() > 0) {
 			$row = $query->row_array();
-			return ($row['loggedin'] == 1);
+			return ($row['loggedin']);
 		}
 		return false;
 	}
@@ -164,7 +165,7 @@ class User_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_active() {
-		$query = $this->db->get_where('users', array('loggedin' => 1));
+		$query = $this->db->get_where('users', array('loggedin' => true));
 		$active = array();
 		foreach ($query->result_array() as $row) {
 			array_push($active, intval($row['id']));
@@ -178,7 +179,7 @@ class User_model extends CI_Model {
 	 * @param string $password
 	 */
 	public function hash($password) {
-		$this->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => FALSE));
+		$this->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => false));
 		
 		// hash password
 		return $this->passwordhash->HashPassword($password);
@@ -191,7 +192,7 @@ class User_model extends CI_Model {
 	 * @param string $stored_hash
 	 */
 	public function check_password($password, $stored_hash) {
-		$this->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => FALSE));
+		$this->load->library('PasswordHash', array('iteration_count_log2' => 8, 'portable_hashes' => false));
 		
 		// check password
 		return $this->passwordhash->CheckPassword($password, $stored_hash);

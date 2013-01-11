@@ -19,6 +19,7 @@ class User extends CI_Controller {
 		$this->load->helper('form');
 		
 		$this->load->library('form_validation');
+		log_message('debug', 'Controller loaded: user');
 	}
 
 	/**

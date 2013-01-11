@@ -24,6 +24,7 @@ class About extends CI_Controller {
 		
 		$this->load->helper('language');
 		$this->load->helper('date');
+		log_message('debug', 'Controller loaded: about');
 	}
 
 	/**

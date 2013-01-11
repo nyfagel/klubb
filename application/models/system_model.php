@@ -46,6 +46,8 @@ class System_model extends CI_Model {
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.topbar.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/app.js'); ?>"></script>
 		*/
+		
+		log_message('debug', 'Model loaded: system_model');
 	}
 	
 	/**

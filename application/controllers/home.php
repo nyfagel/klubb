@@ -15,6 +15,7 @@ class Home extends CI_Controller {
 		$this->load->language('klubb');
 		$this->load->model('user_model');
 		$this->load->model('member_model');
+		log_message('debug', 'Controller loaded: home');
 	}
 
 	public function index() {

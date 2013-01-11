@@ -19,6 +19,7 @@ class Member_model extends CI_Model {
 		parent::__construct();
 		$this->load->database();
 		$this->load->library('encrypt');
+		log_message('debug', 'Model loaded: member_model');
 	}
 	
 	/**

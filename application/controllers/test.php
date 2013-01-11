@@ -34,6 +34,7 @@ class Test extends CI_Controller {
 
 		$this->unit->set_template($str);
 		$this->unit->set_test_items(array('test_name', 'result', 'notes'));
+		log_message('debug', 'Controller loaded: test');
 	}
 
 	/**

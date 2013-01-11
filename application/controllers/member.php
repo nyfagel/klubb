@@ -22,6 +22,7 @@ class Member extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
 		$this->load->library('table');
+		log_message('debug', 'Controller loaded: member');
 	}
 	
 	public function memberlist($page = -1) {

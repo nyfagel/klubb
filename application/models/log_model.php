@@ -13,6 +13,7 @@ class Log_model extends CI_Model {
 		parent::__construct();
 		$this->load->database();
 		$this->load->helper('date');
+		log_message('debug', 'Model loaded: log_model');
 	}
 	
 	/**

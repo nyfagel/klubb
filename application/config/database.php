@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'raspberry';
+$active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -70,15 +70,13 @@ $db['raspberry']['password'] = 'LDn8ede9RFfv4ttG';
 $db['raspberry']['database'] = 'klubb';
 $db['raspberry']['dbdriver'] = 'postgre';
 $db['raspberry']['dbprefix'] = '';
-$db['raspberry']['pconnect'] = TRUE;
-$db['raspberry']['db_debug'] = TRUE;
-$db['raspberry']['cache_on'] = FALSE;
+$db['raspberry']['pconnect'] = false;
+$db['raspberry']['db_debug'] = true;
+$db['raspberry']['cache_on'] = false;
 $db['raspberry']['cachedir'] = '';
 $db['raspberry']['char_set'] = 'utf8';
-$db['raspberry']['dbcollat'] = 'utf8_general_ci';
 $db['raspberry']['swap_pre'] = '';
-$db['raspberry']['autoinit'] = TRUE;
-$db['raspberry']['stricton'] = TRUE;
+$db['raspberry']['autoinit'] = true;
 
 
 /* End of file database.php */

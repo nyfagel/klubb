@@ -17,6 +17,7 @@ class Admin extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('table');
 		$this->load->library('form_validation');
+		log_message('debug', 'Controller loaded: admin');
 	}
 
 	public function index() {
