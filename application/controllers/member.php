@@ -10,6 +10,12 @@
  */
 class Member extends CI_Controller {
 
+	/**
+	 * __construct function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->load->language('klubb');
@@ -25,6 +31,13 @@ class Member extends CI_Controller {
 		log_message('debug', 'Controller loaded: member');
 	}
 	
+	/**
+	 * memberlist function.
+	 * 
+	 * @access public
+	 * @param float $page (default: -1)
+	 * @return void
+	 */
 	public function memberlist($page = -1) {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
@@ -172,6 +185,12 @@ class Member extends CI_Controller {
 		$this->system_model->view('template', $data);
 	}
 	
+	/**
+	 * edit function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function edit() {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {

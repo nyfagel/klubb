@@ -47,5 +47,6 @@ $lang['environment'] = 'miljö';
 $lang['development'] = 'utveckling';
 $lang['production'] = 'produktion';
 $lang['testing'] = 'testning';
+$lang['select'] = 'välj';
 
 ?>

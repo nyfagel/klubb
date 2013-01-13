@@ -12,7 +12,6 @@ class Admin extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-//		$this->load->language('klubb');
 		
 		$this->load->model('user_model');
 		$this->load->model('role_model');
@@ -23,8 +22,6 @@ class Admin extends CI_Controller {
 		
 		$this->load->library('table');
 		$this->load->library('form_validation');
-//		$this->load->library('encrypt');
-//		$this->load->library('rest');
 		
 		log_message('debug', 'Controller loaded: admin');
 	}
@@ -62,11 +59,7 @@ class Admin extends CI_Controller {
 		
 		$allroles = $this->role_model->list_roles();
 		$default_role = $this->role_model->get_default_role();
-//		$this->load->library('rest');
-//		$this->rest->initialize(array('server' => base_url('/')));
-//		$this->rest->api_key('b84b9eb779c6706ce75584c29b8005b1');
-//		$rights_html = $this->rest->get('role/rights/role/'.$default_role['id']);
-		$this->javascript->ready('$.get("/role/rights/role/'.$default_role['id'].'/X-API-KEY/b84b9eb779c6706ce75584c29b8005b1", function(html) { $("#role_rights_div").html(html); $("#role_rights_div").foundationCustomForms(); }, "html");');
+		$this->javascript->ready('$.get("/role/rights/role/'.$default_role['id'].'", function(html) { $("#role_rights_div").html(html); $("#role_rights_div").foundationCustomForms(); }, "html");');
 		
 		$content = row(columns(heading(ucfirst(lang('administer')).' '.lang('users'), 1), 12));
 		$users = $this->user_model->list_users();
@@ -78,6 +71,7 @@ class Admin extends CI_Controller {
 				$user['firstname'].' '.$user['lastname'],
 				form_open('user/role', array('class' => 'custom collapse', 'style' => 'margin: 0;')).
 					form_hidden('role_'.$user['id'], $role['id']).
+					form_hidden('source', $this->encrypt->encode(current_url())).
 					form_dropdown('user_role_'.$user['id'], $allroles, $role['id'], 'class="expand" style="margin: 0;"').form_close(),
 				mailto($user['email'],
 				'<i class="general-foundicon-mail"></i>'.nbs().$user['email']),

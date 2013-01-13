@@ -328,7 +328,6 @@ abstract class REST_Controller extends CI_Controller
 		else if (config_item('rest_enable_logging') AND $log_method)
 		{
 			$this->_log_request($authorized = TRUE);
-			log_message('debug', $this->db->last_query());
 		}
 
 		// And...... GO!

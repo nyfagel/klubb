@@ -10,15 +10,24 @@
  */
 class User extends CI_Controller {
 
+	/**
+	 * __construct function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct() {
 		parent::__construct();
-		$this->load->language('klubb');
+		
 		$this->load->model('system_model');
 		$this->load->model('user_model');
+		$this->load->model('role_model');
+		
 		$this->load->helper('html');
 		$this->load->helper('form');
 		
 		$this->load->library('form_validation');
+		
 		log_message('debug', 'Controller loaded: user');
 	}
 
@@ -174,6 +183,13 @@ class User extends CI_Controller {
 		$this->system_model->view('template', $data);
 	}
 	
+	/**
+	 * edit function.
+	 * 
+	 * @access public
+	 * @param int $id (default: 0)
+	 * @return void
+	 */
 	public function edit($id = 0) {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
@@ -184,8 +200,10 @@ class User extends CI_Controller {
 		$user = $this->user_model->get_user($uid);
 		
 		$data['title'] = $this->system_model->get('app_name');
+		
 		$html = heading(ucfirst(lang('edit_user')), 1);
 		
+		$html .= div_open('row').div_open('eight columns');
 		$html .= form_open('user/edit', array('class' => 'custom'));
 		$html .= row(columns(form_label(ucfirst(lang('username')).':'.span('*', 'required'), 'username').
 			form_input(array('type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'expand', 'value' => $user['username'])), 6, 'end'));
@@ -201,15 +219,51 @@ class User extends CI_Controller {
 				form_label(ucfirst(lang('lastname')).':', 'lastname').
 				form_input(array('type' => 'text', 'name' => 'lastname', 'id' => 'lastname', 'value' => $user['lastname'])), 6));
 		$html .= button_group(array(button_anchor('admin/users', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'right');
+		$html .= form_close().div_close();
+		$html .= div_open('four columns');
+		$html .= div_open('radius panel');
+		$html .= heading(ucfirst(lang('role')), 4);
+		$html .= form_open('user/role', array('class' => 'custom'));
+		$html .= form_hidden('source', $this->encrypt->encode(current_url()));
+		$allroles = $this->role_model->list_roles();
+		$role = $this->role_model->user_mapping($uid);
+		$role = $this->role_model->get_role($role['role']);
+		$html .= form_label(ucfirst(lang('select')).' '.lang('role').':', 'role');
+		$html .= form_dropdown('role', $allroles, $role['id'], 'class="expand" id="role"');
+		$html .= form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')));
 		$html .= form_close();
+		$html .= div_close(3);
+		
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);
 	}
 	
+	/**
+	 * logout function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function logout() {
 		$this->user_model->set_inactive($user['id']);
 		$this->auth->logout();
 		redirect('user/login');
+	}
+	
+	/**
+	 * role function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function role() {
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		$uid = intval($this->auth->userid());
+		$user = $this->user_model->get_user($uid);
+		
+		
 	}
 }
 

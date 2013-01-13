@@ -11,13 +11,9 @@ class Role extends REST_Controller {
 
 	public function __construct() {
 		parent::__construct();
-//		$this->load->model('role_model');
-//		$this->load->model('rights_model');
-//		$this->load->helper('html');
-		
+		$this->load->model('rights_model');
+		$this->load->model('user_model');
 		$this->load->helper('form');
-		
-		// REST API Key: b84b9eb779c6706ce75584c29b8005b1
 		
 		log_message('debug', 'Controller loaded: role');
 	}
@@ -29,11 +25,16 @@ class Role extends REST_Controller {
 	 * @return void
 	 */
 	public function rights_get() {
-//		$this->load->config('rest');
-		$this->load->model('rights_model');
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		$uid = intval($this->auth->userid());
+		$user = $this->user_model->get_user($uid);
+		
+		
 		$role_id = $this->get('role');
 		if (!$role_id) {
-			//show_error('Fel fel fel!', 500);
+			show_error('Invalid request.', 500);
 		} else {
 			$role_rights = $this->rights_model->get_for_role($role_id);
 			$rights_html = ul(

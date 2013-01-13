@@ -1,7 +1,18 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Install class.
+ * 
+ * @extends CI_Controller
+ */
 class Install extends CI_Controller {
 
+	/**
+	 * __construct function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->load->language('klubb');
@@ -13,6 +24,12 @@ class Install extends CI_Controller {
 		log_message('debug', 'Controller loaded: install');
 	}
 	
+	/**
+	 * database function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function database() {
 		$this->output->enable_profiler(true);
 		$this->load->database();

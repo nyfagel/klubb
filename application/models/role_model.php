@@ -17,7 +17,6 @@ class Role_model extends CI_Model {
 	 */
 	public function __construct() {
 		parent::__construct();
-//		$this->load->database();
 		log_message('debug', 'Model loaded: role_model');
 	}
 	

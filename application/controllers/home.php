@@ -12,12 +12,17 @@ class Home extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-//		$this->load->language('klubb');
 		$this->load->model('user_model');
 		$this->load->model('member_model');
 		log_message('debug', 'Controller loaded: home');
 	}
 
+	/**
+	 * index function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function index() {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
