@@ -25,10 +25,12 @@ class Home extends CI_Controller {
 	 */
 	public function index() {
 		$this->output->enable_profiler(TRUE);
+		$this->benchmark->mark('auth_start');
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
 		$uid = intval($this->auth->userid());
+		$this->benchmark->mark('auth_end');
 		$user = $this->user_model->get_user($uid);
 		
 		$greeting = '';
@@ -43,6 +45,7 @@ class Home extends CI_Controller {
 		
 		$memberdata = heading(ucfirst(lang('members')), 5);
 		$ofeachtype = array();
+		$this->benchmark->mark('members_process_start');
 		foreach ($this->member_model->get_types() as $type) {
 			$count = $this->member_model->count_members_type($type['id']);
 			array_push($ofeachtype, $count.' '.strtolower($type['plural']));
@@ -50,8 +53,9 @@ class Home extends CI_Controller {
 		$memberdata .= p(ucfirst($this->system_model->get('org_name')).' har totalt '.anchor('members', $this->member_model->count_members().' '.lang('members')).' varav:');
 		$memberdata .= ul($ofeachtype, array('class' => 'disc'));
 		$memberdata .= button_group(array(button_anchor('members', ucfirst(lang('administer')).' '.lang('members'), 'small'),button_anchor('member/register', ucfirst(lang('register_member')), 'small')));
-		
+		$this->benchmark->mark('members_process_end');
 		$userdata = heading(ucfirst(lang('users')), 5);
+		$this->benchmark->mark('users_process_start');
 		$userdata .= p(ucfirst($this->system_model->get('app_name')).' har totalt '.anchor('admin/users', $this->user_model->count_users().' '.lang('users')).'.');
 		$active = $this->user_model->get_active();
 		$ausers = array();
@@ -61,7 +65,7 @@ class Home extends CI_Controller {
 		}
 		$userdata .= heading('Inloggade just nu:', 6).ul($ausers, array('class' => 'disc'));
 		$userdata .= button_group(array(button_anchor('admin/users', ucfirst(lang('administer')).' '.lang('users'), 'small'),button_anchor('user/create', ucfirst(lang('create_user')), 'small')));
-		
+		$this->benchmark->mark('users_process_end');
 		$content = heading(ucfirst(lang('welcome')).$greeting.'!', 1);
 		$content .= row(columns(panel($memberdata, 'radius'), 6).columns(panel($userdata, 'radius'), 6));
 		$content .= row(columns(panel('box3', 'radius'), 6).columns(panel('box4', 'radius'), 6));
