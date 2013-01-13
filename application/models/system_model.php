@@ -59,11 +59,13 @@ class System_model extends CI_Model {
 	 * @return void
 	 */
 	public function view($template = '', $data = array()) {
+		$this->benchmark->mark('system_model_view_start');
 		$this->javascript->compile();
 		$this->load->view('_header', $data);
 	$this->load->view('_topbar', $data);
 		$this->load->view($template, $data);
 		$this->load->view('_footer', $data);
+		$this->benchmark->mark('system_model_view_end');
 	}
 	
 	/**
@@ -74,11 +76,14 @@ class System_model extends CI_Model {
 	 * @return void
 	 */
 	public function get($key = '') {
+		$this->benchmark->mark('system_model_get_start');
 		$query = $this->db->get_where('system', array('key' => $key));
 		if ($query->num_rows() > 0) {
 			$row = $query->row_array();
+			$this->benchmark->mark('system_model_get_end');
 			return $row['value'];
 		}
+		$this->benchmark->mark('system_model_get_end');
 		return null;
 	}
 	

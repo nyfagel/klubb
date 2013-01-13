@@ -65,6 +65,7 @@ class User_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_user($user = 0) {
+		$this->benchmark->mark('user_model_get_user_start');
 		$data = array();
 		if (is_int($user)) {
 			$data = array('id' => intval($user));
@@ -73,8 +74,10 @@ class User_model extends CI_Model {
 		}
 		$query = $this->db->get_where('users', $data);
 		if ($query->num_rows() > 0) {
+			$this->benchmark->mark('user_model_get_user_end');
 			return $query->row_array();
 		}
+		$this->benchmark->mark('user_model_get_user_end');
 		return null;
 	}
 	
@@ -120,7 +123,9 @@ class User_model extends CI_Model {
 	 * @return void
 	 */
 	public function count_users() {
+		$this->benchmark->mark('user_model_count_users_start');
 		$query = $this->db->get('users');
+		$this->benchmark->mark('user_model_count_users_end');
 		return $query->num_rows();
 	}
 	
@@ -171,11 +176,13 @@ class User_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_active() {
+		$this->benchmark->mark('user_model_get_active_start');
 		$query = $this->db->get_where('users', array('loggedin' => true));
 		$active = array();
 		foreach ($query->result_array() as $row) {
 			array_push($active, intval($row['id']));
 		}
+		$this->benchmark->mark('user_model_get_active_end');
 		return $active;
 	}
 	
