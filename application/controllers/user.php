@@ -228,6 +228,7 @@ class User extends CI_Controller {
 		$allroles = $this->role_model->list_roles();
 		$role = $this->role_model->user_mapping($uid);
 		$role = $this->role_model->get_role($role['role']);
+		$html .= '<!-- '.print_r($role, true).' -->';
 		$html .= form_label(ucfirst(lang('select')).' '.lang('role').':', 'role');
 		$html .= form_dropdown('role', $allroles, $role['id'], 'class="expand" id="role"');
 		$html .= form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')));

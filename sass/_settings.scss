@@ -12,12 +12,12 @@
 
 // Colors Settings
 
-// $mainColor: #2ba6cb;
+$mainColor: #2780b5;
 // $secondaryColor: #e9e9e9;
-// $alertColor: #c60f13;
-// $successColor: #5da423;
-// $txtColor: #222;
-// $highlightColor: #ffff99;
+$alertColor: #c66481;
+$successColor: #79af5d;
+$txtColor: #000000;
+$highlightColor: #6cc3b5;
 // $black: #000;
 // $white: #fff;
 // $shinyEdge: rgba(#fff, .5);
@@ -25,15 +25,15 @@
 
 // Font Settings
 
-// $fontSmoothing: antialiased;
+$fontSmoothing: antialiased;
 // $headerFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $headerFontWeight: bold;
 // $headerFontStyle: normal;
-// $headerFontColor: #222;
+// $headerFontColor: #5b3b81;
 // $bodyFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $bodyFontWeight: normal;
 // $bodyFontStyle: normal;
-// $bodyFontColor: $txtColor;
+$bodyFontColor: $txtColor;
 
 // Text Direction Settings
 
@@ -112,6 +112,7 @@
 // $topBarSearchWidth: 200px;
 // $topBarBreakPoint: 940px; // Change to 9999px for always mobile layout
 // $topBarNavToggleSize: 8px;
+// $topBarNavToggleColor: #fff;
 
 // UI Settings
 
@@ -122,6 +123,7 @@
 // $progBarPad: 2px;
 // $linkListBottomMargin: 17px -22px;
 // $tableBorderRadius: 3px;
+// $alertBorderRadius: 3px;
 
 // Tooltip Settings
 
