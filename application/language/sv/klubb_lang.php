@@ -48,5 +48,11 @@ $lang['development'] = 'utveckling';
 $lang['production'] = 'produktion';
 $lang['testing'] = 'testning';
 $lang['select'] = 'välj';
+$lang['ssid'] = 'personnummer';
+$lang['ssid_placeholder'] = 'ååmmddxxxx';
+$lang['address'] = 'adress';
+$lang['zipcode'] = 'postnummer';
+$lang['city'] = 'ort';
+$lang['other'] = 'övrigt';
 
 ?>

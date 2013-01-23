@@ -167,6 +167,8 @@ class Member_model extends CI_Model {
 	 * @return void
 	 */
 	public function count_members_type($type = 0) {
+//		$this->db->where('type' => intval($type));
+//		return $this->db->count_all_results('members');
 		$query = $this->db->get_where('members', array('type' => intval($type)));
 		return $query->num_rows();
 	}
