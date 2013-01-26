@@ -39,3 +39,14 @@
   }
 
 })(jQuery, this);
+
+function roleRights(sourceId, targetId, labelId) {
+	role = $("#"+sourceId).val();
+	$.get("/role/name", {"role": role}, function(msg) {
+		$("#"+labelId).text(msg);
+	});
+	$.get("/role/rights", {"role": role}, function(html) {
+		$("#"+targetId).html(html);
+		$("#"+targetId).foundationCustomForms();
+	});
+}

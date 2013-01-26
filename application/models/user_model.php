@@ -19,6 +19,7 @@ class User_model extends CI_Model {
 		parent::__construct();
 //		$this->load->database();
 		
+		$this->load->helper('email');
 //		$this->load->library("auth");
 //		$this->load->library('encrypt');
 		log_message('debug', 'Model loaded: user_model');
@@ -61,16 +62,22 @@ class User_model extends CI_Model {
 	 * get_user function.
 	 * 
 	 * @access public
-	 * @param int $user (default: 0)
+	 * @param mixed $user (default: null)
 	 * @return void
 	 */
-	public function get_user($user = 0) {
+	public function get_user($user = null) {
 		$this->benchmark->mark('user_model_get_user_start');
 		$data = array();
 		if (is_int($user)) {
 			$data = array('id' => intval($user));
 		} else if (is_string($user)) {
-			$data = array('username' => $user);
+			if (valid_email($user)) {
+				$data = array('email' => $user);
+			} else {
+				$data = array('username' => $user);
+			}
+		} else {
+			return null;
 		}
 		$query = $this->db->get_where('users', $data);
 		if ($query->num_rows() > 0) {

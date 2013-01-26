@@ -91,14 +91,14 @@ class Admin extends CI_Controller {
 			form_open('role/update', array('class' => 'custom')).
 			form_hidden('source', $this->encrypt->encode(current_url())).
 			form_label('Uppdatera befintlig roll:', 'select_role').
-			form_dropdown('select_role', $allroles, $default_role['id'], 'class="expand" onchange="switchRole(this);"').
+			form_dropdown('select_role', $allroles, $default_role['id'], 'class="expand" id="select_role"').
 			form_fieldset('Rättigheter för &ldquo;'.span($default_role['name'], '', 'role_name_span').'&rdquo;').
 			div('','','role_rights_div').
 			form_fieldset_close().
 			button_group(array(form_submit(array('type' => 'submit', 'name' => 'submit_update_role', 'id' => 'submit_update_role', 'class' => 'small button', 'value' => 'Uppdatera roll')), form_button(array('type' => 'button', 'name' => 'delete_role', 'id' => 'delete_role', 'content' => 'Radera roll', 'class' => 'small button')))).
 			form_close().
 			div_close();
-		
+		$this->javascript->change('#select_role', 'roleRights("select_role", "role_rights_div", "role_name_span");');
 		$content .= row(
 			columns($this->table->generate($tdata).button_group(array(button_anchor('user/create', 'Skapa ny användare', 'small'))), 8).
 			columns($roles, 4));

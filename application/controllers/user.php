@@ -24,6 +24,7 @@ class User extends CI_Controller {
 		$this->load->model('role_model');
 		
 		$this->load->helper('html');
+		$this->load->helper('email');
 		$this->load->helper('form');
 		
 		$this->load->library('form_validation');
@@ -48,7 +49,7 @@ class User extends CI_Controller {
 		
 		// form submitted
 		if ($this->input->post('username') && $this->input->post('password')) {
-			$remember = $this->input->post('remember') ? TRUE : FALSE;
+			$remember = $this->input->post('remember') ? true : false;
 			
 			// get user from database
 			$user = $this->user_model->get_user($this->input->post('username'));
@@ -102,7 +103,7 @@ class User extends CI_Controller {
 	 * @return void
 	 */
 	public function create() {
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
@@ -116,6 +117,10 @@ class User extends CI_Controller {
 		$this->form_validation->set_error_delimiters('<small class="error">', '</small>');
 		
 		$data['title'] = $this->system_model->get('app_name');
+		
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/create', ucfirst(lang('create_user'))), 'mode' => 'current'));
+		
+		
 		$html = heading(ucfirst(lang('create_user')), 1);
 		
 		if ($this->form_validation->run() == true) {
@@ -191,7 +196,7 @@ class User extends CI_Controller {
 	 * @return void
 	 */
 	public function edit($id = 0) {
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
@@ -200,6 +205,8 @@ class User extends CI_Controller {
 		$user = $this->user_model->get_user($uid);
 		
 		$data['title'] = $this->system_model->get('app_name');
+		
+		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/edit', ucfirst(lang('edit_user'))), 'mode' => 'current'));
 		
 		$html = heading(ucfirst(lang('edit_user')), 1);
 		
@@ -249,6 +256,64 @@ class User extends CI_Controller {
 		$this->user_model->set_inactive($user['id']);
 		$this->auth->logout();
 		redirect('user/login');
+	}
+	
+	public function password($action = '') {
+		$this->output->enable_profiler(true);
+		if ($action == 'change') {
+			if (!$this->auth->loggedin()) {
+				redirect('user/login');
+			}
+			
+			$newpass = ($this->input->post('new_password')) ? $this->input->post('new_password') : null;
+			$repeatpass = ($this->input->post('repeat_password')) ? $this->input->post('repeat_password') : null;
+			$currpass = ($this->input->post('current_password')) ? $this->input->post('current_password') : null;
+			$id = ($this->input->post('user')) ? $this->input->post('user') : 0;
+			
+			$uid = ($id > 0) ? intval($id) : intval($this->auth->userid());
+			$user = $this->user_model->get_user($uid);
+			
+			$this->form_validation->set_rules('new_password', ucfirst(lang('new_password')), 'trim|required|min_length[8]');
+			$this->form_validation->set_rules('repeat_password', ucfirst(lang('repeat_password')), 'trim|required|matches[new_password]|min_length[8]');
+			$this->form_validation->set_rules('current_password', ucfirst(lang('current_password')), 'trim|required');
+			$this->form_validation->set_error_delimiters('<small class="error">', '</small>');
+			
+			$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/password/change', ucfirst(lang('change_password'))), 'mode' => 'current'));
+		} else if ($action == 'forgot') {
+			$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/password/forgot', ucfirst(lang('change_password'))), 'mode' => 'current'));
+		} else {
+			if (!$this->auth->loggedin()) {
+				redirect('user/login');
+			}
+			$id = (is_int($action)) ? $action : 0;
+			$uid = ($id > 0) ? intval($id) : intval($this->auth->userid());
+			$user = $this->user_model->get_user($uid);
+			$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/password', ucfirst(lang('change_password'))), 'mode' => 'current'));
+		}
+		
+		$data['title'] = $this->system_model->get('app_name');
+		
+		
+		
+		$html = heading(ucfirst(lang('change_password')), 1);
+		$html .= p(lang('change_password_instructions'), 'lead');
+		if ($this->form_validation->run() == false) {
+			$html .= form_open('/user/password/change');
+			$html .= form_hidden('user', $id);
+			$html .= row(columns(panel(
+				form_label(ucfirst(lang('new_password')).span('*', 'required').':', 'new_password').
+				form_input(array('type' => 'password', 'id' => 'new_password', 'name' => 'new_password', 'class' => (form_error('new_password'))?'error expand':'expand', 'value' => $newpass)).form_error('new_password').
+				form_label(ucfirst(lang('repeat_password')).span('*', 'required').':', 'repeat_password').
+				form_input(array('type' => 'password', 'id' => 'repeat_password', 'name' => 'repeat_password', 'class' => (form_error('repeat_password'))?'error expand':'expand', 'value' => $repeatpass)).form_error('repeat_password').
+				'<hr>'.
+				form_label(ucfirst(lang('current_password')).span('*', 'required').':', 'current_password').
+				form_input(array('type' => 'password', 'id' => 'current_password', 'name' => 'current_password', 'class' => (form_error('current_password'))?'error expand':'expand')).form_error('current_password').
+				form_submit(array('type' => 'submit', 'name' => 'submit_change_password', 'class' => 'button', 'value' => ucfirst(lang('change_password')))) ), 6, 'centered end'));
+				$html .= form_close();
+		}
+		
+		$data['html'] = $html;
+		$this->system_model->view('template', $data);
 	}
 	
 	/**

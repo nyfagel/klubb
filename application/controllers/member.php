@@ -101,6 +101,12 @@ class Member extends CI_Controller {
 		$this->system_model->view('template', $data);
 	}
 	
+	/**
+	 * register function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function register() {
 		$this->output->enable_profiler(TRUE);
 		if (!$this->auth->loggedin()) {
@@ -109,9 +115,20 @@ class Member extends CI_Controller {
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
 		
-		$this->form_validation->set_rules('username', ucfirst(lang('username')), 'trim|required|is_unique[users.username]');
+		$type = ($this->input->post('type')) ? $this->input->post('type') : false;
+		
+		if ($type) {
+			$requirements = $this->member_model->get_type_required_fields($type);
+			foreach ($requirements as $req) {
+				// !TODO: Add requirement parsing and apply rules accordingly!
+			}
+		}
+/*
+		$this->form_validation->set_rules('firstname', ucfirst(lang('firstname')), 'trim|required');
+		$this->form_validation->set_rules('lastname', ucfirst(lang('lastname')), 'trim|required');
 		$this->form_validation->set_rules('email', ucfirst(lang('email_address')), 'trim|required|valid_email|is_unique[users.email]');
 		$this->form_validation->set_message('is_unique', '%s finns redan i systemet.');
+*/
 		
 		$this->form_validation->set_error_delimiters('<small class="error">', '</small>');
 		
@@ -121,42 +138,19 @@ class Member extends CI_Controller {
 		$html = heading(ucfirst(lang('register_member')), 1);
 		
 		if ($this->form_validation->run() == true) {
-			$user = array();
-			if ($this->input->post('username')) {
-				$user['username'] = $this->input->post('username');
-			}
-			if ($this->input->post('firstname')) {
-				$user['firstname'] = $this->input->post('firstname');
-			}
-			if ($this->input->post('lastname')) {
-				$user['lastname'] = $this->input->post('lastname');
-			}
-			if ($this->input->post('email')) {
-				$user['email'] = $this->input->post('email');
-			}
-			if ($this->input->post('phone')) {
-				$user['phone'] = $this->input->post('phone');
-			}
-			$user['password'] = very_random_string();
-			
-			$id = $this->user_model->create_user($user);
-			
-			$html .= p('Grattis, nu har du lagt till användaren '.$user['username'].'!', 'lead');
-			$html .= p('Användaren registrerades med följande uppgifter:');
+			$member = array();
+			$html .= p('Grattis, nu har du lagt till '.$member['firstname'].' '.$member['lastname'].' som '.$membertype['name'].'!', 'lead');
+			$html .= p($member['firstname'].' '.'registrerades med följande uppgifter:');
 			$html .= ul(
 				array(
-					strong('Användarnamn:').nbs().$user['username'],
-					strong('E-postadress:').nbs().mailto($user['email'], $user['email']),
-					strong('Förnamn:').nbs().$user['firstname'],
-					strong('Efternamn:').nbs().$user['lastname'],
-					strong('Telefonnummer:').nbs().$user['phone']
+					strong('Namn:').nbs().$member['firstname'].' '.$member['lastname'],
+					strong('E-postadress:').nbs().mailto($member['email'], $member['email']),
+					strong('Telefonnummer:').nbs().$member['phone']
 				), array('class' => 'no-bullet'));
-			$html .= p('Ett tillfälligt lösenord har skapats åt '.$user['username'].' som bara går att använda vid första inloggningen, se till att användaren får detta för att kunna logga in:');
-			$html .= ul(array(strong($user['password'])), array('class' => 'no-bullet'));
-			$html .= button_anchor('user/create', ucfirst(lang('create_another_user')));
+			$html .= button_anchor('member/register', ucfirst(lang('register_another_member')));
 		} else {
 			$html .= p('Använd formuläret nedan för att lägga till en ny medlem i '.$this->system_model->get('org_name').'.', 'lead');
-			$html .= form_open('user/create', array('class' => 'custom'));
+			$html .= form_open('member/register', array('class' => 'custom'));
 			$html .= '<div class="row"><div class="eight columns">';
 			$membertypes = $this->member_model->get_types();
 			$types = array();

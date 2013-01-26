@@ -54,5 +54,9 @@ $lang['address'] = 'adress';
 $lang['zipcode'] = 'postnummer';
 $lang['city'] = 'ort';
 $lang['other'] = 'övrigt';
-
+$lang['change_password'] = 'byt lösenord';
+$lang['change_password_instructions'] = 'Använd formuläret nedan för att byta ditt lösenord.';
+$lang['new_password'] = 'nytt lösenord';
+$lang['repeat_password'] = 'upprepa lösenordet';
+$lang['current_password'] = 'nuvarande lösenord';
 ?>

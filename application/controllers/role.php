@@ -12,6 +12,7 @@ class Role extends REST_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('rights_model');
+		$this->load->model('role_model');
 		$this->load->model('user_model');
 		$this->load->helper('form');
 		
@@ -29,8 +30,6 @@ class Role extends REST_Controller {
 			redirect('user/login');
 		}
 		$uid = intval($this->auth->userid());
-		$user = $this->user_model->get_user($uid);
-		
 		
 		$role_id = $this->get('role');
 		if (!$role_id) {
@@ -45,6 +44,21 @@ class Role extends REST_Controller {
 				),
 				array('class' => 'no-bullet'));
 			$this->output->set_output($rights_html);
+		}
+	}
+	
+	public function name_get() {
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		$uid = intval($this->auth->userid());
+		
+		$role_id = $this->get('role');
+		if (!$role_id) {
+			show_error('Invalid request.', 500);
+		} else {
+			$role = $this->role_model->get_role($role_id);
+			$this->output->set_content_type('text/plain')->set_output($role['name']);
 		}
 	}
 }
