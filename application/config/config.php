@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://registret.local/';
+$config['base_url']	= 'http://uc.nyfagel.se/';
 
 /*
 |--------------------------------------------------------------------------
@@ -355,7 +355,7 @@ $config['rewrite_short_tags'] = FALSE;
 | Comma-delimited, e.g. '10.0.1.200,10.0.1.201'
 |
 */
-$config['proxy_ips'] = '';
+$config['proxy_ips'] = '192.168.160.11,94.254.4.85';
 
 
 /* End of file config.php */

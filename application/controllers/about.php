@@ -66,8 +66,8 @@ class About extends CI_Controller {
 				strong('Namn: ').php_uname('n'),
 				strong('System: ').php_uname('s').' '.php_uname('r').' '.php_uname('v').' '.php_uname('m'),
 				strong('Upptid: ').$uptime,
-				strong('Apache-version: ').apache_get_version(),
-				strong('Apache-moduler: ').implode(', ', apache_get_modules()),
+				//strong('Apache-version: ').apache_get_version(),
+				//strong('Apache-moduler: ').implode(', ', apache_get_modules()),
 				strong('PHP-version: ').phpversion(),
 				strong('PHP-moduler: ').implode(', ', get_loaded_extensions())))), array('class' => 'no-bullet'));
 		$html .= row(columns($infolist));
