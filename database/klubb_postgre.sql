@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.7
 -- Dumped by pg_dump version 9.2.2
--- Started on 2013-02-13 11:49:27 CET
+-- Started on 2013-02-13 11:56:56 CET
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -931,9 +931,12 @@ INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('9a24ce5f160ca5d8daa35dab51c5c7c9', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752409, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('2b5f8819fbc281dfcc3b0da5db8c2298', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752499, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('e8f41abf9c8c4ed6ba8b5cf596c2288b', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752529, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('2ef49435c4d1acae72daa14852bb2d47', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752620, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('df6fd96eb3f7c3472fc14d702e9f56b1', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360745601, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('2c0760f272472dafc223622a7ee66d36', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360745659, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('8f9e7995af044a16e194ca4966045495', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360745749, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('bf79178fee1f8726649e2f0bdfa1990f', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752709, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('23e54aebc15e5d70b37316c731745e89', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752799, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('8a16f4b54eeb2f40f89c0ce9618d5c85', '192.168.160.1', 'check_http/v1.4.15 (nagios-plugins 1.4.15)', 1360745861, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('7bc3d3ba0c292f70e55ddf95b2d6e5e1', '192.168.160.1', 'check_http/v1.4.15 (nagios-plugins 1.4.15)', 1360745912, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('6e8e9b6393676f8e1d208cd4a93b4c05', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360745990, '');
@@ -944,6 +947,9 @@ INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('02ec004bacf439f85c57b64a78e3d5a4', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360749501, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('4cb8d19211376912d67359ef29c97db7', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360749559, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('e5fa888406711c8b93a6cec17811f2f8', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360749657, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('a15a07e0f563ed2e4138e4b6b7d63c35', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752829, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('b7b8263ec2afb1eada76b1bc2d85964d', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752919, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('70a29c949066065071ff4764181fb082', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360753010, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('e952e1d9cf0e8f7f473e933fec5bdffb', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360746289, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('471e07023eeaead32ec80761f760e627', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360746379, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('5a70eedb7cf7d79b7203d12f7e7e92f5', '192.168.160.1', 'check_http/v1.4.15 (nagios-plugins 1.4.15)', 1360746461, '');
@@ -990,6 +996,11 @@ INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('6cc9507ee184dfa2c859abcf9a946b70', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752439, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('28da8824cf7dbef15ccebc41c4137aab', '192.168.160.1', 'check_http/v1.4.15 (nagios-plugins 1.4.15)', 1360752512, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('5550b72a6d30d4c8c12d957a3911bcba', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752559, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('c897fd2631bfd4ee4139137de2280358', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752649, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('a24c95b8caf27acf723482a43306b511', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752739, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('a5940c847631c5122821e7c70f821790', '192.168.160.1', 'check_http/v1.4.15 (nagios-plugins 1.4.15)', 1360752812, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('b8f6d64e4a004ee82728836e3b901d9d', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752859, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('82571a64f97c4b72d51555bbf9fd7b72', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752949, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('c5b9aa13f4ce560b85221c3d925d5ff2', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360746979, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('5049a2029bd42d4da3b7f80486a45593', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360750069, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('7aeed13d003599335bae143d5194beb1', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360750129, '');
@@ -1019,6 +1030,12 @@ INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('19410594ef3884368b281d21136384e7', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752379, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('e7df53b4c36b78a25dc9694318af82bd', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752469, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('99c40b8e81327a5c5b2e46e973d9eac9', '192.168.160.1', 'check_http/v1.4.15 (nagios-plugins 1.4.15)', 1360752522, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('27c727e506d5db25017f659baceeb8c9', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752589, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('690544e2ef19201454a330823e91cbe3', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752679, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('9c181e65d4ccdc0e5b911f1b925335ce', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752769, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('ea15803656ca82acf26ecd0e3499ca9b', '192.168.160.1', 'check_http/v1.4.15 (nagios-plugins 1.4.15)', 1360752822, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('08172c358c3113376ae5d5b786289da6', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752892, '');
+INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('d494748d2617ca78de4c3920badd4332', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360752980, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('602820bf6eb708f356e3b01db24f2255', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360750099, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('4f4351d6e4487c2cc592fef79b736ca8', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360750159, '');
 INSERT INTO ci_sessions (session_id, ip_address, user_agent, last_activity, user_data) VALUES ('58550a2c65d8d9464fcbc79e8015b972', '10.200.57.129', 'ELB-HealthChecker/1.0', 1360750249, '');
@@ -1246,6 +1263,7 @@ INSERT INTO system (key, value) VALUES ('inactive_date_title', 'Datum');
 
 INSERT INTO types (id, name, plural, "desc") VALUES (1, 'Medlem', 'Medlemmar', NULL);
 INSERT INTO types (id, name, plural, "desc") VALUES (2, 'Anhörigmedlem', 'Anhörigmedlemmar', NULL);
+INSERT INTO types (id, name, plural, "desc") VALUES (3, 'Stödmedlem', 'Stödmedlemmar', NULL);
 
 
 --
@@ -1254,7 +1272,7 @@ INSERT INTO types (id, name, plural, "desc") VALUES (2, 'Anhörigmedlem', 'Anhö
 -- Name: types_id_seq; Type: SEQUENCE SET; Schema: klubb; Owner: klubb
 --
 
-SELECT pg_catalog.setval('types_id_seq', 2, true);
+SELECT pg_catalog.setval('types_id_seq', 3, true);
 
 
 --
@@ -1557,7 +1575,7 @@ GRANT ALL ON SCHEMA klubb TO klubb;
 GRANT ALL ON SCHEMA klubb TO PUBLIC;
 
 
--- Completed on 2013-02-13 11:49:32 CET
+-- Completed on 2013-02-13 11:57:05 CET
 
 --
 -- PostgreSQL database dump complete
