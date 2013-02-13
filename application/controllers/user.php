@@ -50,13 +50,14 @@ class User extends CI_Controller {
 		// form submitted
 		if ($this->input->post('username') && $this->input->post('password')) {
 			$remember = $this->input->post('remember') ? true : false;
-			
+			$password = $this->input->post('password');
+			$username = $this->input->post('username');
 			// get user from database
-			$user = $this->user_model->get_user($this->input->post('username'));
+			$user = $this->user_model->get_user($username);
 			
 			if ($user) {
 				// compare passwords
-				if ($this->user_model->check_password($this->input->post('password'), $user['password'])) {
+				if ($this->user_model->check_password($password, $user['password'])) {
 					// mark user as logged in
 					$this->auth->login($user['id'], $remember);
 					$this->user_model->set_active($user['id']);
@@ -81,15 +82,42 @@ class User extends CI_Controller {
 		$html .= form_open('user/login', array('class' => 'custom'));
 		$html .= row(columns(panel(
 			row(
-				columns(form_label(ucfirst(lang('username')).':', 'username', array('class' => 'inline right')), 4).
-				columns(form_input(array('type' => 'text', 'name' => 'username', 'id' => 'username')), 8),
-			'collapse').
+				columns(
+					form_label(
+						ucfirst(lang('username')).':', 'username',
+						array('class' => 'inline right')), 4).
+				columns(form_input(array(
+					'type' => 'text',
+					'name' => 'username',
+					'id' => 'username')), 8), 'collapse').
 			row(
-				columns(form_label(ucfirst(lang('password')).':', 'password', array('class' => 'inline right')), 4).
-				columns(form_input(array('type' => 'password', 'name' => 'password', 'id' => 'password')), 8),
-			'collapse').
-			row(columns(form_label(form_input(array('type' => 'checkbox', 'name' => 'remember', 'id' => 'remember', 'value' => 1)).nbs().ucfirst(lang('remember_me')), 'remember', array('class' => 'right')), 12)).
-			row(columns(form_input(array('type' => 'submit', 'class' => 'right button', 'value' => ucfirst(lang('login')))), 12)), 'radius'), 6, 'centered'));
+				columns(
+					form_label(
+						ucfirst(lang('password')).':',
+						'password',
+						array('class' => 'inline right')), 4).
+				columns(
+					form_input(array(
+						'type' => 'password',
+						'name' => 'password',
+						'id' => 'password')), 8), 'collapse').
+			row(
+				columns(
+					form_label(
+						form_input(array(
+							'type' => 'checkbox',
+							'name' => 'remember',
+							'id' => 'remember',
+							'value' => 1)).
+						nbs().ucfirst(lang('remember_me')),
+						'remember',
+						array('class' => 'right')), 12)).
+			row(
+				columns(
+					form_input(array(
+						'type' => 'submit',
+						'class' => 'right button',
+						'value' => ucfirst(lang('login')))), 12)), 'radius'), 6, 'centered'));
 		$html .= form_close();
 		
 		$data['html'] = $html;
@@ -118,27 +146,36 @@ class User extends CI_Controller {
 		
 		$data['title'] = $this->system_model->get('app_name');
 		
-		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/create', ucfirst(lang('create_user'))), 'mode' => 'current'));
+		$data['breadcrumbs'] = array(
+			array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'),
+			array('data' => anchor('admin', ucfirst(lang('administration')))),
+			array('data' => anchor('admin/users', ucfirst(lang('users')))),
+			array('data' => anchor('user/create', ucfirst(lang('create_user'))), 'mode' => 'current'));
 		
 		
 		$html = heading(ucfirst(lang('create_user')), 1);
 		
 		if ($this->form_validation->run() == true) {
 			$user = array();
-			if ($this->input->post('username')) {
-				$user['username'] = $this->input->post('username');
+			$username = $this->input->post('username');
+			$firstname = $this->input->post('firstname');
+			$lastname = $this->input->post('lastname');
+			$email = $this->input->post('email');
+			$phone = $this->input->post('phone');
+			if ($username) {
+				$user['username'] = $username;
 			}
-			if ($this->input->post('firstname')) {
-				$user['firstname'] = $this->input->post('firstname');
+			if ($firstname) {
+				$user['firstname'] = $firstname;
 			}
-			if ($this->input->post('lastname')) {
-				$user['lastname'] = $this->input->post('lastname');
+			if ($lastname) {
+				$user['lastname'] = $lastname;
 			}
-			if ($this->input->post('email')) {
-				$user['email'] = $this->input->post('email');
+			if ($email) {
+				$user['email'] = $email;
 			}
-			if ($this->input->post('phone')) {
-				$user['phone'] = $this->input->post('phone');
+			if ($phone) {
+				$user['phone'] = $phone;
 			}
 			$user['password'] = very_random_string();
 			
@@ -158,34 +195,83 @@ class User extends CI_Controller {
 			$html .= ul(array(strong($user['password'])), array('class' => 'no-bullet'));
 			$html .= button_anchor('user/create', ucfirst(lang('create_another_user')));
 		} else {
-			$html .= p('Använd formuläret nedan för att lägga till en ny användare av '.$this->system_model->get('app_name').' hos '.$this->system_model->get('org_name').'.', 'lead');
-			$html .= '<div class="row"><div class="eight centered columns">';
-			$html .= form_open('user/create', array('class' => 'custom'));
-			$html .= row(
-				columns(
-					form_label(ucfirst(lang('username')).':'.span('*', 'required'), 'username', array('class' => (form_error('email'))?'error':'')).
-					form_input(array('type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => (form_error('username'))?'expand error':'expand', 'value' => $this->input->post('username'))).form_error('username'), 6, 'end'));
-			$html .= row(
-				columns(
-					form_label(ucfirst(lang('email_address')).':'.span('*', 'required'), 'email', array('class' => (form_error('email'))?'error':'')).
-					form_input(array('type' => 'text', 'name' => 'email', 'id' => 'email', 'class' => (form_error('email'))?'expand error':'expand', 'value' => $this->input->post('email'))).form_error('email'), 6).
-				columns(
-					form_label(ucfirst(lang('phone_number')).':', 'phone').
-					form_input(array('type' => 'text', 'name' => 'phone', 'id' => 'phone', 'class' => 'expand', 'value' => $this->input->post('phone'))), 6));
-			$html .= row(
-				columns(
-					form_label(ucfirst(lang('firstname')).':', 'firstname').
-					form_input(array('type' => 'text', 'name' => 'firstname', 'id' => 'firstname', 'class' => 'expand', 'value' => $this->input->post('firstname'))), 6).
-				columns(
-					form_label(ucfirst(lang('lastname')).':', 'lastname').
-					form_input(array('type' => 'text', 'name' => 'lastname', 'id' => 'lastname', 'value' => $this->input->post('lastname'))), 6));
-			$html .= button_group(array(button_anchor('admin/users', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'right');
-			$html .= form_close();
-			$html .= '</div></div>';
+			$html .= $this->create_form();
 		}
 		
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);
+	}
+	
+	/**
+	 * create_form function.
+	 * 
+	 * @access private
+	 * @return void
+	 */
+	private function create_form() {
+		// Pre-fill some variables.
+		$appname = $this->system_model->get('app_name');
+		$orgname = $this->system_model->get('org_name');
+		$username = $this->input->post('username');
+		$firstname = $this->input->post('firstname');
+		$lastname = $this->input->post('lastname');
+		$email = $this->input->post('email');
+		$phone = $this->input->post('phone');
+		
+		$html = p('Använd formuläret nedan för att lägga till en ny användare av '.$appname.' hos '.$orgname.'.', 'lead');
+		$html .= '<div class="row"><div class="eight centered columns">';
+		$html .= form_open('user/create', array('class' => 'custom'));
+		$html .= row(
+			columns(
+				form_label(ucfirst(lang('username')).':'.span('*', 'required'), 'username', array('class' => (form_error('email'))?'error':'')).
+				form_input(array(
+					'type' => 'text',
+					'name' => 'username',
+					'id' => 'username',
+					'class' => (form_error('username'))?'expand error':'expand',
+					'value' => $username)).form_error('username'), 6, 'end'));
+		$html .= row(
+			columns(
+				form_label(ucfirst(lang('email_address')).':'.span('*', 'required'), 'email', array('class' => (form_error('email'))?'error':'')).
+				form_input(array(
+					'type' => 'text',
+					'name' => 'email',
+					'id' => 'email',
+					'class' => (form_error('email'))?'expand error':'expand',
+					'value' => $email)).form_error('email'), 6).
+			columns(
+				form_label(ucfirst(lang('phone_number')).':', 'phone').
+				form_input(array(
+					'type' => 'text',
+					'name' => 'phone',
+					'id' => 'phone',
+					'class' => 'expand',
+					'value' => $phone)), 6));
+		$html .= row(
+			columns(
+				form_label(ucfirst(lang('firstname')).':', 'firstname').
+				form_input(array(
+					'type' => 'text',
+					'name' => 'firstname',
+					'id' => 'firstname',
+					'class' => 'expand',
+					'value' => $firstname)), 6).
+			columns(
+				form_label(ucfirst(lang('lastname')).':', 'lastname').
+				form_input(array(
+					'type' => 'text',
+					'name' => 'lastname',
+					'id' => 'lastname',
+					'value' => $lastname)), 6));
+		$html .= button_group(array(
+			button_anchor('admin/users', lang('button_cancel')),
+			form_input(array(
+				'type' => 'submit',
+				'class' => 'button',
+				'value' => lang('button_save')))), 'right');
+		$html .= form_close();
+		$html .= '</div></div>';
+		return $html;
 	}
 	
 	/**
@@ -258,8 +344,15 @@ class User extends CI_Controller {
 		redirect('user/login');
 	}
 	
+	/**
+	 * password function.
+	 * 
+	 * @access public
+	 * @param string $action (default: '')
+	 * @return void
+	 */
 	public function password($action = '') {
-		$this->output->enable_profiler(true);
+		$this->output->enable_profiler(false);
 		if ($action == 'change') {
 			if (!$this->auth->loggedin()) {
 				redirect('user/login');
@@ -278,9 +371,16 @@ class User extends CI_Controller {
 			$this->form_validation->set_rules('current_password', ucfirst(lang('current_password')), 'trim|required');
 			$this->form_validation->set_error_delimiters('<small class="error">', '</small>');
 			
-			$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/password/change', ucfirst(lang('change_password'))), 'mode' => 'current'));
+			$data['breadcrumbs'] = array(
+				array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'),
+				array('data' => anchor('admin', ucfirst(lang('administration')))),
+				array('data' => anchor('admin/users', ucfirst(lang('users')))),
+				array('data' => anchor('user/password/change', ucfirst(lang('change_password'))), 'mode' => 'current'));
 		} else if ($action == 'forgot') {
-			$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/password/forgot', ucfirst(lang('change_password'))), 'mode' => 'current'));
+			$data['breadcrumbs'] = array(
+				array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'),
+				array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))),
+				array('data' => anchor('user/password/forgot', ucfirst(lang('change_password'))), 'mode' => 'current'));
 		} else {
 			if (!$this->auth->loggedin()) {
 				redirect('user/login');
@@ -288,12 +388,14 @@ class User extends CI_Controller {
 			$id = (is_int($action)) ? $action : 0;
 			$uid = ($id > 0) ? intval($id) : intval($this->auth->userid());
 			$user = $this->user_model->get_user($uid);
-			$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users')))), array('data' => anchor('user/password', ucfirst(lang('change_password'))), 'mode' => 'current'));
+			$data['breadcrumbs'] = array(
+				array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'),
+				array('data' => anchor('admin', ucfirst(lang('administration')))),
+				array('data' => anchor('admin/users', ucfirst(lang('users')))),
+				array('data' => anchor('user/password', ucfirst(lang('change_password'))), 'mode' => 'current'));
 		}
 		
 		$data['title'] = $this->system_model->get('app_name');
-		
-		
 		
 		$html = heading(ucfirst(lang('change_password')), 1);
 		$html .= p(lang('change_password_instructions'), 'lead');
@@ -302,13 +404,31 @@ class User extends CI_Controller {
 			$html .= form_hidden('user', $id);
 			$html .= row(columns(panel(
 				form_label(ucfirst(lang('new_password')).span('*', 'required').':', 'new_password').
-				form_input(array('type' => 'password', 'id' => 'new_password', 'name' => 'new_password', 'class' => (form_error('new_password'))?'error expand':'expand', 'value' => $newpass)).form_error('new_password').
+				form_input(array(
+					'type' => 'password',
+					'id' => 'new_password',
+					'name' => 'new_password',
+					'class' => (form_error('new_password'))?'error expand':'expand',
+					'value' => $newpass)).form_error('new_password').
 				form_label(ucfirst(lang('repeat_password')).span('*', 'required').':', 'repeat_password').
-				form_input(array('type' => 'password', 'id' => 'repeat_password', 'name' => 'repeat_password', 'class' => (form_error('repeat_password'))?'error expand':'expand', 'value' => $repeatpass)).form_error('repeat_password').
+				form_input(array(
+					'type' => 'password',
+					'id' => 'repeat_password',
+					'name' => 'repeat_password',
+					'class' => (form_error('repeat_password'))?'error expand':'expand',
+					'value' => $repeatpass)).form_error('repeat_password').
 				'<hr>'.
 				form_label(ucfirst(lang('current_password')).span('*', 'required').':', 'current_password').
-				form_input(array('type' => 'password', 'id' => 'current_password', 'name' => 'current_password', 'class' => (form_error('current_password'))?'error expand':'expand')).form_error('current_password').
-				form_submit(array('type' => 'submit', 'name' => 'submit_change_password', 'class' => 'button', 'value' => ucfirst(lang('change_password')))) ), 6, 'centered end'));
+				form_input(array(
+					'type' => 'password',
+					'id' => 'current_password',
+					'name' => 'current_password',
+					'class' => (form_error('current_password'))?'error expand':'expand')).form_error('current_password').
+				form_submit(array(
+					'type' => 'submit',
+					'name' => 'submit_change_password',
+					'class' => 'button',
+					'value' => ucfirst(lang('change_password')))) ), 6, 'centered end'));
 				$html .= form_close();
 		}
 		
@@ -328,8 +448,6 @@ class User extends CI_Controller {
 		}
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
-		
-		
 	}
 }
 

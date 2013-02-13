@@ -28,6 +28,7 @@ class Member extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
 		$this->load->library('table');
+		$this->load->library('javascript');
 		log_message('debug', 'Controller loaded: member');
 	}
 	
@@ -73,7 +74,9 @@ class Member extends CI_Controller {
 		$user = $this->user_model->get_user($uid);
 		
 		$data['title'] = $this->system_model->get('app_name');
-		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members'))), 'mode' => 'current'));
+		$data['breadcrumbs'] = array(
+			array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'),
+			array('data' => anchor('members', ucfirst(lang('members'))), 'mode' => 'current'));
 		$html = heading(ucfirst(lang('members')), 1);
 		// !TODO: generate users table
 		
@@ -108,7 +111,7 @@ class Member extends CI_Controller {
 	 * @return void
 	 */
 	public function register() {
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
@@ -149,63 +152,73 @@ class Member extends CI_Controller {
 				), array('class' => 'no-bullet'));
 			$html .= button_anchor('member/register', ucfirst(lang('register_another_member')));
 		} else {
-			$html .= p('Använd formuläret nedan för att lägga till en ny medlem i '.$this->system_model->get('org_name').'.', 'lead');
-			$html .= form_open('member/register', array('class' => 'custom'));
-			$html .= '<div class="row"><div class="eight columns">';
-			$membertypes = $this->member_model->get_types();
-			$types = array();
-			foreach ($membertypes as $type) {
-				$types[$type['id']] = $type['name'];
-			}
-			$html .= row(
-				columns(
-					form_label('Medlemstyp:', 'type').
-					form_dropdown('type', $types, 1, (form_error('type'))?'class="expand error"':'class="expand"'), 6).
-				columns(
-					form_label(ucfirst(lang('ssid')).':'.span('*', 'required'), 'ssid', array('class' => (form_error('ssid'))?'error':'')).
-					form_input(array('type' => 'text', 'name' => 'ssid', 'id' => 'ssid', 'class' => (form_error('ssid'))?'expand error':'expand', 'value' => $this->input->post('ssid'), 'placeholder' => lang('ssid_placeholder'), 'size' => 10, 'maxlength' => 10)).form_error('ssid'), 6));
-			$html .= row(
-				columns(
-					form_label(ucfirst(lang('firstname')).':'.span('*', 'required'), 'firstname').
-					form_input(array('type' => 'text', 'name' => 'firstname', 'id' => 'firstname', 'class' => 'expand', 'value' => $this->input->post('firstname'))).form_error('firstname'), 6).
-				columns(
-					form_label(ucfirst(lang('lastname')).':'.span('*', 'required'), 'lastname').
-					form_input(array('type' => 'text', 'name' => 'lastname', 'id' => 'lastname', 'value' => $this->input->post('lastname'))).form_error('lastname'), 6), 'name', 'name_row');
-			
-			
+			$html .= $this->registration_form();
+		}
+		
+		$data['html'] = $html;
+		$this->system_model->view('template', $data);
+	}
+	
+	private function registration_form() {
+		$html = p('Använd formuläret nedan för att lägga till en ny medlem i '.$this->system_model->get('org_name').'.', 'lead');
+		$html .= form_open('member/register', array('class' => 'custom'));
+		$html .= '<div class="row"><div class="eight columns">';
+		$membertypes = $this->member_model->get_types();
+		$types = array();
+		foreach ($membertypes as $type) {
+			$types[$type['id']] = $type['name'];
+		}
+		
+		$this->javascript->change('#type', 'alert($("#type").val());');
+		$html .= row(
+			columns(
+				form_label('Medlemstyp:', 'type').
+				form_dropdown('type', $types, 1, (form_error('type'))?'id="type" class="expand error"':'id="type" class="expand"'), 6).
+			columns(
+				form_label(ucfirst(lang('ssid')).':'.span('*', 'required'), 'ssid', array('class' => (form_error('ssid'))?'error':'')).
+				form_input(array('type' => 'text', 'name' => 'ssid', 'id' => 'ssid', 'class' => (form_error('ssid'))?'expand error':'expand', 'value' => $this->input->post('ssid'), 'placeholder' => lang('ssid_placeholder'), 'size' => 10, 'maxlength' => 10)).form_error('ssid'), 6));
+		$html .= row(
+			columns(
+				form_label(ucfirst(lang('firstname')).':'.span('*', 'required'), 'firstname').
+				form_input(array('type' => 'text', 'name' => 'firstname', 'id' => 'firstname', 'class' => 'expand', 'value' => $this->input->post('firstname'))).form_error('firstname'), 6).
+			columns(
+				form_label(ucfirst(lang('lastname')).':'.span('*', 'required'), 'lastname').
+				form_input(array('type' => 'text', 'name' => 'lastname', 'id' => 'lastname', 'value' => $this->input->post('lastname'))).form_error('lastname'), 6), 'name', 'name_row');
+		
+		
 //			$html .= row(
 //				);
-			$html .= row(
-				columns(
-					form_label(ucfirst(lang('email_address')).':'.span('*', 'required'), 'email', array('class' => (form_error('email'))?'error':'')).
-					form_input(array('type' => 'email', 'name' => 'email', 'id' => 'email', 'class' => (form_error('email'))?'expand error':'expand', 'value' => $this->input->post('email'))).form_error('email'), 6).
-				columns(
-					form_label(ucfirst(lang('phone_number')).':'.span('*', 'required'), 'phone').
-					form_input(array('type' => 'tel', 'name' => 'phone', 'id' => 'phone', 'class' => 'expand', 'value' => $this->input->post('phone'))), 6));
-			$html .= row(
-				columns(
-					form_label(ucfirst(lang('address')).':'.span('*', 'required'), 'address', array('class' => (form_error('address'))?'error':'')).
-					form_input(array('type' => 'text', 'name' => 'address', 'id' => 'address', 'value' => $this->input->post('address'), 'class' => (form_error('address'))?'expand error':'expand')).form_error('adress'), 6, 'end'));
-			$html .= row(
-				columns(form_label(ucfirst(lang('zipcode')).':'.span('*', 'required'), 'zipcode', array('class' => (form_error('zipcode'))?'error':'')).
-					form_input(array('type' => 'text', 'name' => 'zipcode', 'id' => 'zipcode', 'value' => $this->input->post('zipcode'), 'class' => (form_error('zipcode'))?'expand error':'expand')).form_error('zipcode'), 2).
-				columns(form_label(ucfirst(lang('city')).':'.span('*', 'required'), 'city', array('class' => (form_error('city'))?'error':'')).
-					form_input(array('type' => 'text', 'name' => 'city', 'id' => 'city', 'value' => $this->input->post('city'), 'class' => (form_error('city'))?'expand error':'expand')).form_error('city'), 4, 'end'));
-			$html .= row(
-				columns(
-					form_label('Diagnos år:'.span('*', 'required'), 'diagnos', array('class' => (form_error('diagnos'))?'error':'')).
-					form_input(array('type' => 'text', 'name' => 'diagnos', 'id' => 'diagnos', 'class' => (form_error('diagnos'))?'expand error':'expand', 'value' => $this->input->post('diagnos'))).form_error('diagnos'), 6).
-				columns(
-					form_label('Cancersjukdom:'.span('*', 'required'), 'cancer').
-					form_input(array('type' => 'text', 'name' => 'cancer', 'id' => 'cancer', 'class' => 'expand', 'value' => $this->input->post('cancer'))).form_error('cancer'), 6));
-			$html .= button_group(array(button_anchor('members', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'left');
-			$html .= '</div><div class="four columns">';
-			$html .= heading('Kan tänka sig att', 6);
-			$html .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'tell', 'id' => 'tell')).nbs().'berätta min historia på ungcancer.se för andra att ta del av', 'tell');
-			$html .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'participate', 'id' => 'participate')).nbs().'delta på möten, föreläsningar och/eller andra aktiviteter', 'participate');
-			$html .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'talking_partner', 'id' => 'talking_partner')).nbs().'bli samtalsvän och låta Ung Cancer ge ut min mailadress till andra medlemmar', 'talking_partner');
-			$html .= '<hr>';
-			$html .= form_label(ucfirst(lang('other')).':', 'other').form_textarea(array('name' => 'other', 'id' => 'other'));
+		$html .= row(
+			columns(
+				form_label(ucfirst(lang('email_address')).':'.span('*', 'required'), 'email', array('class' => (form_error('email'))?'error':'')).
+				form_input(array('type' => 'email', 'name' => 'email', 'id' => 'email', 'class' => (form_error('email'))?'expand error':'expand', 'value' => $this->input->post('email'))).form_error('email'), 6).
+			columns(
+				form_label(ucfirst(lang('phone_number')).':'.span('*', 'required'), 'phone').
+				form_input(array('type' => 'tel', 'name' => 'phone', 'id' => 'phone', 'class' => 'expand', 'value' => $this->input->post('phone'))), 6));
+		$html .= row(
+			columns(
+				form_label(ucfirst(lang('address')).':'.span('*', 'required'), 'address', array('class' => (form_error('address'))?'error':'')).
+				form_input(array('type' => 'text', 'name' => 'address', 'id' => 'address', 'value' => $this->input->post('address'), 'class' => (form_error('address'))?'expand error':'expand')).form_error('adress'), 6, 'end'));
+		$html .= row(
+			columns(form_label(ucfirst(lang('zipcode')).':'.span('*', 'required'), 'zipcode', array('class' => (form_error('zipcode'))?'error':'')).
+				form_input(array('type' => 'text', 'name' => 'zipcode', 'id' => 'zipcode', 'value' => $this->input->post('zipcode'), 'class' => (form_error('zipcode'))?'expand error':'expand')).form_error('zipcode'), 2).
+			columns(form_label(ucfirst(lang('city')).':'.span('*', 'required'), 'city', array('class' => (form_error('city'))?'error':'')).
+				form_input(array('type' => 'text', 'name' => 'city', 'id' => 'city', 'value' => $this->input->post('city'), 'class' => (form_error('city'))?'expand error':'expand')).form_error('city'), 4, 'end'));
+		$html .= row(
+			columns(
+				form_label('Diagnos år:'.span('*', 'required'), 'diagnos', array('class' => (form_error('diagnos'))?'error':'')).
+				form_input(array('type' => 'text', 'name' => 'diagnos', 'id' => 'diagnos', 'class' => (form_error('diagnos'))?'expand error':'expand', 'value' => $this->input->post('diagnos'))).form_error('diagnos'), 6).
+			columns(
+				form_label('Cancersjukdom:'.span('*', 'required'), 'cancer').
+				form_input(array('type' => 'text', 'name' => 'cancer', 'id' => 'cancer', 'class' => 'expand', 'value' => $this->input->post('cancer'))).form_error('cancer'), 6));
+		$html .= button_group(array(button_anchor('members', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'left');
+		$html .= '</div><div class="four columns">';
+		$html .= heading('Kan tänka sig att', 6);
+		$html .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'tell', 'id' => 'tell')).nbs().'berätta min historia på ungcancer.se för andra att ta del av', 'tell');
+		$html .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'participate', 'id' => 'participate')).nbs().'delta på möten, föreläsningar och/eller andra aktiviteter', 'participate');
+		$html .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'talking_partner', 'id' => 'talking_partner')).nbs().'bli samtalsvän och låta Ung Cancer ge ut min mailadress till andra medlemmar', 'talking_partner');
+		$html .= '<hr>';
+		$html .= form_label(ucfirst(lang('other')).':', 'other').form_textarea(array('name' => 'other', 'id' => 'other'));
 //			$html .= form_fieldset_close();
 /*			$html .= row(
 				columns(
@@ -217,12 +230,9 @@ class Member extends CI_Controller {
 					form_input(array('type' => 'text', 'name' => 'address', 'id' => 'address', 'value' => $this->input->post('address'), 'class' => (form_error('address'))?'expand error':'expand')), 8, 'end')
 			);
 			*/
-			$html .= '</div></div>';
-			$html .= form_close();
-		}
-		
-		$data['html'] = $html;
-		$this->system_model->view('template', $data);
+		$html .= '</div></div>';
+		$html .= form_close();
+		return $html;
 	}
 	
 	/**

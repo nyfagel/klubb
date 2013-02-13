@@ -14,3 +14,4 @@ application/logs/*
 
 # Compass
 .sass-cache
+.sonar
