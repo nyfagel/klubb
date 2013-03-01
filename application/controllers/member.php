@@ -152,7 +152,21 @@ class Member extends CI_Controller {
                 ), array('class' => 'no-bullet'));
             $html .= button_anchor('member/register', ucfirst(lang('register_another_member')));
         } else {
-            $html .= $this->registration_form();
+        	$tabs = array();
+        	$first = true;
+        	$membertypes = $this->member_model->get_types();
+        	foreach ($membertypes as $type) {
+        		$tabs['type'.$type['id']] = array(
+        			'title' => $type['name'],
+        			'content' => $this->registration_form($type['id']));
+        		if ($first) {
+	        		$tabs['type'.$type['id']]['active'] = true;
+	        		$first = false;
+        		}
+	        }
+	        $tabs = tabs($tabs, 'contained', 'register');
+	        $html .= $tabs['tabs'].$tabs['content'];
+//	        $html .= $this->registration_form();
         }
 
         $data['html'] = $html;
@@ -165,10 +179,11 @@ class Member extends CI_Controller {
      * @access private
      * @return void
      */
-    private function registration_form() {
+    private function registration_form($type = -1) {
         $html = p('Använd formuläret nedan för att lägga till en ny medlem i '.$this->system_model->get('org_name').'.', 'lead');
         $html .= form_open('member/register', array('class' => 'custom'));
         $html .= '<div class="row"><div class="eight columns">';
+/*
         $membertypes = $this->member_model->get_types();
         $types = array();
         foreach ($membertypes as $type) {
@@ -177,15 +192,17 @@ class Member extends CI_Controller {
 
         $this->javascript->change('#type', 'alert($("#type").val());');
         $type_extras = (form_error('type')) ? 'id="type" class="expand error"' : 'id="type" class="expand"';
+*/
+				$html .= form_hidden('type', $type);
         $html .= row(
             columns(
-                form_label('Medlemstyp:', 'type').
-                form_dropdown(
-                    'type',
-                    $types,
-                    1,
-                    $type_extras), 6).
-            columns(
+//                form_label('Medlemstyp:', 'type').
+//                form_dropdown(
+//                    'type',
+//                    $types,
+//                    1,
+//                    $type_extras), 6).
+//            columns(
                 form_label(
                     ucfirst(lang('ssid')).':'.span('*', 'required'),
                     'ssid',
@@ -199,7 +216,7 @@ class Member extends CI_Controller {
                     'placeholder' => lang('ssid_placeholder'),
                     'size' => 10,
                     'maxlength' => 10)).
-                form_error('ssid'), 6));
+                form_error('ssid'), 6, 'end'));
         $html .= row(
             columns(
                 form_label(

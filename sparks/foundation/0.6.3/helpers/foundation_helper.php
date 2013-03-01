@@ -469,6 +469,52 @@ if ( ! function_exists('pill_tabs')) {
 	}
 }
 
+if ( ! function_exists('tabs')) {
+	/**
+	 * Generate Foundation tabs.
+	 * 
+	 * @link http://foundation.zurb.com/docs/tabs.php
+	 * @access public
+	 * @param array $content an array with the contents of the tabs. Should
+	 *        be a list of entries on the following form:
+	 *        'id' => array('title' => 'title', 'content' => 'content').
+	 * @param string $class any optional extra classes of the tabs.
+	 * @param string $id_prefix an optional prefix to the id of the elements
+	 *        containing the tabs and their content.
+	 * @return array an array with the generated tabs on the following form:
+	 *         'tabs' => '<the tabs>', 'content' => '<the contents>'.
+	 */
+	function tabs($data = array(), $class = '', $id_prefix = null) {
+		$class = ($class != '') ? $class.' ' : $class;
+		if (is_null($id_prefix)) {
+			$tabs = '<dl class="'.$class.'tabs">';
+			$tabscontent = '<ul class="'.$class.'tabs-content">';
+		} else {
+			$tabs = '<dl class="'.$class.'tabs" id="'.$id_prefix.'-tabs">';
+			$tabscontent = '<ul class="'.$class.'tabs-content" id="'.$id_prefix.'-content">';
+		}
+		foreach ($data as $id => $contents) {
+			if ( (array_key_exists('active', $contents)) && (is_bool($contents['active'])) && ($contents['active'] == true) ) {
+				$tabs .= "\t<dd class=\"".$class."active\">\n";
+				$tabscontent .= "\t<li class=\"".$class.'active" id="'.$id.'Tab">'."\n";
+			} else {
+				$tabs .= "\t<dd class=\"".$class."\">\n";
+				$tabscontent .= "\t<li class=\"".$class.'" id="'.$id.'Tab">'."\n";
+			}
+//			$tabs .= "<dd";
+//			$tabscontent .= '<li';
+//			$tabs .= ($id == $active) ? ' class="active">' : '>';
+//			$tabscontent .= ($id == $active) ? ' class="active" ' : ' ';
+			$tabs .= '<a href="#'.$id.'" id="'.$id.'">'.$contents['title'].'</a></dd>';
+			$tabscontent .= $contents['content'].'</li>';
+		}
+		$tabs .= '</dl>';
+		$tabscontent .= '</ul>';
+		$tabs = array('tabs' => $tabs, 'content' => $tabscontent);
+		return $tabs;
+	}
+}
+
 if ( ! function_exists('_number_to_text')) {
 	/**
 	 * Convert numbers to text.
