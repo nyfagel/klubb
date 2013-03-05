@@ -12,12 +12,12 @@
 
 // Colors Settings
 
-$mainColor: #2780b5;
+$mainColor: #77b058;
 // $secondaryColor: #e9e9e9;
-$alertColor: #c66481;
-$successColor: #79af5d;
-$txtColor: #000000;
-$highlightColor: #6cc3b5;
+//$alertColor: #c66481;
+//$successColor: #79af5d;
+//$txtColor: #000000;
+//$highlightColor: #6cc3b5;
 // $black: #000;
 // $white: #fff;
 // $shinyEdge: rgba(#fff, .5);
@@ -25,15 +25,15 @@ $highlightColor: #6cc3b5;
 
 // Font Settings
 
-$fontSmoothing: antialiased;
+//$fontSmoothing: antialiased;
 // $headerFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $headerFontWeight: bold;
 // $headerFontStyle: normal;
 // $headerFontColor: #5b3b81;
-$bodyFontFamily: "Quicksand", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-$bodyFontWeight: 300;
+// $bodyFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+// $bodyFontWeight: normal;
 // $bodyFontStyle: normal;
-$bodyFontColor: $txtColor;
+//$bodyFontColor: $txtColor;
 
 // Text Direction Settings
 
@@ -41,7 +41,7 @@ $bodyFontColor: $txtColor;
 
 // Button Settings
 
-// $buttonRadius: 3px;
+$buttonRadius: 6px;
 // $btnBase: 10px;
 
 // $tinyBtnBase: $btnBase - 5;

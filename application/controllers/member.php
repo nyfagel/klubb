@@ -40,7 +40,7 @@ class Member extends CI_Controller {
      * @return void
      */
     public function memberlist($page = -1) {
-        $this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(false);
         if (!$this->auth->loggedin()) {
             redirect('user/login');
         }

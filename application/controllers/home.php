@@ -42,6 +42,7 @@ class Home extends CI_Controller {
 		
 		$data['title'] = $this->system_model->get('app_name');
 		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('home', ucfirst(lang('home'))), 'mode' => 'current'));
+		$data['stylesheets'] = array('buttons_green');
 		
 		$memberdata = heading(ucfirst(lang('members')), 5);
 		$ofeachtype = array();
