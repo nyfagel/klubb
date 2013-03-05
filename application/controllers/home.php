@@ -67,7 +67,7 @@ class Home extends CI_Controller {
 			$auser = $this->user_model->get_user($aid);
 			array_push($ausers, $auser['firstname'].' '.$auser['lastname']);
 		}
-		$userdata .= heading('Inloggade just nu:', 6).ul($ausers, array('class' => 'disc'));
+		$userdata .= heading(ucfirst(lang('currently_logged_on')).':', 6).ul($ausers, array('class' => 'disc'));
 		$userdata .= button_group(
 			array(
 				button_anchor('admin/users', ucfirst(lang('administer')).' '.lang('users'), 'small radius'),
