@@ -77,6 +77,7 @@ class Member extends CI_Controller {
         $data['breadcrumbs'] = array(
             array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'),
             array('data' => anchor('members', ucfirst(lang('members'))), 'mode' => 'current'));
+        $data['stylesheets'] = array('buttons_purple');
         $html = heading(ucfirst(lang('members')), 1);
         // !TODO: generate users table
 
@@ -137,6 +138,7 @@ class Member extends CI_Controller {
 
         $data['title'] = $this->system_model->get('app_name');
         $data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members')))), array('data' => anchor('member/register', ucfirst(lang('register_member'))), 'mode' => 'current'));
+        $data['stylesheets'] = array('buttons_purple');
 
         $html = heading(ucfirst(lang('register_member')), 1);
 
@@ -266,7 +268,10 @@ class Member extends CI_Controller {
             columns(
                 form_label('Cancersjukdom:'.span('*', 'required'), 'cancer').
                 form_input(array('type' => 'text', 'name' => 'cancer', 'id' => 'cancer', 'class' => 'expand', 'value' => $this->input->post('cancer'))).form_error('cancer'), 6));
-        $html .= button_group(array(button_anchor('members', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'left');
+        $html .= button_group(
+        	array(
+        		button_anchor('members', lang('button_cancel'), 'radius'),
+        		form_input(array('type' => 'submit', 'class' => 'radius button', 'value' => lang('button_save')))), 'radius left');
         $html .= '</div><div class="four columns">';
         $html .= heading('Kan tänka sig att', 6);
         $html .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'tell', 'id' => 'tell')).nbs().'berätta min historia på ungcancer.se för andra att ta del av', 'tell');

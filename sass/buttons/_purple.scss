@@ -1,5 +1,5 @@
 @import "foundation/common/ratios";
-@import "ungcancer";
+@import "../ungcancer";
 
 // Settings file containing Foundation defaults
 
@@ -13,28 +13,28 @@
 
 // Colors Settings
 
-$mainColor: $blue;
+$mainColor: $purple;
 // $secondaryColor: #e9e9e9;
-$alertColor: #c66481;
-$successColor: $green;
-$txtColor: #000000;
-$highlightColor: #6cc3b5;
+//$alertColor: #c66481;
+//$successColor: #79af5d;
+//$txtColor: #000000;
+//$highlightColor: #6cc3b5;
 // $black: #000;
-//$white: $whiteDark;
+// $white: #fff;
 // $shinyEdge: rgba(#fff, .5);
 // $darkEdge: rgba(#000, .2);
 
 // Font Settings
 
-$fontSmoothing: antialiased;
+//$fontSmoothing: antialiased;
 // $headerFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $headerFontWeight: bold;
 // $headerFontStyle: normal;
 // $headerFontColor: #5b3b81;
-//$bodyFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-//$bodyFontWeight: normal;
+// $bodyFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+// $bodyFontWeight: normal;
 // $bodyFontStyle: normal;
-$bodyFontColor: $txtColor;
+//$bodyFontColor: $txtColor;
 
 // Text Direction Settings
 
@@ -42,7 +42,7 @@ $bodyFontColor: $txtColor;
 
 // Button Settings
 
-// $buttonRadius: 3px;
+$buttonRadius: 6px;
 // $btnBase: 10px;
 
 // $tinyBtnBase: $btnBase - 5;
@@ -96,14 +96,14 @@ $bodyFontColor: $txtColor;
 
 // Top Bar Settings
 
-$topBarBgColor: $grayDark;
-$topBarHeight: 35px;
-$topBarHeightMobile: 35px;
-$topBarBtmMargin: 30px;
-$topBarTitleWeight: bold;
+// $topBarBgColor: #222;
+// $topBarHeight: 45px;
+// $topBarHeightMobile: 45px;
+// $topBarBtmMargin: 30px;
+// $topBarTitleWeight: bold;
 // $topBarTitleSize: 17px;
 // $topBarLinkColor: #fff;
-$topBarLinkWeight: normal;
+// $topBarLinkWeight: bold;
 // $topBarLinkSize: 13px;
 // $topBarDropBgColor: #222;
 // $topBarDropLinkColor: #fff;
@@ -111,7 +111,7 @@ $topBarLinkWeight: normal;
 // $topBarDropToggleColor: #fff;
 // $topBarDropToggleAlpha: 0.5;
 // $topBarSearchWidth: 200px;
-$topBarBreakPoint: 768px; // Change to 9999px for always mobile layout
+// $topBarBreakPoint: 940px; // Change to 9999px for always mobile layout
 // $topBarNavToggleSize: 8px;
 // $topBarNavToggleColor: #fff;
 

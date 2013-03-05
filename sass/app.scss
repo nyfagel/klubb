@@ -8,4 +8,10 @@
 footer {
 	border-top: 1px solid $purpleDark;
 	color: $purpleDark;
+	a {
+		color: $purpleDark;
+		&:hover, &:visited {
+			color: $purpleDark;
+		}
+	}
 }
