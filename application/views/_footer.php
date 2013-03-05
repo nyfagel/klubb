@@ -1,14 +1,4 @@
 <footer class="row">
-	<div class="twelve columns">
-		<?php if (isset($breadcrumbs)): ?>
-		<div class="row">
-			<div class="twelve columns">
-				<?php echo breadcrumbs($breadcrumbs); ?>
-			</div>
-		</div>
-		<?php else: ?>
-		<hr />
-		<?php endif; ?>
 		<div class="row">
 			<div class="four columns">
 				<p>Copyright &copy; 2012-2013 <?php echo $this->system_model->get('org_name'); ?>.</p>

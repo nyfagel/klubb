@@ -9,8 +9,8 @@
 .button.expand { width: 100%; text-align: center; }
 .button.primary { background-color: #77b058; border: 1px solid #547f3c; }
 .button.primary:hover, .button.primary:focus { background-color: #5f9144; }
-.button.success { background-color: #79af5d; border: 1px solid #55803f; }
-.button.success:hover, .button.success:focus { background-color: #619148; }
+.button.success { background-color: #77b058; border: 1px solid #547f3c; }
+.button.success:hover, .button.success:focus { background-color: #5f9144; }
 .button.alert { background-color: #c66481; border: 1px solid #a23c5a; }
 .button.alert:hover, .button.alert:focus { background-color: #b54264; }
 .button.secondary { background-color: #e9e9e9; color: #1d1d1d; border: 1px solid #c3c3c3; }
@@ -21,8 +21,8 @@
 .button.left-align { text-align: left; text-indent: 12px; }
 .button.disabled, .button[disabled] { opacity: 0.6; cursor: default; background: #77b058; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
 .button.disabled:hover, .button[disabled]:hover { background: #77b058; }
-.button.disabled.success, .button[disabled].success { background-color: #79af5d; }
-.button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus { background-color: #79af5d; outline: none; }
+.button.disabled.success, .button[disabled].success { background-color: #77b058; }
+.button.disabled.success:hover, .button.disabled.success:focus, .button[disabled].success:hover, .button[disabled].success:focus { background-color: #77b058; outline: none; }
 .button.disabled.alert, .button[disabled].alert { background-color: #c66481; }
 .button.disabled.alert:hover, .button.disabled.alert:focus, .button[disabled].alert:hover, .button[disabled].alert:focus { background-color: #c66481; outline: none; }
 .button.disabled.secondary, .button[disabled].secondary { background-color: #e9e9e9; }
@@ -49,7 +49,7 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 .button.dropdown.tiny:after { content: ""; display: block; width: 0; height: 0; border: solid 4px; border-color: white transparent transparent transparent; margin-top: -1px; right: 10px; }
 .button.dropdown > ul { -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; display: none; position: absolute; left: -1px; background: #fff; background: rgba(255, 255, 255, 0.95); list-style: none; margin: 0; padding: 0; border: 1px solid #cccccc; border-top: none; min-width: 100%; z-index: 40; }
 .button.dropdown > ul li { width: 100%; cursor: pointer; padding: 0; min-height: 18px; line-height: 18px; margin: 0; white-space: nowrap; list-style: none; }
-.button.dropdown > ul li a, .button.dropdown > ul li button { display: block; color: #555; font-size: 13px; font-weight: 300; padding: 6px 14px; text-align: left; }
+.button.dropdown > ul li a, .button.dropdown > ul li button { display: block; color: #555; font-size: 13px; font-weight: normal; padding: 6px 14px; text-align: left; }
 .button.dropdown > ul li button { width: 100%; border: inherit; background: inherit; font-family: inherit; margin: inherit; -webkit-font-smoothing: antialiased; }
 .button.dropdown > ul li:hover, .button.dropdown > ul li:focus { background-color: #f6faf4; color: #222; }
 .button.dropdown > ul li.divider { min-height: 0; padding: 0; height: 1px; margin: 4px 0; background: #ededed; }
@@ -60,7 +60,7 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 .button.dropdown.split:after { display: none; }
 .button.dropdown.split:hover, .button.dropdown.split:focus { background-color: #77b058; }
 .button.dropdown.split.alert:hover, .button.dropdown.split.alert:focus { background-color: #c66481; }
-.button.dropdown.split.success:hover, .button.dropdown.split.success:focus { background-color: #79af5d; }
+.button.dropdown.split.success:hover, .button.dropdown.split.success:focus { background-color: #77b058; }
 .button.dropdown.split.secondary:hover, .button.dropdown.split.secondary:focus { background-color: #e9e9e9; }
 .button.dropdown.split > a { color: white; display: block; padding: 10px 50px 11px 20px; padding-left: 20px; padding-right: 50px; -webkit-transition: background-color 0.15s ease-in-out; -moz-transition: background-color 0.15s ease-in-out; -o-transition: background-color 0.15s ease-in-out; transition: background-color 0.15s ease-in-out; }
 .button.dropdown.split > a:hover, .button.dropdown.split > a:focus { background-color: #5f9144; -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset; }
@@ -78,11 +78,11 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 .button.dropdown.split.small span:after { content: ""; display: block; width: 0; height: 0; border: solid 4px; border-color: white transparent transparent transparent; margin-top: -1px; margin-left: -4px; }
 .button.dropdown.split.tiny span:after { content: ""; display: block; width: 0; height: 0; border: solid 3px; border-color: white transparent transparent transparent; margin-top: -1px; margin-left: -3px; }
 .button.dropdown.split.alert > span { background-color: #c66481; border-left-color: #a23c5a; }
-.button.dropdown.split.success > span { background-color: #79af5d; border-left-color: #55803f; }
+.button.dropdown.split.success > span { background-color: #77b058; border-left-color: #547f3c; }
 .button.dropdown.split.secondary > span { background-color: #e9e9e9; border-left-color: #c3c3c3; }
 .button.dropdown.split.secondary > a { color: #1d1d1d; }
 .button.dropdown.split.alert > a:hover, .button.dropdown.split.alert > span:hover, .button.dropdown.split.alert > a:focus, .button.dropdown.split.alert > span:focus { background-color: #b54264; }
-.button.dropdown.split.success > a:hover, .button.dropdown.split.success > span:hover, .button.dropdown.split.success > a:focus, .button.dropdown.split.success > span:focus { background-color: #619148; }
+.button.dropdown.split.success > a:hover, .button.dropdown.split.success > span:hover, .button.dropdown.split.success > a:focus, .button.dropdown.split.success > span:focus { background-color: #5f9144; }
 .button.dropdown.split.secondary > a:hover, .button.dropdown.split.secondary > span:hover, .button.dropdown.split.secondary > a:focus, .button.dropdown.split.secondary > span:focus { background-color: #d0d0d0; }
 
 /* Button Groups ---------------------- */

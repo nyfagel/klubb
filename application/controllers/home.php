@@ -53,7 +53,10 @@ class Home extends CI_Controller {
 		}
 		$memberdata .= p(ucfirst($this->system_model->get('org_name')).' har totalt '.anchor('members', $this->member_model->count_members().' '.lang('members')).' varav:');
 		$memberdata .= ul($ofeachtype, array('class' => 'disc'));
-		$memberdata .= button_group(array(button_anchor('members', ucfirst(lang('administer')).' '.lang('members'), 'small'),button_anchor('member/register', ucfirst(lang('register_member')), 'small')));
+		$memberdata .= button_group(
+			array(
+				button_anchor('members', ucfirst(lang('administer')).' '.lang('members'), 'small radius'),
+				button_anchor('member/register', ucfirst(lang('register_member')), 'small radius')), 'radius');
 		$this->benchmark->mark('members_process_end');
 		$userdata = heading(ucfirst(lang('users')), 5);
 		$this->benchmark->mark('users_process_start');
@@ -65,11 +68,13 @@ class Home extends CI_Controller {
 			array_push($ausers, $auser['firstname'].' '.$auser['lastname']);
 		}
 		$userdata .= heading('Inloggade just nu:', 6).ul($ausers, array('class' => 'disc'));
-		$userdata .= button_group(array(button_anchor('admin/users', ucfirst(lang('administer')).' '.lang('users'), 'small'),button_anchor('user/create', ucfirst(lang('create_user')), 'small')));
+		$userdata .= button_group(
+			array(
+				button_anchor('admin/users', ucfirst(lang('administer')).' '.lang('users'), 'small radius'),
+				button_anchor('user/create', ucfirst(lang('create_user')), 'small radius')), 'radius');
 		$this->benchmark->mark('users_process_end');
 		$content = heading(ucfirst(lang('welcome')).$greeting.'!', 1);
 		$content .= row(columns(panel($memberdata, 'radius'), 6).columns(panel($userdata, 'radius'), 6));
-		$content .= row(columns(panel('box3', 'radius'), 6).columns(panel('box4', 'radius'), 6));
 		$html = $content;
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);
