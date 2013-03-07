@@ -1,4 +1,4 @@
-<footer class="row">
+<footer>
 		<div class="row">
 			<div class="four columns">
 				<p>Copyright &copy; 2012-2013 <?php echo $this->system_model->get('org_name'); ?>.</p>

@@ -24,7 +24,7 @@ class Home extends CI_Controller {
 	 * @return void
 	 */
 	public function index() {
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(false);
 		$this->benchmark->mark('auth_start');
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
@@ -36,13 +36,21 @@ class Home extends CI_Controller {
 		$greeting = '';
 		if (isset($user['firstname'])) {
 			$greeting = ' '.$user['firstname'];
+			$data['firstname'] = $user['firstname'];
 		} else {
 			$greeting = ' '.$user['username'];
+			$data['firstname'] = $user['firstname'];
 		}
 		
 		$data['title'] = $this->system_model->get('app_name');
-		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('home', ucfirst(lang('home'))), 'mode' => 'current'));
 		$data['stylesheets'] = array('buttons_green');
+		$data['partial'] = 'home';
+		
+		$data['org_name'] = $this->system_model->get('org_name');
+		$data['app_name'] = $this->system_model->get('app_name');
+		
+		$data['members'] = $this->member_model->count_members();
+		$data['users'] = $this->user_model->count_users();
 		
 		$memberdata = heading(ucfirst(lang('members')), 5);
 		$ofeachtype = array();
@@ -51,30 +59,33 @@ class Home extends CI_Controller {
 			$count = $this->member_model->count_members_type($type['id']);
 			array_push($ofeachtype, $count.' '.strtolower($type['plural']));
 		}
-		$memberdata .= p(ucfirst($this->system_model->get('org_name')).' har totalt '.anchor('members', $this->member_model->count_members().' '.lang('members')).' varav:');
-		$memberdata .= ul($ofeachtype, array('class' => 'disc'));
+		$data['membertypes'] = $ofeachtype;
+		$memberdata .= p(ucfirst($data['org_name']).' har totalt '.anchor('members', $data['members'].' '.lang('members')).' varav:');
+		$memberdata .= ul($data['membertypes'], array('class' => 'disc'));
 		$memberdata .= button_group(
 			array(
-				button_anchor('members', ucfirst(lang('administer')).' '.lang('members'), 'small radius'),
-				button_anchor('member/register', ucfirst(lang('register_member')), 'small radius')), 'radius');
+				button_anchor('members', ucfirst(lang('administer')).' '.lang('members'), 'radius'),
+				button_anchor('member/register', ucfirst(lang('register_member')), 'radius')), 'radius');
 		$this->benchmark->mark('members_process_end');
 		$userdata = heading(ucfirst(lang('users')), 5);
 		$this->benchmark->mark('users_process_start');
-		$userdata .= p(ucfirst($this->system_model->get('app_name')).' har totalt '.anchor('admin/users', $this->user_model->count_users().' '.lang('users')).'.');
+		$userdata .= p(ucfirst($data['app_name']).' har totalt '.anchor('admin/users', $data['users'].' '.lang('users')).'.');
 		$active = $this->user_model->get_active();
 		$ausers = array();
 		foreach ($active as $aid) {
 			$auser = $this->user_model->get_user($aid);
 			array_push($ausers, $auser['firstname'].' '.$auser['lastname']);
 		}
+		$data['loggedon'] = $ausers;
+		
 		$userdata .= heading(ucfirst(lang('currently_logged_on')).':', 6).ul($ausers, array('class' => 'disc'));
 		$userdata .= button_group(
 			array(
-				button_anchor('admin/users', ucfirst(lang('administer')).' '.lang('users'), 'small radius'),
-				button_anchor('user/create', ucfirst(lang('create_user')), 'small radius')), 'radius');
+				button_anchor('admin/users', ucfirst(lang('administer')).' '.lang('users'), 'radius'),
+				button_anchor('user/create', ucfirst(lang('create_user')), 'radius')), 'radius');
 		$this->benchmark->mark('users_process_end');
 		$content = heading(ucfirst(lang('welcome')).$greeting.'!', 1);
-		$content .= row(columns(panel($memberdata, 'radius'), 6).columns(panel($userdata, 'radius'), 6));
+		$content .= row(columns($memberdata, 6).columns($userdata, 6));
 		$html = $content;
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);

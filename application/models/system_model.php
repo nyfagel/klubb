@@ -62,8 +62,12 @@ class System_model extends CI_Model {
 		$this->benchmark->mark('system_model_view_start');
 		$this->javascript->compile();
 		$this->load->view('_header', $data);
-	$this->load->view('_topbar', $data);
-		$this->load->view($template, $data);
+		$this->load->view('_topbar', $data);
+		if (array_key_exists('partial', $data)) {
+			$this->load->view('partials/'.$data['partial']);
+		} else {
+			$this->load->view($template, $data);
+		}
 		$this->load->view('_footer', $data);
 		$this->benchmark->mark('system_model_view_end');
 	}

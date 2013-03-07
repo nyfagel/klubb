@@ -5,13 +5,79 @@
 // Comment out this import if you are customizing you imports below
 @import "foundation";
 
-footer {
+@import "compass/css3/box-shadow";
+@import "compass/css3/transform";
+
+footer, .footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: $white;
 	border-top: 1px solid $purpleDark;
+	height: 30px;
 	color: $purpleDark;
+	ul.inline-list {
+		li {
+			line-height: 24px;
+		}
+	}
 	a {
 		color: $purpleDark;
 		&:hover, &:visited {
 			color: $purpleDark;
 		}
+	}
+}
+
+ul.extra-padding {
+	li {
+		padding-bottom: 1em;
+	}
+}
+
+.row {
+	z-index: 1;
+	&.title {
+		@include rotate(-1deg);
+		width: 100%;
+		@include single-box-shadow($grayDark, 0, 4px, 10px);
+		z-index: 1000;
+		&.active {
+			@include rotate(0deg);
+		}
+	}
+	&.title, &.blue, &.cyan, &.green, &.yellow {
+		color: $white;
+		position: relative;
+		h1, h2, h3, h4, h5, h6 {
+			color: $white;
+		}
+	}
+	&.blue {
+		background: $blue;
+	}
+	&.cyan {
+		background: $cyan;
+	}
+	&.green {
+		background: $green;
+	}
+	&.yellow {
+		background: $yellow;
+	}
+}
+
+body {
+	&.blue {
+		background: $blue;
+	}
+	&.cyan {
+		background: $cyan;
+	}
+	&.green {
+		background: $green;
+	}
+	&.yellow {
+		background: $yellow;
 	}
 }

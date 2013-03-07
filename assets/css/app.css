@@ -4,7 +4,7 @@
 
 html { font-size: 62.5%; }
 
-body { background: white; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: normal; font-style: normal; font-size: 14px; line-height: 1; color: black; position: relative; -webkit-font-smoothing: antialiased; }
+body { background: white; font-family: "Avenir Next", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: 600; font-style: normal; font-size: 14px; line-height: 1; color: black; position: relative; -webkit-font-smoothing: antialiased; }
 
 /* Links ---------------------- */
 a img { border: none; }
@@ -48,12 +48,12 @@ figure { margin: 0; }
 /* Base Type Styles Using Modular Scale ---------------------- */
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, th, td { margin: 0; padding: 0; font-size: 14px; direction: ltr; }
 
-p { font-family: inherit; font-weight: normal; font-size: 14px; line-height: 1.6; margin-bottom: 17px; }
+p { font-family: inherit; font-weight: 600; font-size: 14px; line-height: 1.6; margin-bottom: 17px; }
 p.lead { font-size: 17.5px; line-height: 1.6; margin-bottom: 17px; }
 
 aside p { font-size: 13px; line-height: 1.35; font-style: italic; }
 
-h1, h2, h3, h4, h5, h6 { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; color: #222222; text-rendering: optimizeLegibility; line-height: 1.1; margin-bottom: 14px; margin-top: 14px; }
+h1, h2, h3, h4, h5, h6 { font-family: "Avenir Next", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; color: #222222; text-rendering: optimizeLegibility; line-height: 1.1; margin-bottom: 14px; margin-top: 14px; }
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small { font-size: 60%; color: #6f6f6f; line-height: 0; }
 
 h1 { font-size: 44px; }
@@ -216,7 +216,7 @@ form.custom .custom.disabled { background-color: #dddddd; }
 .lt-ie9 form.custom div.custom.dropdown a.selector { height: 28px; }
 
 /* The Grid ---------------------- */
-.row { width: 1000px; max-width: 100%; min-width: 768px; margin: 0 auto; }
+.row { width: 1200px; max-width: 100%; min-width: 768px; margin: 0 auto; }
 .row .row { width: auto; max-width: none; min-width: 0; margin: 0 -15px; }
 .row.collapse .column, .row.collapse .columns { padding: 0; }
 .row .row { width: auto; max-width: none; min-width: 0; margin: 0 -15px; }
@@ -422,7 +422,7 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 .button.dropdown.tiny:after { content: ""; display: block; width: 0; height: 0; border: solid 4px; border-color: white transparent transparent transparent; margin-top: -1px; right: 10px; }
 .button.dropdown > ul { -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; display: none; position: absolute; left: -1px; background: #fff; background: rgba(255, 255, 255, 0.95); list-style: none; margin: 0; padding: 0; border: 1px solid #cccccc; border-top: none; min-width: 100%; z-index: 40; }
 .button.dropdown > ul li { width: 100%; cursor: pointer; padding: 0; min-height: 18px; line-height: 18px; margin: 0; white-space: nowrap; list-style: none; }
-.button.dropdown > ul li a, .button.dropdown > ul li button { display: block; color: #555; font-size: 13px; font-weight: normal; padding: 6px 14px; text-align: left; }
+.button.dropdown > ul li a, .button.dropdown > ul li button { display: block; color: #555; font-size: 13px; font-weight: 600; padding: 6px 14px; text-align: left; }
 .button.dropdown > ul li button { width: 100%; border: inherit; background: inherit; font-family: inherit; margin: inherit; -webkit-font-smoothing: antialiased; }
 .button.dropdown > ul li:hover, .button.dropdown > ul li:focus { background-color: #c7e4f5; color: #222; }
 .button.dropdown > ul li.divider { min-height: 0; padding: 0; height: 1px; margin: 4px 0; background: #ededed; }
@@ -542,7 +542,7 @@ ul.flyout li.active a, .nav-bar li ul li.active a { background: #4d4d4d; border:
 
 /* <nav> */
 .top-bar { background: #313131; min-height: 35px; line-height: 35px; margin: 0 0 30px 0; padding: 0; width: 100%; position: relative; /* Contain width to .row width */ /* First <ul> for branding, title, name, etc */ /* topbar global <ul> styles */ }
-.contain-to-grid .top-bar { max-width: 1000px; margin: 0 auto; }
+.contain-to-grid .top-bar { max-width: 1200px; margin: 0 auto; }
 .top-bar > ul .name h1 { line-height: 35px; margin: 0; }
 .top-bar > ul .name h1 a { font-weight: bold; padding: 0 17.5px; font-size: 17px !important; }
 .top-bar > ul .name img { margin-top: -5px; vertical-align: middle; }
@@ -893,7 +893,7 @@ ul.side-nav li.divider { border-top: 1px solid #e6e6e6; height: 0; padding: 0; }
 /* Sub Navs http://www.zurb.com/article/292/how-to-create-simple-and-effective-sub-na ---------------------- */
 dl.sub-nav { display: block; width: auto; overflow: hidden; margin: -4px 0 18px; margin-right: 0; margin-left: -9px; padding-top: 4px; }
 dl.sub-nav dt, dl.sub-nav dd { float: left; display: inline; margin-left: 9px; margin-bottom: 10px; }
-dl.sub-nav dt { color: #999; font-weight: normal; }
+dl.sub-nav dt { color: #999; font-weight: 600; }
 dl.sub-nav dd a { text-decoration: none; -webkit-border-radius: 1000px; -moz-border-radius: 1000px; -ms-border-radius: 1000px; -o-border-radius: 1000px; border-radius: 1000px; }
 dl.sub-nav dd.active a { font-weight: bold; background: #207fb7; color: #fff; padding: 3px 9px; cursor: default; }
 
@@ -1245,6 +1245,24 @@ table.show-for-xlarge, table.show-for-large, table.hide-for-small, table.hide-fo
   .top-bar ul li.has-button { padding: 5px 11.66667px; }
   .top-bar ul li .button.small { margin: 0 !important; display: inline-block; width: 100%; }
   .top-bar ul > li.has-button a.button { margin: 0; } }
-footer { border-top: 1px solid #5b3b82; color: #5b3b82; }
-footer a { color: #5b3b82; }
-footer a:hover, footer a:visited { color: #5b3b82; }
+footer, .footer { position: fixed; bottom: 0; width: 100%; background: white; border-top: 1px solid #5b3b82; height: 30px; color: #5b3b82; }
+footer ul.inline-list li, .footer ul.inline-list li { line-height: 24px; }
+footer a, .footer a { color: #5b3b82; }
+footer a:hover, footer a:visited, .footer a:hover, .footer a:visited { color: #5b3b82; }
+
+ul.extra-padding li { padding-bottom: 1em; }
+
+.row { z-index: 1; }
+.row.title { -webkit-transform: rotate(-1deg); -moz-transform: rotate(-1deg); -ms-transform: rotate(-1deg); -o-transform: rotate(-1deg); transform: rotate(-1deg); width: 100%; -webkit-box-shadow: 0 4px 10px #313131; -moz-box-shadow: 0 4px 10px #313131; box-shadow: 0 4px 10px #313131; z-index: 1000; }
+.row.title.active { -webkit-transform: rotate(0deg); -moz-transform: rotate(0deg); -ms-transform: rotate(0deg); -o-transform: rotate(0deg); transform: rotate(0deg); }
+.row.title, .row.blue, .row.cyan, .row.green, .row.yellow { color: white; position: relative; }
+.row.title h1, .row.title h2, .row.title h3, .row.title h4, .row.title h5, .row.title h6, .row.blue h1, .row.blue h2, .row.blue h3, .row.blue h4, .row.blue h5, .row.blue h6, .row.cyan h1, .row.cyan h2, .row.cyan h3, .row.cyan h4, .row.cyan h5, .row.cyan h6, .row.green h1, .row.green h2, .row.green h3, .row.green h4, .row.green h5, .row.green h6, .row.yellow h1, .row.yellow h2, .row.yellow h3, .row.yellow h4, .row.yellow h5, .row.yellow h6 { color: white; }
+.row.blue { background: #207fb7; }
+.row.cyan { background: #69c4b6; }
+.row.green { background: #77b058; }
+.row.yellow { background: #e0b800; }
+
+body.blue { background: #207fb7; }
+body.cyan { background: #69c4b6; }
+body.green { background: #77b058; }
+body.yellow { background: #e0b800; }

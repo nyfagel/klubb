@@ -5,7 +5,7 @@
 
 // Grid Settings
 
-// $rowWidth: 1000px;
+$rowWidth: 1200px;
 // $columnGutter: 30px;
 // $totalColumns: 12;
 // $mobileTotalColumns: 4;
@@ -27,12 +27,12 @@ $highlightColor: #6cc3b5;
 // Font Settings
 
 $fontSmoothing: antialiased;
-// $headerFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-// $headerFontWeight: bold;
+$headerFontFamily: "Avenir Next", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$headerFontWeight: bold;
 // $headerFontStyle: normal;
 // $headerFontColor: #5b3b81;
-//$bodyFontFamily: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-//$bodyFontWeight: normal;
+$bodyFontFamily: "Avenir Next", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$bodyFontWeight: 600;
 // $bodyFontStyle: normal;
 $bodyFontColor: $txtColor;
 
