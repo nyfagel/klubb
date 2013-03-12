@@ -1,6 +1,6 @@
 <div class="active blue title row">
 	<div class="twelve columns">
-		<h1><?php echo ucfirst(lang('welcome')); ?> <?php echo $firstname; ?>!</h1>
+		<h2><?php echo ucfirst(lang('welcome')); ?> <?php echo $firstname; ?>!</h2>
 	</div>
 </div>
 <div class="cyan row">
@@ -46,11 +46,18 @@
 </div>
 <div class="yellow title row">
 	<div class="twelve columns">
-		<h1><?php echo ucfirst(lang('members')); ?></h1>
+		<h2><?php echo ucfirst(lang('members')); ?></h2>
+		<div class="yellow bottom">
+			<!-- here be dragons -->
+		</div>
 	</div>
 </div>
+
 <div class="green title row">
 	<div class="twelve columns">
-		<h1><?php echo ucfirst(lang('administration')); ?></h1>
+		<h2><?php echo ucfirst(lang('administration')); ?></h2>
+		<div class="green bottom">
+			<!-- here be dragons -->
+		</div>
 	</div>
 </div>

@@ -1253,10 +1253,12 @@ footer a:hover, footer a:visited, .footer a:hover, .footer a:visited { color: #5
 ul.extra-padding li { padding-bottom: 1em; }
 
 .row { z-index: 1; }
-.row.title { -webkit-transform: rotate(-1deg); -moz-transform: rotate(-1deg); -ms-transform: rotate(-1deg); -o-transform: rotate(-1deg); transform: rotate(-1deg); width: 100%; -webkit-box-shadow: 0 4px 10px #313131; -moz-box-shadow: 0 4px 10px #313131; box-shadow: 0 4px 10px #313131; z-index: 1000; }
-.row.title.active { -webkit-transform: rotate(0deg); -moz-transform: rotate(0deg); -ms-transform: rotate(0deg); -o-transform: rotate(0deg); transform: rotate(0deg); }
+.row.title { width: 100%; -webkit-box-shadow: 0 4px 10px #313131; -moz-box-shadow: 0 4px 10px #313131; box-shadow: 0 4px 10px #313131; z-index: 1000; }
 .row.title, .row.blue, .row.cyan, .row.green, .row.yellow { color: white; position: relative; }
 .row.title h1, .row.title h2, .row.title h3, .row.title h4, .row.title h5, .row.title h6, .row.blue h1, .row.blue h2, .row.blue h3, .row.blue h4, .row.blue h5, .row.blue h6, .row.cyan h1, .row.cyan h2, .row.cyan h3, .row.cyan h4, .row.cyan h5, .row.cyan h6, .row.green h1, .row.green h2, .row.green h3, .row.green h4, .row.green h5, .row.green h6, .row.yellow h1, .row.yellow h2, .row.yellow h3, .row.yellow h4, .row.yellow h5, .row.yellow h6 { color: white; }
+.row.title .bottom, .row.blue .bottom, .row.cyan .bottom, .row.green .bottom, .row.yellow .bottom { margin-left: auto; margin-right: auto; border-left: 300px solid transparent; border-right: 300px solid transparent; border-top-width: 6px; border-top-style: solid; }
+.row.title .bottom.yellow, .row.blue .bottom.yellow, .row.cyan .bottom.yellow, .row.green .bottom.yellow, .row.yellow .bottom.yellow { border-top-color: #e0b800; }
+.row.title .bottom.green, .row.blue .bottom.green, .row.cyan .bottom.green, .row.green .bottom.green, .row.yellow .bottom.green { border-top-color: #77b058; }
 .row.blue { background: #207fb7; }
 .row.cyan { background: #69c4b6; }
 .row.green { background: #77b058; }

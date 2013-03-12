@@ -172,6 +172,9 @@ class Member extends CI_Controller {
         }
 
         $data['html'] = $html;
+        $data['tabs'] = $tabs;
+        $data['org_name'] = $this->system_model->get('org_name');
+        $data['partial'] = 'register_member';
         $this->system_model->view('template', $data);
     }
 
@@ -182,29 +185,11 @@ class Member extends CI_Controller {
      * @return void
      */
     private function registration_form($type = -1) {
-        $html = p('Använd formuläret nedan för att lägga till en ny medlem i '.$this->system_model->get('org_name').'.', 'lead');
-        $html .= form_open('member/register', array('class' => 'custom'));
+        $html = form_open('member/register', array('class' => 'custom'));
         $html .= '<div class="row"><div class="eight columns">';
-/*
-        $membertypes = $this->member_model->get_types();
-        $types = array();
-        foreach ($membertypes as $type) {
-            $types[$type['id']] = $type['name'];
-        }
-
-        $this->javascript->change('#type', 'alert($("#type").val());');
-        $type_extras = (form_error('type')) ? 'id="type" class="expand error"' : 'id="type" class="expand"';
-*/
 				$html .= form_hidden('type', $type);
         $html .= row(
             columns(
-//                form_label('Medlemstyp:', 'type').
-//                form_dropdown(
-//                    'type',
-//                    $types,
-//                    1,
-//                    $type_extras), 6).
-//            columns(
                 form_label(
                     ucfirst(lang('ssid')).':'.span('*', 'required'),
                     'ssid',
@@ -242,9 +227,6 @@ class Member extends CI_Controller {
                     'value' => $this->input->post('lastname'))).
                 form_error('lastname'), 6), 'name', 'name_row');
 
-
-        //   $html .= row(
-        //    );
         $html .= row(
             columns(
                 form_label(ucfirst(lang('email_address')).':'.span('*', 'required'), 'email', array('class' => (form_error('email'))?'error':'')).

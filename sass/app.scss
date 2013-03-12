@@ -38,12 +38,12 @@ ul.extra-padding {
 .row {
 	z-index: 1;
 	&.title {
-		@include rotate(-1deg);
+		//@include rotate(-1deg);
 		width: 100%;
 		@include single-box-shadow($grayDark, 0, 4px, 10px);
 		z-index: 1000;
 		&.active {
-			@include rotate(0deg);
+			//@include rotate(0deg);
 		}
 	}
 	&.title, &.blue, &.cyan, &.green, &.yellow {
@@ -51,6 +51,20 @@ ul.extra-padding {
 		position: relative;
 		h1, h2, h3, h4, h5, h6 {
 			color: $white;
+		}
+		.bottom {
+			margin-left: auto;
+			margin-right: auto;
+			border-left: 300px solid transparent;
+			border-right: 300px solid transparent;
+			border-top-width: 6px;
+			border-top-style: solid;
+			&.yellow {
+				border-top-color: $yellow;
+			}
+			&.green {
+				border-top-color: $green;
+			}
 		}
 	}
 	&.blue {
