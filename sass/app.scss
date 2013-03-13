@@ -52,6 +52,12 @@ ul.extra-padding {
 		h1, h2, h3, h4, h5, h6, label, .tabs dd a, .tabs li a {
 			color: $white;
 		}
+		.tabs dd.active a, .tabs li.active a {
+			color: $black;
+		}
+		label {
+			font-weight: 600;
+		}
 		.bottom {
 			margin-left: auto;
 			margin-right: auto;
