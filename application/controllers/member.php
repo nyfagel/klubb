@@ -79,7 +79,6 @@ class Member extends CI_Controller {
             array('data' => anchor('members', ucfirst(lang('members'))), 'mode' => 'current'));
         $data['stylesheets'] = array('buttons_purple');
         $html = heading(ucfirst(lang('members')), 1);
-        // !TODO: generate users table
 
         $page = $this->uri->segment(3);
         $offset = -1;

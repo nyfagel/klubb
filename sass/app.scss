@@ -49,7 +49,7 @@ ul.extra-padding {
 	&.title, &.blue, &.cyan, &.green, &.yellow {
 		color: $white;
 		position: relative;
-		h1, h2, h3, h4, h5, h6 {
+		h1, h2, h3, h4, h5, h6, label, .tabs dd a, .tabs li a {
 			color: $white;
 		}
 		.bottom {

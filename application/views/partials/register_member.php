@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="cyan row">
 	<div class="twelve columns">
 		<p class="lead">Använd formuläret nedan för att lägga till en ny medlem i <?php echo $org_name; ?>.</p>
 		<?php echo $tabs['tabs']; ?>

@@ -1,5 +1,4 @@
 <!-- Top Bar -->
-<div class="row fixed">
 	<nav class="top-bar">
 		<ul>
 			<!-- Title Area -->
@@ -53,4 +52,3 @@
 		</section>
 		<?php endif; ?>
 	</nav>
-</div>
