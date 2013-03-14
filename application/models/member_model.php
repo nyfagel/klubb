@@ -183,5 +183,20 @@ class Member_model extends CI_Model {
 		$query = $this->db->get('types');
 		return $query->result_array();
 	}
+	
+	/**
+	 * get_type_requirements function.
+	 * 
+	 * @access public
+	 * @param float $type (default: -1)
+	 * @return void
+	 */
+	public function get_type_requirements($type = -1) {
+		$this->db->order_by('sort_order ASC, row ASC, column ASC');
+		$query = $this->db->get_where('types_requirements', array('type' => intval($type)));
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		}
+	}
 }
 ?>

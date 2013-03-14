@@ -1,0 +1,3 @@
+[submodule "gridster"]
+	path = assets/js/gridster
+	url = https://github.com/ducksboard/gridster.js.git
