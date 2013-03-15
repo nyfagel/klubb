@@ -39,7 +39,7 @@ class Admin extends CI_Controller {
      * @return void
      */
     public function index() {
-        $this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(false);
         if (!$this->auth->loggedin()) {
             redirect('user/login');
         }

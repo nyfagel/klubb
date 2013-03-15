@@ -1,11 +1,11 @@
 <div class="blue title row">
 	<div class="twelve columns">
-		<h3>Hem</h3>
+		<h3><a href="/">Hem</a></h3>
 	</div>
 </div>
 <div class="yellow title row">
 	<div class="twelve columns">
-		<h3>Registrera medlem</h3>
+		<h2>Registrera medlem</h2>
 		<div class="yellow bottom">
 			<!-- here be dragons -->
 		</div>

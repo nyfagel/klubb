@@ -39,36 +39,11 @@ class Member extends CI_Controller {
 	 * @param float $page (default: -1)
 	 * @return void
 	 */
-	public function memberlist($page = -1) {
+	public function memberlist() {
 		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
-
-		$limit = 15;
-
-		$config['base_url'] = base_url('members/page');
-		$config['total_rows'] = $this->member_model->count_members();
-		$config['per_page'] = $limit;
-		$config['use_page_numbers'] = true;
-		$config['uri_segment'] = 3;
-		$config['num_links'] = 2;
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-		$config['cur_tag_open'] = '<li class="current"><a href="'.current_url().'">';
-		$config['cur_tag_close'] = '</a></li>';
-		$config['next_link'] = '&raquo;';
-		$config['next_tag_open'] = '<li class="arrow">';
-		$config['next_tag_close'] = '</li>';
-		$config['prev_link'] = '&laquo;';
-		$config['prev_tag_open'] = '<li class="arrow">';
-		$config['prev_tag_close'] = '</li>';
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-		$config['last_link'] = false;
-		$config['first_link'] = false;
-
-		$this->pagination->initialize($config);
 
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
@@ -80,27 +55,78 @@ class Member extends CI_Controller {
 		$data['stylesheets'] = array('buttons_purple');
 		$html = heading(ucfirst(lang('members')), 1);
 
-		$page = $this->uri->segment(3);
-		$offset = -1;
-		if (!is_null($page)) {
-			$offset = intval($page) * $limit;
+		$membertypes = $this->member_model->get_types();
+		$typeselect = array();
+		$selected = ($this->input->get('type')) ? $this->input->get('type') : 1;
+		foreach ($membertypes as $type) {
+			$typeselectradio = array(
+				'type' => 'radio',
+				'value' => $type['id'],
+				'name' => 'type',
+				'id' => 'type'.$type['id'],
+				'onchange' => "window.location.href='/members?type=".$type['id']."'"
+			);
+			if ($type['id'] == $selected) {
+				$typeselectradio['checked'] = 'checked';
+			}
+			array_push($typeselect, form_label(form_input($typeselectradio).nbs().$type['plural']));
 		}
+		$typeselect = ul($typeselect, array('class' => 'inline-list'));
+		
+		$data['filters'] =
+			row(
+			columns(
+				form_open('/members', array('class' =>'custom')).$typeselect.form_close(), 6).
+			columns(
+				form_open(uri_string()).row(
+					columns(
+						form_input(
+							array(
+								'type' => 'text',
+								'name' => 'q',
+								'id' => 'q'
+							)
+						), 10).
+					columns(
+						form_input(
+							array(
+								'type' => 'submit',
+								'value' => 'Sök',
+								'class' => 'postfix button'
+							)
+						), 2
+					), 'collapse').form_close(), 6));
 
-		$tdata = array(array('Namn', 'Personnummer', 'Telefon'));
-		$members = $this->member_model->list_members($offset, $limit);
+		if ($selected == 1) {
+			$tdata = array(array('Namn', 'Personnummer', 'Telefon', 'Ort', 'Cancersjukdom'));
+		} else if ($selected == 2) {
+			$tdata = array(array('Namn', 'Personnummer', 'Telefon', 'Ort', 'Anhörig'));
+		} else {
+			$tdata = array(array('Namn', 'E-post'));
+		}
+		
+		$members = $this->member_model->list_members($selected);
 
 		if (!empty($members)) {
 			foreach ($members as $member) {
-				array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone']));
+				if ($selected == 1) {
+					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone'], $member['city'], $member['cancer']));
+				} else if ($selected == 2) {
+					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone'], $member['city'], $member['relation']));
+				} else {
+					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['email']));
+				}
+				
 			}
 		} else {
 			array_push($tdata, array(array('data' => 'Inget resultat!', 'colspan' => 3)));
 		}
 
-		$html .= $this->table->generate($tdata);
-		$html .= $this->pagination->create_links();
-
-		$data['html'] = $html;
+		$this->table->set_template(array('table_open' => '<table class="expand" id="members">'));
+		$data['table'] = $this->table->generate($tdata);
+		$this->javascript->ready('$("#members").tablesorter({usNumberFormat: false, widgets: ["filter", "zebra"]}); $("#members").tablesorterPager({container: $("#pager"), size: 2});');
+		//  $html .= $this->pagination->create_links();
+		$data['partial'] = 'members';
 		$this->system_model->view('template', $data);
 	}
 
@@ -119,19 +145,14 @@ class Member extends CI_Controller {
 		$user = $this->user_model->get_user($uid);
 
 		$type = ($this->input->post('type')) ? $this->input->post('type') : false;
-
+		$member = array();
 		if ($type) {
-			$requirements = $this->member_model->get_type_required_fields($type);
-			foreach ($requirements as $req) {
-				// !TODO: Add requirement parsing and apply rules accordingly!
+			$reqs = $this->member_model->get_type_requirements($type);
+			foreach ($reqs as $req) {
+				$this->form_validation->set_rules($req['fieldname'], $req['fieldname'], 'trim|'.$req['rule']);
+				$member[$req['fieldname']] = ($this->input->post($req['fieldname'])) ? $this->input->post($req['fieldname']) : null;
 			}
 		}
-		/*
-		$this->form_validation->set_rules('firstname', ucfirst(lang('firstname')), 'trim|required');
-		$this->form_validation->set_rules('lastname', ucfirst(lang('lastname')), 'trim|required');
-		$this->form_validation->set_rules('email', ucfirst(lang('email_address')), 'trim|required|valid_email|is_unique[users.email]');
-		$this->form_validation->set_message('is_unique', '%s finns redan i systemet.');
-*/
 
 		$this->form_validation->set_error_delimiters('<small class="error">', '</small>');
 
@@ -142,7 +163,10 @@ class Member extends CI_Controller {
 		$html = heading(ucfirst(lang('register_member')), 1);
 
 		if ($this->form_validation->run() == true) {
-			$member = array();
+			$member['type'] = $type;
+			$newid = $this->member_model->create_member($member);
+			$member = $this->member_model->get_member($newid);
+			$membertype = $this->member_model->get_type($type);
 			$html .= p('Grattis, nu har du lagt till '.$member['firstname'].' '.$member['lastname'].' som '.$membertype['name'].'!', 'lead');
 			$html .= p($member['firstname'].' '.'registrerades med följande uppgifter:');
 			$html .= ul(
@@ -151,7 +175,8 @@ class Member extends CI_Controller {
 					strong('E-postadress:').nbs().mailto($member['email'], $member['email']),
 					strong('Telefonnummer:').nbs().$member['phone']
 				), array('class' => 'no-bullet'));
-			$html .= button_anchor('member/register', ucfirst(lang('register_another_member')));
+			$html .= button_anchor('member/register', ucfirst(lang('register_another_member')), 'radius');
+			$tabs = '';
 		} else {
 			$tabs = array();
 			$first = true;
@@ -166,14 +191,14 @@ class Member extends CI_Controller {
 				}
 			}
 			$tabs = tabs($tabs, 'contained', 'register');
-			//         $html .= $tabs['tabs'].$tabs['content'];
-			//         $html .= $this->registration_form();
+			$data['partial'] = 'register_member';
 		}
 
 		$data['html'] = $html;
 		$data['tabs'] = $tabs;
 		$data['org_name'] = $this->system_model->get('org_name');
-		$data['partial'] = 'register_member';
+		
+		//  $this->javascript->ready('$(".gridster ul").gridster({widget_margins: [10, 10], widget_base_dimensions: [14, 14]});');
 		$this->system_model->view('template', $data);
 	}
 
@@ -187,7 +212,7 @@ class Member extends CI_Controller {
 		$html = form_open('member/register', array('class' => 'custom'));
 		$html .= '<div class="row"><div class="eight columns">';
 		$side = '';
-		$main = '';
+		$main = '<div class="gridster"><ul class="no-bullet">';
 		$html .= form_hidden('type', $type);
 
 		$reqs = $this->member_model->get_type_requirements($type);
@@ -196,24 +221,24 @@ class Member extends CI_Controller {
 			if ($field['rule'] == 'optional') {
 				$side .= $this->format_input_field($field);
 			} else {
-				$main .= $this->format_input_field($field);
+				$main .= '<li data-row="'.$field['row'].'" data-col="'.$field['column'].'"  data-sizex="1" data-sizey="1" class="six columns">'.$this->format_input_field($field).'</li>';
 			}
 		}
-		
-		$html .= $main;
-		$html .= button_group(
-			array(
-				button_anchor('members', lang('button_cancel'), 'radius'),
-				form_input(
+
+		$html .= $main.'</ul></div>';
+		$html .= row(columns(button_group(
 					array(
-						'type' => 'submit',
-						'class' => 'radius button',
-						'value' => lang('button_save')))), 'radius left');
+						button_anchor('members', lang('button_cancel'), 'radius'),
+						form_input(
+							array(
+								'type' => 'submit',
+								'class' => 'radius button',
+								'value' => lang('button_save')))), 'radius left'), 12));
 		$html .= '</div><div class="four columns">';
 		$html .= $side;
 		$html .= '</div></div>';
 
-/*
+		/*
 		$html .= row(
 			columns(
 				form_label(
@@ -231,7 +256,7 @@ class Member extends CI_Controller {
 						'maxlength' => 10)).
 				form_error('ssid'), 6, 'end'));
 */
-/*
+		/*
 		$html .= row(
 			columns(
 				form_label(
@@ -255,7 +280,7 @@ class Member extends CI_Controller {
 						'value' => $this->input->post('lastname'))).
 				form_error('lastname'), 6), 'name', 'name_row');
 */
-/*
+		/*
 
 		$html .= row(
 			columns(
@@ -319,37 +344,33 @@ class Member extends CI_Controller {
 			return null;
 		}
 		$html = '';
-		if ($data['rule'] != 'optional') {
-			$html .= '<div class="row">';
-			$html .= '<div class="six columns">';
-		}
-		
+
 		if ($data['fieldtype'] == 'textarea') {
-			$html .= form_label(ucfirst(lang($data['fieldname'])).':'.span('*', $data['rule']), $data['fieldname']);
+			$html .= form_label(ucfirst(lang($data['fieldname'])).':'.span('*', $data['rule']), 'type'.$data['type'].$data['fieldname']);
 			$html .= form_textarea(
 				array(
 					'name' => $data['fieldname'],
-					'name' => $data['fieldname'],
+					'id' => 'type'.$data['type'].$data['fieldname'],
 					'placeholder' => $data['placeholder'],
 					'value' => $this->input->post($data['fieldtype'])
 				)
 			);
 		} else if ($data['fieldtype'] == 'checkbox') {
-			$html .= form_label(
-				form_checkbox(
-					array(
-						'type' => 'checkbox',
-						'name' => $data['fieldname'],
-						'id' => $data['fieldname']
-					)
-				).nbs().lang($data['fieldname']), $data['fieldname']);
-		} else {
-			$html .= form_label(ucfirst(lang($data['fieldname'])).':'.span('*', $data['rule']), $data['fieldname']);
+				$html .= form_label(
+					form_checkbox(
+						array(
+							'type' => 'checkbox',
+							'name' => $data['fieldname'],
+							'id' => 'type'.$data['type'].$data['fieldname']
+						)
+					).nbs().lang($data['fieldname']), 'type'.$data['type'].$data['fieldname']);
+			} else {
+			$html .= form_label(ucfirst(lang($data['fieldname'])).':'.span('*', $data['rule']), 'type'.$data['type'].$data['fieldname']);
 			$html .= form_input(
 				array(
 					'type' => $data['fieldtype'],
 					'name' => $data['fieldname'],
-					'id' => $data['fieldname'],
+					'id' => 'type'.$data['type'].$data['fieldname'],
 					'placeholder' => $data['placeholder'],
 					'class' => 'expand',
 					'value' => $this->input->post($data['fieldtype'])
@@ -357,10 +378,7 @@ class Member extends CI_Controller {
 			);
 		}
 		$html .= form_error($data['fieldname']);
-		
-		if ($data['rule'] != 'optional') {
-			$html .= '</div></div>';
-		}
+
 		return $html;
 	}
 
@@ -371,7 +389,7 @@ class Member extends CI_Controller {
 	 * @return void
 	 */
 	public function edit() {
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}

@@ -3,9 +3,9 @@
  * Member_model class.
  * 
  * @extends CI_Model
- * @version 0.1
+ * @version 1.0
  * @author Jan Lindblom <jan@nyfagel.se>
- * @copyright Copyright (c) 2012-2013 Ung Cancer.
+ * @copyright Copyright (c) 2013 Ung Cancer.
  */
 class Member_model extends CI_Model {
 
@@ -34,7 +34,8 @@ class Member_model extends CI_Model {
 			return $this->db->insert_id();
 		}
 		$row = $query->row_array();
-		return $this->update_member(intval($row['id']), $data);
+		$this->update_member(intval($row['id']), $data);
+		return intval($row['id']);
 	}
 	
 	/**
@@ -105,7 +106,6 @@ class Member_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_member($user = 0) {
-		$data = array();
 		$data = array('id' => intval($user));
 
 		$query = $this->db->get_where('members', $data);
@@ -136,13 +136,9 @@ class Member_model extends CI_Model {
 	 * @param float $limit (default: -1)
 	 * @return void
 	 */
-	public function list_members($offset = -1, $limit = -1) {
-		if ($limit > 0) {
-			if ($offset > 0) {
-				$this->db->limit(intval($limit), intval($offset));
-			} else {
-				$this->db->limit(intval($limit));
-			}
+	public function list_members($type = -1) {
+		if ($type > 0) {
+			$this->db->where('type', intval($type));
 		}
 		$query = $this->db->get('members');
 		return $query->result_array();
@@ -171,6 +167,18 @@ class Member_model extends CI_Model {
 //		return $this->db->count_all_results('members');
 		$query = $this->db->get_where('members', array('type' => intval($type)));
 		return $query->num_rows();
+	}
+	
+	/**
+	 * get_type function.
+	 * 
+	 * @access public
+	 * @param mixed $id
+	 * @return void
+	 */
+	public function get_type($id) {
+		$query = $this->db->get_where('types', array('id' => intval($id)));
+		return $query->row_array();
 	}
 	
 	/**

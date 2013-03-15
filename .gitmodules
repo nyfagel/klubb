@@ -1,3 +1,9 @@
 [submodule "gridster"]
 	path = assets/js/gridster
 	url = https://github.com/ducksboard/gridster.js.git
+[submodule "jquery-metadata"]
+	path = assets/js/jquery-metadata
+	url = https://github.com/jquery/jquery-metadata.git
+[submodule "tablesorter"]
+	path = assets/js/tablesorter
+	url = https://github.com/Mottie/tablesorter.git

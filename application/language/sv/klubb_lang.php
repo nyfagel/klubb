@@ -61,6 +61,7 @@ $lang['new_password'] = 'nytt lösenord';
 $lang['repeat_password'] = 'upprepa lösenordet';
 $lang['current_password'] = 'nuvarande lösenord';
 $lang['currently_logged_on'] = 'inloggade just nu';
+$lang['register_another_member'] = 'Registrera en till medlem';
 
 // Member register fields
 $lang['diagnos'] = 'diagnos år';
