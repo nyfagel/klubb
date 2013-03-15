@@ -1,3 +1,4 @@
+<?php if (!$ajax): ?>
 <div class="blue title row">
 	<div class="twelve columns">
 		<h3><a href="/">Hem</a></h3>
@@ -5,7 +6,7 @@
 </div>
 <div class="yellow title row">
 	<div class="twelve columns">
-		<h2>Registrera medlem</h2>
+		<h3><a href="/members">Ung Cancers <?php echo lang('members'); ?></a> - Registrera medlem</h3>
 		<div class="yellow bottom">
 			<!-- here be dragons -->
 		</div>
@@ -14,8 +15,10 @@
 <div class="cyan row">
 	<div class="twelve columns">
 		<p class="lead">Använd formuläret nedan för att lägga till en ny medlem i <?php echo $org_name; ?>.</p>
+<?php endif; ?>
 		<?php echo $tabs['tabs']; ?>
 		<?php echo $tabs['content']; ?>
+<?php if (!$ajax): ?>
 	</div>
 </div>
 
@@ -27,3 +30,4 @@
 		</div>
 	</div>
 </div>
+<?php endif; ?>

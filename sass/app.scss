@@ -46,7 +46,7 @@ ul.extra-padding {
 			//@include rotate(0deg);
 		}
 	}
-	&.title, &.blue, &.cyan, &.green, &.yellow {
+	&.title, &.blue, &.cyan, &.green, &.yellow, &.pink {
 		color: $white;
 		position: relative;
 		h1, h2, h3, h4, h5, h6, label, .tabs dd a, .tabs li a {
@@ -88,6 +88,9 @@ ul.extra-padding {
 	&.yellow {
 		background: $yellow;
 	}
+	&.pink {
+		background: $pink;
+	}
 }
 
 body {
@@ -104,3 +107,9 @@ body {
 		background: $yellow;
 	}
 }
+
+#search-bar {
+	padding: 36px 0px 44px 0px;
+}
+
+.button.dropdown.active:after { content: ""; display: block; width: 0; height: 0; border: solid 6px; border-color: transparent transparent white transparent; position: absolute; top: 50%; right: 20px; margin-top: -8px; }

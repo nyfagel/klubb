@@ -50,3 +50,11 @@ function roleRights(sourceId, targetId, labelId) {
 		$("#"+targetId).foundationCustomForms();
 	});
 }
+
+function registerMember(target, caller) {
+	$(caller).toggleClass('active');
+	$.get('/member/register', {"ajax": "true"}, function(html) {
+		$("#"+target).toggle(500);
+		$("#"+target).html(html);
+	});
+}

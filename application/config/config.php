@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://uc.nyfagel.se/';
+$config['base_url']	= 'https://registret.local/';
 
 /*
 |--------------------------------------------------------------------------
