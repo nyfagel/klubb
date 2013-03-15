@@ -1,14 +1,4 @@
-<footer class="row">
-	<div class="twelve columns">
-		<?php if (isset($breadcrumbs)): ?>
-		<div class="row">
-			<div class="twelve columns">
-				<?php echo breadcrumbs($breadcrumbs); ?>
-			</div>
-		</div>
-		<?php else: ?>
-		<hr />
-		<?php endif; ?>
+<footer>
 		<div class="row">
 			<div class="four columns">
 				<p>Copyright &copy; 2012-2013 <?php echo $this->system_model->get('org_name'); ?>.</p>
@@ -40,6 +30,13 @@
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.tabs.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.tooltips.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.topbar.js'); ?>"></script>
+
+<script src="<?php echo asset_url('js/gridster/dist/jquery.gridster.min.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/js/jquery.metadata.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/js/jquery.tablesorter.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/js/jquery.tablesorter.widgets.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/addons/pager/jquery.tablesorter.pager.js'); ?>"></script>
+
 <script src="<?php echo asset_url('js/foundation/app.js'); ?>"></script>
 <?php echo (isset($script_foot)) ? "<!-- Compiled JQuery -->\n".$script_foot."<!-- End Compiled JQuery -->\n" : ''; ?>
 </body>

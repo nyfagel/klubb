@@ -1,50 +1,106 @@
 // Your custom settings file to override Foundation defaults
 @import "settings";
+@import "ungcancer";
 
 // Comment out this import if you are customizing you imports below
 @import "foundation";
 
-// ----------------------------------------
-// Import specific parts of Foundation by commenting the import "foundation"
-// and uncommenting what you want below. You must uncomment the following if customizing
+@import "compass/css3/box-shadow";
+@import "compass/css3/transform";
 
-// @import "compass/css3";
-// @import "foundation/settings";
-// @import "foundation/functions/all";
+footer, .footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: $white;
+	border-top: 1px solid $purpleDark;
+	height: 30px;
+	color: $purpleDark;
+	ul.inline-list {
+		li {
+			line-height: 24px;
+		}
+	}
+	a {
+		color: $purpleDark;
+		&:hover, &:visited {
+			color: $purpleDark;
+		}
+	}
+}
 
-// Control which mixins you have access too
+ul.extra-padding {
+	li {
+		padding-bottom: 1em;
+	}
+}
 
-// @import "foundation/mixins/clearfix";
-// @import "foundation/mixins/css-triangle";
-// @import "foundation/mixins/font-size";
+.row {
+	z-index: 1;
+	&.title {
+		//@include rotate(-1deg);
+		width: 100%;
+		@include single-box-shadow($grayDark, 0, 4px, 10px);
+		z-index: 9;
+		&.active {
+			//@include rotate(0deg);
+		}
+	}
+	&.title, &.blue, &.cyan, &.green, &.yellow {
+		color: $white;
+		position: relative;
+		h1, h2, h3, h4, h5, h6, label, .tabs dd a, .tabs li a {
+			color: $white;
+			a {
+				color: $white;
+			}
+		}
+		.tabs dd.active a, .tabs li.active a {
+			color: $black;
+		}
+		label {
+			font-weight: 600;
+		}
+		.bottom {
+			margin-left: auto;
+			margin-right: auto;
+			border-left: 300px solid transparent;
+			border-right: 300px solid transparent;
+			border-top-width: 6px;
+			border-top-style: solid;
+			&.yellow {
+				border-top-color: $yellow;
+			}
+			&.green {
+				border-top-color: $green;
+			}
+		}
+	}
+	&.blue {
+		background: $blue;
+	}
+	&.cyan {
+		background: $cyan;
+	}
+	&.green {
+		background: $green;
+	}
+	&.yellow {
+		background: $yellow;
+	}
+}
 
-// Must include next two for semantic grid to work
-
-// @import "foundation/mixins/respond-to";
-// @import "foundation/mixins/semantic-grid";
-
-// @import "modular-scale";
-// @import "foundation/common/globals";
-
-// Must include the grid for any responsiveness
-
-// @import "foundation/components/grid";
-
-// Control which common styles get compiled
-
-// @import "foundation/common/typography";
-// @import "foundation/common/forms";
-
-// Control which components you get if customizing
-
-// @import "foundation/components/modules/buttons";
-// @import "foundation/components/modules/tabs";
-// @import "foundation/components/modules/ui";
-// @import "foundation/components/modules/topbar";
-// @import "foundation/components/modules/navbar";
-// @import "foundation/components/modules/orbit";
-// @import "foundation/components/modules/reveal";
-// @import "foundation/components/modules/offcanvas";
-
-// Media Queries Overrides
-// @import "foundation/components/modules/mqueries";
+body {
+	&.blue {
+		background: $blue;
+	}
+	&.cyan {
+		background: $cyan;
+	}
+	&.green {
+		background: $green;
+	}
+	&.yellow {
+		background: $yellow;
+	}
+}

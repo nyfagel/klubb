@@ -1,5 +1,4 @@
 <!-- Top Bar -->
-<div class="row fixed">
 	<nav class="top-bar">
 		<ul>
 			<!-- Title Area -->
@@ -16,10 +15,6 @@
 		<section>
 			<!-- Right Nav Section -->
 			<ul class="left">
-				<li class="divider"></li>
-				<li<?php if (uri_string() == 'home') { echo ' class="active"'; } ?>><?php echo anchor('home', ucfirst(lang('home'))); ?></li>
-				<li class="divider"></li>
-				<li<?php if (uri_string() == 'members') { echo ' class="active"'; } ?>><?php echo anchor('members', ucfirst(lang('members'))); ?></li>
 				<li class="divider"></li>
 				<li class="has-dropdown<?php if (stristr(uri_string(), 'admin') || uri_string() == 'user/create' || stristr(uri_string(), 'user/edit')) { echo ' active'; } ?>">
 					<?php echo anchor('admin', ucfirst(lang('administration'))); ?>
@@ -55,4 +50,3 @@
 		</section>
 		<?php endif; ?>
 	</nav>
-</div>

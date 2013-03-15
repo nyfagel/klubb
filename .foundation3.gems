@@ -1,0 +1,4 @@
+# foundation3.gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
+
+compass -v0.12.2
+zurb-foundation -v=3.2.5

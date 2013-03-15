@@ -32,6 +32,7 @@ $lang['input_app_name'] = 'Vad vill ni kalla detta system?';
 $lang['input_org_type'] = 'Vad är ni? En förening, klubb, organisation?';
 $lang['role'] = 'roll';
 $lang['email'] = 'e-post';
+$lang['phone'] = 'telefon';
 $lang['button_cancel'] = 'Avbryt';
 $lang['button_save'] = 'Spara';
 $lang['install'] = 'installera';
@@ -59,4 +60,13 @@ $lang['change_password_instructions'] = 'Använd formuläret nedan för att byta
 $lang['new_password'] = 'nytt lösenord';
 $lang['repeat_password'] = 'upprepa lösenordet';
 $lang['current_password'] = 'nuvarande lösenord';
+$lang['currently_logged_on'] = 'inloggade just nu';
+$lang['register_another_member'] = 'Registrera en till medlem';
+
+// Member register fields
+$lang['diagnos'] = 'diagnos år';
+$lang['cancer'] = 'cancersjukdom';
+$lang['participate'] = 'delta på möten, föreläsningar och/eller andra aktiviteter';
+$lang['tell'] = 'berätta sin historia på ungcancer.se för andra att ta del av';
+$lang['talking_partner'] = 'bli samtalsvän och låta Ung Cancer ge ut min mailadress till andra medlemmar';
 ?>
