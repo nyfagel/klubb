@@ -1,9 +1,4 @@
 # foundation3.gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
 
-chunky_png -v1.2.7
 compass -v0.12.2
-fssm -v0.2.10
-modular-scale -v1.0.6
-sass -v3.2.6
-sassy-math -v1.5
-zurb-foundation -v3.2.5
+zurb-foundation -v=3.2.5

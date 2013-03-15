@@ -30,6 +30,13 @@
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.tabs.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.tooltips.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.topbar.js'); ?>"></script>
+
+<script src="<?php echo asset_url('js/gridster/dist/jquery.gridster.min.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/js/jquery.metadata.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/js/jquery.tablesorter.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/js/jquery.tablesorter.widgets.js'); ?>"></script>
+<script src="<?php echo asset_url('js/tablesorter/addons/pager/jquery.tablesorter.pager.js'); ?>"></script>
+
 <script src="<?php echo asset_url('js/foundation/app.js'); ?>"></script>
 <?php echo (isset($script_foot)) ? "<!-- Compiled JQuery -->\n".$script_foot."<!-- End Compiled JQuery -->\n" : ''; ?>
 </body>

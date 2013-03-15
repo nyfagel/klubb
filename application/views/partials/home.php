@@ -46,7 +46,7 @@
 </div>
 <div class="yellow title row">
 	<div class="twelve columns">
-		<h2><?php echo ucfirst(lang('members')); ?></h2>
+		<h3><a href="/members"><?php echo ucfirst(lang('members')); ?></a></h3>
 		<div class="yellow bottom">
 			<!-- here be dragons -->
 		</div>
@@ -55,7 +55,7 @@
 
 <div class="green title row">
 	<div class="twelve columns">
-		<h2><?php echo ucfirst(lang('administration')); ?></h2>
+		<h3><?php echo ucfirst(lang('administration')); ?></h3>
 		<div class="green bottom">
 			<!-- here be dragons -->
 		</div>

@@ -1,6 +1,6 @@
 <div class="blue title row">
 	<div class="twelve columns">
-		<h2>Hem</h2>
+		<h3><a href="/">Hem</a></h3>
 	</div>
 </div>
 <div class="yellow title row">
@@ -11,8 +11,7 @@
 		</div>
 	</div>
 </div>
-
-<div class="row">
+<div class="cyan row">
 	<div class="twelve columns">
 		<p class="lead">Använd formuläret nedan för att lägga till en ny medlem i <?php echo $org_name; ?>.</p>
 		<?php echo $tabs['tabs']; ?>
@@ -22,7 +21,7 @@
 
 <div class="green title row">
 	<div class="twelve columns">
-		<h2><?php echo ucfirst(lang('administration')); ?></h2>
+		<h3><?php echo ucfirst(lang('administration')); ?></h3>
 		<div class="green bottom">
 			<!-- here be dragons -->
 		</div>
