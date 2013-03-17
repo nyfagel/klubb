@@ -319,6 +319,8 @@ class User extends CI_Controller {
 		$user = $this->user_model->get_user($uid);
 
 		$data['title'] = $this->system_model->get('app_name');
+		$data['partial'] = 'admin_users';
+		$data['stylesheets'] = array('buttons_purple');
 
 		$data['breadcrumbs'] = array(
 			array(
@@ -332,9 +334,9 @@ class User extends CI_Controller {
 				'data' => anchor('user/edit', ucfirst(lang('edit_user'))),
 				'mode' => 'current'));
 
-		$html = heading(ucfirst(lang('edit_user')), 1);
+		$html = '<br>'; //heading(ucfirst(lang('edit_user')), 1);
 
-		$html .= div_open('row').div_open('eight columns');
+		$html .= div_open('row').div_open('eight centered columns');
 		if ($this->input->post()) {
 			// !Process updated fields.
 			$user = array();
@@ -413,12 +415,13 @@ class User extends CI_Controller {
 						'id' => 'lastname',
 						'value' => $user['lastname'])), 6));
 		$html .= button_group(array(
-				button_anchor('admin/users', lang('button_cancel'), 'small radius'),
+				button_anchor('admin/users', lang('button_cancel'), 'radius'),
 				form_input(array(
 						'type' => 'submit',
-						'class' => 'small radius button',
+						'class' => 'radius button',
 						'value' => lang('button_save')))), 'radius right');
 		$html .= form_close().div_close();
+/*
 		$html .= div_open('four columns');
 		$html .= div_open('radius panel');
 		$html .= heading(ucfirst(lang('role')), 4);
@@ -440,7 +443,8 @@ class User extends CI_Controller {
 				'class' => 'small radius button',
 				'value' => lang('button_save')));
 		$html .= form_close();
-		$html .= div_close(3);
+*/
+		$html .= div_close();
 
 		$data['html'] = $html;
 		$this->system_model->view('template', $data);

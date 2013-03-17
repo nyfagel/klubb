@@ -31,8 +31,10 @@
 <div class="pink title row">
 	<div class="twelve columns">
 		<h3><a href="/user/logout"><?php echo ucfirst(lang('logout')); ?></a></h3>
-		<div class="pink bottom">
-			<!-- here be dragons -->
-		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="six columns end" style="margin-top: 32px; margin-bottom: 32px;">
+		<img src="/assets/img/logga_stor.jpg" alt="Ung Cancer" width="900" height="119" />
 	</div>
 </div>

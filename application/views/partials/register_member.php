@@ -31,3 +31,8 @@
 	</div>
 </div>
 <?php endif; ?>
+<div class="row">
+	<div class="six columns end" style="margin-top: 32px; margin-bottom: 32px;">
+		<img src="/assets/img/logga_stor.jpg" alt="Ung Cancer" width="900" height="119" />
+	</div>
+</div>

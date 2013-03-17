@@ -89,6 +89,7 @@ class Member extends CI_Controller {
 								'type' => 'text',
 								'name' => 'q',
 								'id' => 'q',
+								'value' => ($this->input->post('q')) ? $this->input->post('q') : '',
 								'placeholder' => 'Sök fritt bland alla medlemmar!'
 							)
 						), 10).
@@ -118,7 +119,12 @@ class Member extends CI_Controller {
 //			$colspan = 2;
 //		}
 		
-		$members = $this->member_model->list_members($selected);
+		if ($this->input->post('q')) {
+			$query = $this->input->post('q');
+			$members = $this->member_model->search_members($query);
+		} else {
+			$members = $this->member_model->list_members();
+		}
 
 		if (!empty($members)) {
 			foreach ($members as $member) {
@@ -135,9 +141,9 @@ class Member extends CI_Controller {
 			array_push($tdata, array(array('data' => 'Inget resultat!', 'colspan' => $colspan)));
 		}
 
-		$this->table->set_template(array('table_open' => '<table class="expand" id="members">'));
+		$this->table->set_template(array('table_open' => '<table cellpadding="4" cellspacing="0" class="radius" id="members">'));
 		$data['table'] = $this->table->generate($tdata);
-		$this->javascript->ready('$("#members").tablesorter({usNumberFormat: false, widgets: ["filter", "zebra"]}); $("#members").tablesorterPager({container: $("#pager"), size: 2});');
+		$this->javascript->ready('$("#members").tablesorter({usNumberFormat: false, widgets: ["filter", "zebra"], widgetOptions : {filter_hideFilters : true}}); $("#members").tablesorterPager({container: $("#pager"), size: 2});');
 		//  $html .= $this->pagination->create_links();
 		$data['partial'] = 'members';
 		$this->system_model->view('template', $data);

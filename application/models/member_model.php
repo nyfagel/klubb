@@ -144,6 +144,23 @@ class Member_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function search_members($query = "") {
+		$this->db->where("firstname ILIKE '%".$query."%'");
+		$this->db->or_where("lastname ILIKE '%".$query."%'");
+		$this->db->or_where("cancer ILIKE '%".$query."%'");
+		$this->db->or_where("to_char(diagnos, '9999') ILIKE '%".$query."%'");
+		$this->db->or_where("city ILIKE '%".$query."%'");
+		/*
+			members.firstname ILIKE '%j%' OR 
+			members.lastname ILIKE '%j%' OR 
+			members.cancer ILIKE '%j%' OR 
+			to_char(members.diagnos, '9999') ILIKE '%j%' OR 
+			members.city ILIKE '%j%';
+		*/
+		$query = $this->db->get('members');
+		return $query->result_array();
+	}
+	
 	/**
 	 * count_members function.
 	 * 

@@ -56,5 +56,6 @@ function registerMember(target, caller) {
 	$.get('/member/register', {"ajax": "true"}, function(html) {
 		$("#"+target).toggle(500);
 		$("#"+target).html(html);
+		$("#"+target).foundationCustomForms();
 	});
 }

@@ -16,9 +16,17 @@
 
     <div class="cyan row">
         <div class="twelve columns">
-            <br>
-            <?php echo $filters; ?> <?php echo $table; ?>
-
+        	<div class="row">
+        		<div class="twelve columns">
+            <?php echo $filters; ?>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="twelve columns">
+        		<a href="/members">Visa alla</a><br><br>
+            <?php echo $table; ?>
+            </div>
+        	</div>
             <div class="row">
                 <div class="six columns" id="pager">
                     <form class="custom">
@@ -81,10 +89,6 @@
     <div class="pink title row">
         <div class="twelve columns">
             <h3><a href="/user/logout"><?php echo ucfirst(lang('logout')); ?></a></h3>
-
-            <div class="pink bottom">
-                <!-- here be dragons -->
-            </div>
         </div>
     </div>
 <div class="row">
