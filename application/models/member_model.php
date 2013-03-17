@@ -144,6 +144,13 @@ class Member_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	/**
+	 * search_members function.
+	 * 
+	 * @access public
+	 * @param string $query (default: "")
+	 * @return void
+	 */
 	public function search_members($query = "") {
 		$this->db->where("firstname ILIKE '%".$query."%'");
 		$this->db->or_where("lastname ILIKE '%".$query."%'");
