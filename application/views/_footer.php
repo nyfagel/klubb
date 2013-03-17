@@ -1,12 +1,9 @@
 <footer>
 		<div class="row">
-			<div class="four columns">
-				<p>Copyright &copy; 2012-2013 <?php echo $this->system_model->get('org_name'); ?>.</p>
+			<div class="six columns">
+				<p>Copyright &copy; 2013 <?php echo $this->system_model->get('org_name'); ?>.</p>
 			</div>
-			<div class="four columns">
-				<p>Page rendered in <strong>{elapsed_time}</strong> seconds</p>
-			</div>
-			<div class="four columns">
+			<div class="six columns">
 				<ul class="inline-list right">
 					<li><a href="http://nyfagel.github.com/klubb/" target="_blank">Powered by Klubb</a></li>
 					<li><a href="http://www.nyfagel.se/" target="_blank">With <i class="general-foundicon-heart"></i> from Ny fågel</a></li>

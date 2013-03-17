@@ -43,7 +43,7 @@ class Home extends CI_Controller {
 		}
 		
 		$data['title'] = $this->system_model->get('app_name');
-		$data['stylesheets'] = array('buttons_green');
+		$data['stylesheets'] = array('buttons_purple');
 		$data['partial'] = 'home';
 		
 		$data['org_name'] = $this->system_model->get('org_name');

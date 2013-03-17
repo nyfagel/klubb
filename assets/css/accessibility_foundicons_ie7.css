@@ -1,0 +1,54 @@
+/* general icons for IE7 */
+[class*="accessibility-foundicon-"] { font-family: "AccessibilityFoundicons"; font-weight: normal; font-style: normal; }
+
+.accessibility-foundicon-wheelchair { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf000;"); }
+
+.accessibility-foundicon-speaker { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf001;"); }
+
+.accessibility-foundicon-fontsize { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf002;"); }
+
+.accessibility-foundicon-eject { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf003;"); }
+
+.accessibility-foundicon-view-mode { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf004;"); }
+
+.accessibility-foundicon-eyeball { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf005;"); }
+
+.accessibility-foundicon-asl { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf006;"); }
+
+.accessibility-foundicon-person { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf007;"); }
+
+.accessibility-foundicon-question { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf008;"); }
+
+.accessibility-foundicon-adult { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf009;"); }
+
+.accessibility-foundicon-child { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf00a;"); }
+
+.accessibility-foundicon-glasses { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf00b;"); }
+
+.accessibility-foundicon-cc { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf00c;"); }
+
+.accessibility-foundicon-blind { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf00d;"); }
+
+.accessibility-foundicon-braille { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf00e;"); }
+
+.accessibility-foundicon-iphone-home { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf00f;"); }
+
+.accessibility-foundicon-w3c { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf010;"); }
+
+.accessibility-foundicon-css { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf011;"); }
+
+.accessibility-foundicon-key { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf012;"); }
+
+.accessibility-foundicon-hearing-impaired { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf013;"); }
+
+.accessibility-foundicon-male { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf014;"); }
+
+.accessibility-foundicon-female { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf015;"); }
+
+.accessibility-foundicon-network { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf016;"); }
+
+.accessibility-foundicon-guidedog { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf017;"); }
+
+.accessibility-foundicon-universal-access { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf018;"); }
+
+.accessibility-foundicon-elevator { *zoom: expression(this.runtimeStyle['zoom'] = "1", this.innerHTML = "&#xf019;"); }

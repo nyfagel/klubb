@@ -64,7 +64,7 @@ class Admin extends CI_Controller {
      * @return void
      */
     public function users() {
-        $this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(false);
         if (!$this->auth->loggedin()) {
             redirect('user/login');
         }
@@ -72,38 +72,43 @@ class Admin extends CI_Controller {
         $user = $this->user_model->get_user($uid);
 
         $data['title'] = $this->system_model->get('app_name');
-
-        $data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('admin', ucfirst(lang('administration')))), array('data' => anchor('admin/users', ucfirst(lang('users'))), 'mode' => 'current'));
+        $data['partial'] = 'admin_users';
+        $data['stylesheets'] = array('buttons_pink');
 
         $allroles = $this->role_model->list_roles();
         $default_role = $this->role_model->get_default_role();
         $this->javascript->ready('$.get("/role/rights/role/'.$default_role['id'].'", function(html) { $("#role_rights_div").html(html); $("#role_rights_div").foundationCustomForms(); }, "html");');
 
-        $content = row(columns(heading(ucfirst(lang('administer')).' '.lang('users'), 1), 12));
+        $content = '<br>';
         $users = $this->user_model->list_users();
-        $tdata = array(array(ucfirst(lang('name')), ucfirst(lang('role')), ucfirst(lang('email')), nbs()));
+        $userlist = array();
+//        $tdata = array(array(ucfirst(lang('name')), ucfirst(lang('role')), ucfirst(lang('email')), nbs()));
+//        $tdata = array(array(ucfirst(lang('name')), nbs()));
         foreach ($users as $user) {
-            $role = $this->role_model->user_mapping($user['id']);
-            $role = $this->role_model->get_role($role['role']);
-            $row = array(
-                $user['firstname'].' '.$user['lastname'],
-                form_open('user/role', array('class' => 'custom collapse', 'style' => 'margin: 0;')).
-                form_hidden('role_'.$user['id'], $role['id']).
-                form_hidden('source', $this->encrypt->encode(current_url())).
-                form_dropdown('user_role_'.$user['id'], $allroles, $role['id'], 'class="expand" style="margin: 0;"').form_close(),
-                mailto($user['email'],
-                    '<i class="general-foundicon-mail"></i>'.nbs().$user['email']),
-                anchor('user/edit/'.$user['id'], '<i class="general-foundicon-edit"></i>'.nbs().'Visa').nbs().
-                anchor(current_url().'#', '<i class="general-foundicon-trash"></i>'.nbs().'Ta bort'));
-            array_push($tdata, $row);
+//            $role = $this->role_model->user_mapping($user['id']);
+//            $role = $this->role_model->get_role($role['role']);
+//            $row = array(
+//                ,
+//                form_open('user/role', array('class' => 'custom collapse', 'style' => 'margin: 0;')).
+//                form_hidden('role_'.$user['id'], $role['id']).
+//                form_hidden('source', $this->encrypt->encode(current_url())).
+//                form_dropdown('user_role_'.$user['id'], $allroles, $role['id'], 'class="expand" style="margin: 0;"').form_close(),
+//                mailto($user['email'],
+//                    '<i class="general-foundicon-mail"></i>'.nbs().$user['email']),
+//                anchor('user/edit/'.$user['id'], '<i class="general-foundicon-edit"></i>'.nbs().'Visa').nbs().
+//                anchor(current_url().'#', '<i class="general-foundicon-trash"></i>'.nbs().'Ta bort'));
+                $userlink = anchor('user/edit/'.$user['id'], $user['firstname'].' '.$user['lastname']);
+            array_push($userlist, $userlink);
         }
+        
 
-        $roles = div_open('radius panel').heading('Användarroller', 4).
+        /*
+$roles = heading('Användarroller', 4).
             form_open('role/add', array('class' => 'custom')).
             form_hidden('source', $this->encrypt->encode(current_url())).
             form_label('Skapa ny roll:', 'new_role_name').
             form_input(array('type' => 'text', 'name' => 'new_role_name', 'id' => 'new_role_name')).
-            form_submit(array('type' => 'submit', 'name' => 'submit_new_role', 'id' => 'submit_new_role', 'class' => 'small button', 'value' => 'Skapa roll')).
+            form_submit(array('type' => 'submit', 'name' => 'submit_new_role', 'id' => 'submit_new_role', 'class' => 'radius button', 'value' => 'Skapa roll')).
             form_close().
             hr().
             form_open('role/update', array('class' => 'custom')).
@@ -113,16 +118,18 @@ class Admin extends CI_Controller {
             form_fieldset('Rättigheter för &ldquo;'.span($default_role['name'], '', 'role_name_span').'&rdquo;').
             div('','','role_rights_div').
             form_fieldset_close().
-            button_group(array(form_submit(array('type' => 'submit', 'name' => 'submit_update_role', 'id' => 'submit_update_role', 'class' => 'small button', 'value' => 'Uppdatera roll')), form_button(array('type' => 'button', 'name' => 'delete_role', 'id' => 'delete_role', 'content' => 'Radera roll', 'class' => 'small button')))).
-            form_close().
-            div_close();
-        $this->javascript->change('#select_role', 'roleRights("select_role", "role_rights_div", "role_name_span");');
+            button_group(array(form_submit(array('type' => 'submit', 'name' => 'submit_update_role', 'id' => 'submit_update_role', 'class' => 'radius button', 'value' => 'Uppdatera roll')), form_button(array('type' => 'button', 'name' => 'delete_role', 'id' => 'delete_role', 'content' => 'Radera roll', 'class' => 'radius button'))), 'radius').
+            form_close();
+*/
+//        $this->javascript->change('#select_role', 'roleRights("select_role", "role_rights_div", "role_name_span");');
         $content .= row(
-            columns($this->table->generate($tdata).button_group(array(button_anchor('user/create', 'Skapa ny användare', 'small'))), 8).
-            columns($roles, 4));
+            columns(ul($userlist, array('class' => 'no-bullet')),8, 'end')).
+            row(columns(button_group(array(button_anchor('user/create', 'Skapa ny användare', 'radius'))), 8));//.
+//            columns($roles, 4));
 
         $html = $content;
         $data['html'] = $html;
+//        $data['useredit'] = reveal_modal($content = '', $id = '', $class = '', $append_close_anchor = true);
         $this->system_model->view('template', $data);
     }
 
@@ -163,10 +170,12 @@ class Admin extends CI_Controller {
 
         $data['title'] = $app_name;
 
+/*
         $data['breadcrumbs'] = array(
             array('data' => anchor('/', $app_name), 'mode' => 'unavailable'),
             array('data' => anchor('admin', ucfirst(lang('administration')))),
             array('data' => anchor('admin/org', ucfirst(lang('the_organization'))), 'mode' => 'current'));
+*/
 
         $content = row(columns(heading(ucfirst(lang('administer')).' '.span($call_org, 'org_type', 'org_type').lang('org_pluralizer'), 1), 12));
 
@@ -178,7 +187,7 @@ class Admin extends CI_Controller {
         $content .= form_label(lang('input_org_type'), 'org_type');
         $content .= ($org_type) ? form_input(array('type' => 'text', 'name' => 'org_type', 'id' => 'org_type', 'class' => 'twelve', 'value' => $call_org)) : form_input(array('type' => 'text', 'name' => 'org_type', 'id' => 'org_type', 'class' => 'twelve', 'placeholder' => $call_org));
         $content .= div_close(2);
-        $content .= form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')));
+        $content .= form_input(array('type' => 'submit', 'class' => 'radius button', 'value' => lang('button_save')));
         $content .= form_close();
         $this->javascript->keyup('#org_type', '$("#org_name").val($("#org_type").val());');
 

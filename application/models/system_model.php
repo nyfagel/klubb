@@ -59,17 +59,20 @@ class System_model extends CI_Model {
 	 * @return void
 	 */
 	public function view($template = '', $data = array()) {
-		$this->benchmark->mark('system_model_view_start');
-		$this->javascript->compile();
-		$this->load->view('_header', $data);
-		$this->load->view('_topbar', $data);
+		if ($template != 'ajax') {
+			$this->javascript->compile();
+			$this->load->view('_header', $data);
+			$this->load->view('_topbar', $data);
+		}
+		
 		if (array_key_exists('partial', $data)) {
-			$this->load->view('partials/'.$data['partial']);
+			$this->load->view('partials/'.$data['partial'], $data);
 		} else {
 			$this->load->view($template, $data);
 		}
-		$this->load->view('_footer', $data);
-		$this->benchmark->mark('system_model_view_end');
+		if ($template != 'ajax') {
+			$this->load->view('_footer', $data);
+		}
 	}
 	
 	/**

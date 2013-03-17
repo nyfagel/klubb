@@ -57,7 +57,13 @@ class Member extends CI_Controller {
 
 		$membertypes = $this->member_model->get_types();
 		$typeselect = array();
-		$selected = ($this->input->get('type')) ? $this->input->get('type') : 1;
+		$selected = ($this->input->get('type')) ? $this->input->get('type') : -1;
+		if ($this->input->get('type')) {
+			array_push($typeselect, form_label(form_input(array('type' => 'radio', 'value' => 'all', 'name' => 'type', 'id' => 'type0', 'onchange' => "window.location.href='/members'")).nbs().'Alla medlemmar'));
+		} else {
+			array_push($typeselect, form_label(form_input(array('type' => 'radio', 'checked' => 'checked', 'value' => 'all', 'name' => 'type', 'id' => 'type0', 'onchange' => "window.location.href='/members'")).nbs().'Alla medlemmar'));
+		}
+		
 		foreach ($membertypes as $type) {
 			$typeselectradio = array(
 				'type' => 'radio',
@@ -73,18 +79,18 @@ class Member extends CI_Controller {
 		}
 		$typeselect = ul($typeselect, array('class' => 'inline-list'));
 		
-		$data['filters'] =
+		$data['filters'] = 
 			row(
-			columns(
-				form_open('/members', array('class' =>'custom')).$typeselect.form_close(), 6).
-			columns(
-				form_open(uri_string()).row(
+				columns(
+					form_open('members').row(
 					columns(
 						form_input(
 							array(
 								'type' => 'text',
 								'name' => 'q',
-								'id' => 'q'
+								'id' => 'q',
+								'value' => ($this->input->post('q')) ? $this->input->post('q') : '',
+								'placeholder' => 'Sök fritt bland alla medlemmar!'
 							)
 						), 10).
 					columns(
@@ -95,36 +101,49 @@ class Member extends CI_Controller {
 								'class' => 'postfix button'
 							)
 						), 2
-					), 'collapse').form_close(), 6));
-
-		if ($selected == 1) {
-			$tdata = array(array('Namn', 'Personnummer', 'Telefon', 'Ort', 'Cancersjukdom'));
-		} else if ($selected == 2) {
-			$tdata = array(array('Namn', 'Personnummer', 'Telefon', 'Ort', 'Anhörig'));
-		} else {
-			$tdata = array(array('Namn', 'E-post'));
-		}
+					), 'collapse').form_close(), 6, 'centered'
+				)
+			, 'search', 'search-bar');//.
+//			row(
+	//		columns(
+		//		form_open('/members', array('class' =>'custom')).$typeselect.form_close(), 12));
+//		$colspan = 3;
+//		if ($selected == 1) {
+			$tdata = array(array('Medlemstyp', 'Namn', 'Cancersjukdom', 'Diagnosår', 'Kön', 'E-post', 'Adress', 'Telefon', 'Personnummer'));
+			$colspan = 6;
+//		} else if ($selected == 2) {
+//			$tdata = array(array('Namn', 'Personnummer', 'Telefon', 'Ort', 'Anhörig'));
+//			$colspan = 5;
+//		} else {
+//			$tdata = array(array('Namn', 'E-post'));
+//			$colspan = 2;
+//		}
 		
-		$members = $this->member_model->list_members($selected);
+		if ($this->input->post('q')) {
+			$query = $this->input->post('q');
+			$members = $this->member_model->search_members($query);
+		} else {
+			$members = $this->member_model->list_members();
+		}
 
 		if (!empty($members)) {
 			foreach ($members as $member) {
-				if ($selected == 1) {
-					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone'], $member['city'], $member['cancer']));
-				} else if ($selected == 2) {
-					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone'], $member['city'], $member['relation']));
-				} else {
-					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['email']));
-				}
+//				if ($selected == 1) {
+					array_push($tdata, array($membertypes[($member['type']-1)]['short'], $member['firstname'].' '.$member['lastname'], $member['cancer'], $member['diagnos'], $member['sex'], $member['email'], $member['address'], $member['phone'], $member['ssid']));
+//				} else if ($selected == 2) {
+//					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone'], $member['city'], $member['relation']));
+//				} else {
+//					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['email']));
+//				}
 				
 			}
 		} else {
-			array_push($tdata, array(array('data' => 'Inget resultat!', 'colspan' => 3)));
+			array_push($tdata, array(array('data' => 'Inget resultat!', 'colspan' => $colspan)));
 		}
 
-		$this->table->set_template(array('table_open' => '<table class="expand" id="members">'));
+		$this->table->set_template(array('table_open' => '<table cellpadding="4" cellspacing="0" class="radius" id="members">'));
 		$data['table'] = $this->table->generate($tdata);
-		$this->javascript->ready('$("#members").tablesorter({usNumberFormat: false, widgets: ["filter", "zebra"]}); $("#members").tablesorterPager({container: $("#pager"), size: 2});');
+		$this->javascript->ready('$("#members").tablesorter({usNumberFormat: false, widgets: ["filter", "zebra"], widgetOptions : {filter_hideFilters : true}}); $("#members").tablesorterPager({container: $("#pager"), size: 2});');
 		//  $html .= $this->pagination->create_links();
 		$data['partial'] = 'members';
 		$this->system_model->view('template', $data);
@@ -143,7 +162,8 @@ class Member extends CI_Controller {
 		}
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
-
+		$ajax = ($this->input->get('ajax')) ? true : false;
+		
 		$type = ($this->input->post('type')) ? $this->input->post('type') : false;
 		$member = array();
 		if ($type) {
@@ -193,13 +213,17 @@ class Member extends CI_Controller {
 			$tabs = tabs($tabs, 'contained', 'register');
 			$data['partial'] = 'register_member';
 		}
-
+		$data['ajax'] = $ajax;
 		$data['html'] = $html;
 		$data['tabs'] = $tabs;
 		$data['org_name'] = $this->system_model->get('org_name');
 		
 		//  $this->javascript->ready('$(".gridster ul").gridster({widget_margins: [10, 10], widget_base_dimensions: [14, 14]});');
-		$this->system_model->view('template', $data);
+		if ($ajax) {
+			$this->system_model->view('ajax', $data);
+		} else {
+			$this->system_model->view('template', $data);
+		}
 	}
 
 	/**

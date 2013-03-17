@@ -8,6 +8,7 @@
 	<title><?php echo $title; ?></title>
 	<link rel="stylesheet" href="<?php echo asset_url('css/quicksand.css'); ?>">
 	<link rel="stylesheet" href="<?php echo asset_url('css/general_foundicons.css'); ?>">
+	<link rel="stylesheet" href="<?php echo asset_url('css/accessibility_foundicons.css'); ?>">
 	<link rel="stylesheet" href="<?php echo asset_url('css/app.css'); ?>">
 	<link rel="stylesheet" href="<?php echo asset_url('js/tablesorter/addons/pager/jquery.tablesorter.pager.css'); ?>">
 	
@@ -19,6 +20,7 @@
 	<script src="<?php echo asset_url('js/foundation/modernizr.foundation.js'); ?>"></script>
 	<!--[if lt IE 8]>
 		<link rel="stylesheet" href="<?php echo asset_url('css/general_foundicons_ie7.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset_url('css/accessibility_foundicons_ie7.css'); ?>">
 	<![endif]-->
 	<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
