@@ -24,6 +24,7 @@ class Member extends CI_Controller {
 		$this->load->model('member_model');
 		$this->load->helper('html');
 		$this->load->helper('form');
+		$this->load->helper('text');
 
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
@@ -109,7 +110,7 @@ class Member extends CI_Controller {
 		//		form_open('/members', array('class' =>'custom')).$typeselect.form_close(), 12));
 //		$colspan = 3;
 //		if ($selected == 1) {
-			$tdata = array(array('Medlemstyp', 'Namn', 'Cancersjukdom', 'Diagnosår', 'Kön', 'E-post', 'Adress', 'Telefon', 'Personnummer'));
+			$tdata = array(array('Medlemstyp', 'Namn', 'Cancersjukdom', 'Diagnosår', 'Anhöriginformation', 'Kön', 'E-post', 'Adress', 'Telefon', 'Personnummer'));
 			$colspan = 6;
 //		} else if ($selected == 2) {
 //			$tdata = array(array('Namn', 'Personnummer', 'Telefon', 'Ort', 'Anhörig'));
@@ -129,7 +130,8 @@ class Member extends CI_Controller {
 		if (!empty($members)) {
 			foreach ($members as $member) {
 //				if ($selected == 1) {
-					array_push($tdata, array($membertypes[($member['type']-1)]['short'], $member['firstname'].' '.$member['lastname'], $member['cancer'], $member['diagnos'], $member['sex'], $member['email'], $member['address'], $member['phone'], $member['ssid']));
+					$mt = $this->member_model->get_type($member['type']);
+					array_push($tdata, array($mt['short'], $member['firstname'].' '.$member['lastname'], $member['cancer'], $member['diagnos'], (strlen($member['relation']) > 8) ? tooltip($member['relation'], 'tip-top', character_limiter($member['relation'], 8)) : $member['relation'], $member['sex'], $member['email'], $member['city'], $member['phone'], $member['ssid']));
 //				} else if ($selected == 2) {
 //					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone'], $member['city'], $member['relation']));
 //				} else {
@@ -162,15 +164,17 @@ class Member extends CI_Controller {
 		}
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
-		$ajax = ($this->input->get('ajax')) ? true : false;
+		$ajax = ($this->input->get_post('ajax')) ? true : false;
 		
 		$type = ($this->input->post('type')) ? $this->input->post('type') : false;
 		$member = array();
 		if ($type) {
 			$reqs = $this->member_model->get_type_requirements($type);
 			foreach ($reqs as $req) {
-				$this->form_validation->set_rules($req['fieldname'], $req['fieldname'], 'trim|'.$req['rule']);
-				$member[$req['fieldname']] = ($this->input->post($req['fieldname'])) ? $this->input->post($req['fieldname']) : null;
+				if ($req['rule'] != 'optional') {
+					$this->form_validation->set_rules($req['fieldname'], $req['rule_desc'], 'trim|'.$req['rule']);
+					$member[$req['fieldname']] = ($this->input->post($req['fieldname'])) ? $this->input->post($req['fieldname']) : null;
+				}
 			}
 		}
 
@@ -180,7 +184,7 @@ class Member extends CI_Controller {
 		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members')))), array('data' => anchor('member/register', ucfirst(lang('register_member'))), 'mode' => 'current'));
 		$data['stylesheets'] = array('buttons_purple');
 
-		$html = heading(ucfirst(lang('register_member')), 1);
+		$html = '<br>';//heading(ucfirst(lang('register_member')), 1);
 
 		if ($this->form_validation->run() == true) {
 			$member['type'] = $type;
@@ -195,8 +199,13 @@ class Member extends CI_Controller {
 					strong('E-postadress:').nbs().mailto($member['email'], $member['email']),
 					strong('Telefonnummer:').nbs().$member['phone']
 				), array('class' => 'no-bullet'));
-			$html .= button_anchor('member/register', ucfirst(lang('register_another_member')), 'radius');
+				$html .= row(columns(form_button(array('class' => 'button radius', 'onclick' => "registerAnotherMember('ajax-receiver-register-member', this);", 'content' => 'Lägg till fler medlemmar')), 12));
+				$html .= '<br>';
+//			$html .= button_anchor('member/register', ucfirst(lang('register_another_member')), 'radius');
 			$tabs = '';
+			$data['partial'] = 'register_member';
+			$ajax = true;
+			$tabs = array('tabs' => '', 'content' => $html);
 		} else {
 			$tabs = array();
 			$first = true;
@@ -204,7 +213,7 @@ class Member extends CI_Controller {
 			foreach ($membertypes as $type) {
 				$tabs['type'.$type['id']] = array(
 					'title' => $type['name'],
-					'content' => $this->registration_form($type['id']));
+					'content' => $this->registration_form($type['id']), $ajax);
 				if ($first) {
 					$tabs['type'.$type['id']]['active'] = true;
 					$first = false;
@@ -212,7 +221,9 @@ class Member extends CI_Controller {
 			}
 			$tabs = tabs($tabs, 'contained', 'register');
 			$data['partial'] = 'register_member';
+			
 		}
+
 		$data['ajax'] = $ajax;
 		$data['html'] = $html;
 		$data['tabs'] = $tabs;
@@ -232,12 +243,13 @@ class Member extends CI_Controller {
 	 * @access private
 	 * @return void
 	 */
-	private function registration_form($type = -1) {
-		$html = form_open('member/register', array('class' => 'custom'));
+	private function registration_form($type = -1, $ajax = false) {
+		$html = form_open('member/register', array('class' => 'custom', 'id' => 'registerType'.$type));
 		$html .= '<div class="row"><div class="eight columns">';
 		$side = '';
 		$main = '<div class="gridster"><ul class="no-bullet">';
 		$html .= form_hidden('type', $type);
+		$html .= form_hidden('ajax', true);
 
 		$reqs = $this->member_model->get_type_requirements($type);
 		log_message('debug', print_r($reqs, true));
@@ -255,8 +267,10 @@ class Member extends CI_Controller {
 						button_anchor('members', lang('button_cancel'), 'radius'),
 						form_input(
 							array(
-								'type' => 'submit',
+								'type' => 'button',
 								'class' => 'radius button',
+								'id' => 'save_button',
+								'onclick' => "doRegisterMember('registerType".$type."', 'ajax-receiver-register-member');",
 								'value' => lang('button_save')))), 'radius left'), 12));
 		$html .= '</div><div class="four columns">';
 		$html .= $side;
@@ -376,7 +390,7 @@ class Member extends CI_Controller {
 					'name' => $data['fieldname'],
 					'id' => 'type'.$data['type'].$data['fieldname'],
 					'placeholder' => $data['placeholder'],
-					'value' => $this->input->post($data['fieldtype'])
+					'value' => $this->input->post($data['fieldname'])
 				)
 			);
 		} else if ($data['fieldtype'] == 'checkbox') {
@@ -385,7 +399,8 @@ class Member extends CI_Controller {
 						array(
 							'type' => 'checkbox',
 							'name' => $data['fieldname'],
-							'id' => 'type'.$data['type'].$data['fieldname']
+							'id' => 'type'.$data['type'].$data['fieldname'],
+							'value' => $this->input->post($data['fieldname'])
 						)
 					).nbs().lang($data['fieldname']), 'type'.$data['type'].$data['fieldname']);
 			} else {
@@ -397,7 +412,7 @@ class Member extends CI_Controller {
 					'id' => 'type'.$data['type'].$data['fieldname'],
 					'placeholder' => $data['placeholder'],
 					'class' => 'expand',
-					'value' => $this->input->post($data['fieldtype'])
+					'value' => $this->input->post($data['fieldname'])
 				)
 			);
 		}

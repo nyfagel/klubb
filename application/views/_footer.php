@@ -5,7 +5,6 @@
 			</div>
 			<div class="six columns">
 				<ul class="inline-list right">
-					<li><a href="http://nyfagel.github.com/klubb/" target="_blank">Powered by Klubb</a></li>
 					<li><a href="http://www.nyfagel.se/" target="_blank">With <i class="general-foundicon-heart"></i> from Ny fågel</a></li>
 				</ul>
 			</div>

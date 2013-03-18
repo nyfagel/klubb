@@ -29,15 +29,15 @@
         	</div>
             <div class="row">
                 <div class="six columns" id="pager">
-                    <form class="custom">
+                    <form class="notcustom">
                         <div class="row">
                             <div class="four columns">
                                 <select class="pagesize expand" title="Resultat per sida" name="results">
-                                    <option selected="selected" value="10">
+                                    <option value="10">
                                         10
                                     </option>
 
-                                    <option value="20">
+                                    <option selected="selected" value="20">
                                         20
                                     </option>
 
@@ -47,6 +47,12 @@
 
                                     <option value="40">
                                         40
+                                    </option>
+                                    <option value="50">
+                                        50
+                                    </option>
+                                    <option value="100">
+                                        100
                                     </option>
                                 </select>
                             </div>

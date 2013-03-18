@@ -59,3 +59,17 @@ function registerMember(target, caller) {
 		$("#"+target).foundationCustomForms();
 	});
 }
+
+function doRegisterMember(sourceForm, target) {
+	$.post('/member/register', $("#"+sourceForm).serialize(), function(html) {
+		$("#"+target).html(html);
+		$("#"+target).foundationCustomForms();
+	});
+}
+
+function registerAnotherMember(target, caller) {
+	$.get('/member/register', {"ajax": "true"}, function(html) {
+		$("#"+target).html(html);
+		$("#"+target).foundationCustomForms();
+	});
+}

@@ -1,6 +1,6 @@
 <div class="active blue title row">
 	<div class="twelve columns">
-		<h2>Hem</h2>
+		<h2><a href="/">Hem</a></h2>
 	</div>
 </div>
 <div class="cyan row">
@@ -14,7 +14,8 @@
 				</ul>
 	</div>
 	<div class="four columns">
-			statistik
+			<h5>Statistik</h5>
+			<p>Här kommer lite statistik så småningom!</p>
 		</div>
 	<div class="four columns">
 		<h5><?php echo ucfirst(lang('users')); ?></h5>

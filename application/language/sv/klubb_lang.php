@@ -53,6 +53,7 @@ $lang['ssid'] = 'personnummer';
 $lang['ssid_placeholder'] = 'ååmmddxxxx';
 $lang['address'] = 'adress';
 $lang['zipcode'] = 'postnummer';
+$lang['zip'] = 'postnummer';
 $lang['city'] = 'ort';
 $lang['other'] = 'övrigt';
 $lang['change_password'] = 'byt lösenord';
@@ -69,5 +70,5 @@ $lang['cancer'] = 'cancersjukdom';
 $lang['participate'] = 'delta på möten, föreläsningar och/eller andra aktiviteter';
 $lang['tell'] = 'berätta sin historia på ungcancer.se för andra att ta del av';
 $lang['talking_partner'] = 'bli samtalsvän och låta Ung Cancer ge ut min mailadress till andra medlemmar';
-$lang['relation'] = 'berätta kort vem din närstående är och dess sjukdomshistoria:';
+$lang['relation'] = 'Anhörig till';
 ?>
