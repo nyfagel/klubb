@@ -71,4 +71,5 @@ $lang['participate'] = 'delta på möten, föreläsningar och/eller andra aktivi
 $lang['tell'] = 'berätta sin historia på ungcancer.se för andra att ta del av';
 $lang['talking_partner'] = 'bli samtalsvän och låta Ung Cancer ge ut min mailadress till andra medlemmar';
 $lang['relation'] = 'Anhörig till';
+$lang['gender'] = 'kön';
 ?>

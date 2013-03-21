@@ -53,11 +53,13 @@ function roleRights(sourceId, targetId, labelId) {
 
 function registerMember(target, caller) {
 	$(caller).toggleClass('active');
-	$.get('/member/register', {"ajax": "true"}, function(html) {
-		$("#"+target).toggle(500);
-		$("#"+target).html(html);
-		$("#"+target).foundationCustomForms();
-	});
+	if( !$('#'+target).is(':visible') ) {
+		$.get('/member/register', {"ajax": "true"}, function(html) {
+			$("#"+target).html(html);
+			$("#"+target).foundationCustomForms();
+		});
+	}
+	$("#"+target).slideToggle(200);
 }
 
 function doRegisterMember(sourceForm, target) {

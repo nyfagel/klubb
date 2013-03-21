@@ -16,6 +16,7 @@
 	<div class="twelve columns">
 		<p class="lead">Använd formuläret nedan för att lägga till en ny medlem i <?php echo $org_name; ?>.</p>
 <?php endif; ?>
+		<?php echo $html; ?>
 		<?php echo $tabs['tabs']; ?>
 		<?php echo $tabs['content']; ?>
 <?php if (!$ajax): ?>

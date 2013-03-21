@@ -41,7 +41,7 @@ class Member extends CI_Controller {
 	 * @return void
 	 */
 	public function memberlist() {
-		$this->output->enable_profiler(false);
+		$this->output->enable_profiler(true);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
@@ -131,7 +131,7 @@ class Member extends CI_Controller {
 			foreach ($members as $member) {
 //				if ($selected == 1) {
 					$mt = $this->member_model->get_type($member['type']);
-					array_push($tdata, array($mt['short'], $member['firstname'].' '.$member['lastname'], $member['cancer'], $member['diagnos'], (strlen($member['relation']) > 8) ? tooltip($member['relation'], 'tip-top', character_limiter($member['relation'], 8)) : $member['relation'], $member['sex'], $member['email'], $member['city'], $member['phone'], $member['ssid']));
+					array_push($tdata, array($mt['short'], '<span class="member-link" id="open-member-'.$member['id'].'" data-member="'.$member['id'].'">'.$member['firstname'].nbs().$member['lastname'].'</span>', $member['cancer'], $member['diagnos'], (strlen($member['relation']) > 8) ? tooltip($member['relation'], 'tip-top', character_limiter($member['relation'], 8)) : $member['relation'], $member['gender'], $member['email'], $member['city'], $member['phone'], $member['ssid']));
 //				} else if ($selected == 2) {
 //					array_push($tdata, array($member['firstname'].' '.$member['lastname'], $member['ssid'], $member['phone'], $member['city'], $member['relation']));
 //				} else {
@@ -142,6 +142,9 @@ class Member extends CI_Controller {
 		} else {
 			array_push($tdata, array(array('data' => 'Inget resultat!', 'colspan' => $colspan)));
 		}
+		$spinner = $this->config->item('javascript_ajax_img');
+		$spinner = div(div(heading(span('Medlemsdata', 'member-name', 'member-name'), 4).p('Laddar medlem, vänta lite!', 'lead'), 'twelve columns'), 'row').div(div(img(array('src' => asset_url('img/ajax-bar.gif'), 'alt' => 'Laddar...')), 'twelve columns text-center'), 'row');
+		$this->javascript->click('.member-link', '$("#member-modal-ajax-receiver").html('."'".$spinner."'".'); $("#member-modal").reveal(); $.get("/member/name", {"id": $(this).data("member")}, function(text) { $("#member-name").text(text); }); $.get("/member/view", {"id": $(this).data("member")}, function(html) { $("#member-modal-ajax-receiver").html(html); });');
 
 		$this->table->set_template(array('table_open' => '<table cellpadding="4" cellspacing="0" class="radius" id="members">'));
 		$data['table'] = $this->table->generate($tdata);
@@ -181,32 +184,33 @@ class Member extends CI_Controller {
 		$this->form_validation->set_error_delimiters('<small class="error">', '</small>');
 
 		$data['title'] = $this->system_model->get('app_name');
-		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members')))), array('data' => anchor('member/register', ucfirst(lang('register_member'))), 'mode' => 'current'));
+//		$data['breadcrumbs'] = array(array('data' => anchor('/', $this->system_model->get('app_name')), 'mode' => 'unavailable'), array('data' => anchor('members', ucfirst(lang('members')))), array('data' => anchor('member/register', ucfirst(lang('register_member'))), 'mode' => 'current'));
 		$data['stylesheets'] = array('buttons_purple');
 
-		$html = '<br>';//heading(ucfirst(lang('register_member')), 1);
+		$html = '';//heading(ucfirst(lang('register_member')), 1);
 
 		if ($this->form_validation->run() == true) {
+			$html .= '<br>';
 			$member['type'] = $type;
 			$newid = $this->member_model->create_member($member);
 			$member = $this->member_model->get_member($newid);
 			$membertype = $this->member_model->get_type($type);
 			$html .= p('Grattis, nu har du lagt till '.$member['firstname'].' '.$member['lastname'].' som '.$membertype['name'].'!', 'lead');
-			$html .= p($member['firstname'].' '.'registrerades med följande uppgifter:');
-			$html .= ul(
-				array(
-					strong('Namn:').nbs().$member['firstname'].' '.$member['lastname'],
-					strong('E-postadress:').nbs().mailto($member['email'], $member['email']),
-					strong('Telefonnummer:').nbs().$member['phone']
-				), array('class' => 'no-bullet'));
-				$html .= row(columns(form_button(array('class' => 'button radius', 'onclick' => "registerAnotherMember('ajax-receiver-register-member', this);", 'content' => 'Lägg till fler medlemmar')), 12));
-				$html .= '<br>';
+//			$html .= p($member['firstname'].' '.'registrerades med följande uppgifter:');
+//			$html .= ul(
+//				array(
+//					strong('Namn:').nbs().$member['firstname'].' '.$member['lastname'],
+//					strong('E-postadress:').nbs().mailto($member['email'], $member['email']),
+//					strong('Telefonnummer:').nbs().$member['phone']
+//				), array('class' => 'no-bullet'));
+//				$html .= row(columns(form_button(array('class' => 'button radius', 'onclick' => "registerAnotherMember('ajax-receiver-register-member', this);", 'content' => 'Lägg till fler medlemmar')), 12));
+//				$html .= '<br>';
 //			$html .= button_anchor('member/register', ucfirst(lang('register_another_member')), 'radius');
 			$tabs = '';
 			$data['partial'] = 'register_member';
 			$ajax = true;
-			$tabs = array('tabs' => '', 'content' => $html);
-		} else {
+//			$tabs = array('tabs' => '', 'content' => $html);
+		} //else {
 			$tabs = array();
 			$first = true;
 			$membertypes = $this->member_model->get_types();
@@ -222,7 +226,7 @@ class Member extends CI_Controller {
 			$tabs = tabs($tabs, 'contained', 'register');
 			$data['partial'] = 'register_member';
 			
-		}
+		//}
 
 		$data['ajax'] = $ajax;
 		$data['html'] = $html;
@@ -420,6 +424,15 @@ class Member extends CI_Controller {
 
 		return $html;
 	}
+	
+	public function name() {
+		$this->output->enable_profiler(false);
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		$mid = $this->input->get_post('id');
+		echo $this->member_model->get_name($mid);
+	}
 
 	/**
 	 * edit function.
@@ -432,13 +445,14 @@ class Member extends CI_Controller {
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
+		$ajax = ($this->input->get_post('ajax')) ? true : false;
 		$uid = intval($this->auth->userid());
 		$user = $this->user_model->get_user($uid);
 
 		$data['title'] = $this->system_model->get('app_name');
-		$html = heading(ucfirst(lang('edit_member')), 1);
+		$html = ''; //heading(ucfirst(lang('edit_member')), 1);
 
-		$html .= form_open('member/register', array('class' => 'custom'));
+		$html .= form_open('member/edit', array('class' => 'custom'));
 		$html .= row(columns(form_label(ucfirst(lang('username')).':'.span('*', 'required'), 'username').
 				form_input(array('type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'expand', 'value' => $user['username'])), 6, 'end'));
 		$html .= row(columns(form_label(ucfirst(lang('email_address')).':'.span('*', 'required'), 'email').
@@ -452,9 +466,10 @@ class Member extends CI_Controller {
 			columns(
 				form_label(ucfirst(lang('lastname')).':', 'lastname').
 				form_input(array('type' => 'text', 'name' => 'lastname', 'id' => 'lastname', 'value' => $user['lastname'])), 6));
-		$html .= button_group(array(button_anchor('members', lang('button_cancel')), form_input(array('type' => 'submit', 'class' => 'button', 'value' => lang('button_save')))), 'right');
+		$html .= button_group(array(form_input(array('type' => 'button', 'id' => 'cancel_edit', 'content' => lang('button_cancel'))), form_input(array('type' => 'button', 'class' => 'button', 'content' => lang('button_save')))));
 		$html .= form_close();
 		$data['html'] = $html;
+		$data['ajax'] = $ajax;
 		$this->system_model->view('template', $data);
 	}
 }

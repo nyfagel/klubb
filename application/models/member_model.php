@@ -115,6 +115,17 @@ class Member_model extends CI_Model {
 		return null;
 	}
 	
+	public function get_name($member = -1) {
+		$data = array('id' => intval($member));
+		
+		$query = $this->db->get_where('members', $data);
+		if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			return ucfirst($row['firstname']).' '.ucfirst($row['lastname']);
+		}
+		return "J. Doe";
+	}
+	
 	/**
 	 * update_member function.
 	 * 
@@ -214,6 +225,7 @@ class Member_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_types() {
+		$this->db->order_by('id', 'asc');
 		$query = $this->db->get('types');
 		return $query->result_array();
 	}

@@ -11,6 +11,12 @@
 		</div>
 	</div>
 </footer>
+
+<div id="member-modal" class="large reveal-modal">
+	<div id="member-modal-ajax-receiver"></div>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+
 <?php echo (isset($library_src)) ? "<!-- Load JQuery -->\n".$library_src."<!-- End Load JQuery -->\n" : ''; ?>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.accordion.js'); ?>"></script>
 <script src="<?php echo asset_url('js/foundation/jquery.foundation.alerts.js'); ?>"></script>
@@ -35,5 +41,6 @@
 
 <script src="<?php echo asset_url('js/foundation/app.js'); ?>"></script>
 <?php echo (isset($script_foot)) ? "<!-- Compiled JQuery -->\n".$script_foot."<!-- End Compiled JQuery -->\n" : ''; ?>
+
 </body>
 </html>
