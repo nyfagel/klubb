@@ -33,6 +33,14 @@
 	<a class="close-reveal-modal">&#215;</a>
 </div>
 
+<div id="member-remove-modal" class="reveal-modal">
+	<h4>Avregistrera medlem</h4>
+	<p>Bekräfta att du vill ta bort följande medlem: <span id="member-remove-name" class="radius label">hämtar namn...</span></p>
+	<div id="member-remove-ajax-receiver">
+	</div>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+
 <div id="template-loading" style="display: none;">
 	<div class="twelve columns">
 		<p class="lead">Laddar medlem, vänta lite!</p>

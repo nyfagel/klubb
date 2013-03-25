@@ -255,7 +255,6 @@ class Member extends CI_Controller {
 		$html .= form_hidden('ajax', true);
 
 		$reqs = $this->member_model->get_type_requirements($type);
-		log_message('debug', print_r($reqs, true));
 		foreach ($reqs as $field) {
 			if ($field['rule'] == 'optional') {
 				$side .= $this->format_input_field($field);
@@ -408,7 +407,7 @@ class Member extends CI_Controller {
 						)
 					).nbs().lang($data['fieldname']), 'type'.$data['type'].$data['fieldname']);
 			} else {
-			$html .= form_label(ucfirst(lang($data['fieldname'])).':'.span('*', $data['rule']), 'type'.$data['type'].$data['fieldname']);
+			$html .= form_label(mb_ucfirst(lang($data['fieldname'])).':'.span('*', $data['rule']), 'type'.$data['type'].$data['fieldname']);
 			$html .= form_input(
 				array(
 					'type' => $data['fieldtype'],
@@ -514,7 +513,7 @@ class Member extends CI_Controller {
 		$html = '';
 		$main = '';
 		$main = '<div class="gridster"><ul class="no-bullet">';
-		$side = '';
+		$side = heading('Valfria fält', 6);
 		$reqs = $this->member_model->get_type_requirements($user['type']);
 		
 		
@@ -527,6 +526,9 @@ class Member extends CI_Controller {
 			}
 		}
 		$main .= '</ul></div>';
+		$side .= heading('Medlemsstatus', 6);
+		$msl = $this->member_model->get_type_flag($user['type'], 'inactive');
+		$side .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'inactive', 'id' => 'member-inactive', 'value' => $user['id'])).nbs().$msl, 'member-active');
 		$html .= 
 			div(
 				div(
@@ -535,6 +537,7 @@ class Member extends CI_Controller {
 					$side, 'four columns'
 				), 'row'
 			);
+		$html .= ul(array(form_input(array('type' => 'button', 'name' => 'close', 'id' => 'member-view-close', 'class' => 'radius button', 'value' => 'Stäng')), form_input(array('type' => 'button', 'name' => 'remove', 'id' => 'member-view-remove', 'class' => 'radius button', 'value' => 'Avregistrera medlem', 'data-member' => $user['id'], 'onclick' => "removeMember($(this).data('member'));")), form_input(array('type' => 'button', 'name' => 'save', 'id' => 'member-view-save', 'class' => 'radius button', 'value' => 'Spara ändringar'))), array('class' => 'radius button-group'));
 		$html .= form_close();
 		
 		$data['title'] = $this->system_model->get('app_name');
@@ -542,6 +545,31 @@ class Member extends CI_Controller {
 		$data['html'] = $html;
 		$data['ajax'] = true;
 		$this->system_model->view('ajax', $data);
+	}
+	
+	/**
+	 * remove function.
+	 * 
+	 * @access public
+	 * @param string $step (default: 'verify')
+	 * @return void
+	 */
+	public function remove($step = 'verify') {
+		$this->output->enable_profiler(false);
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		
+		$html = '';
+		if ($step == 'verify') {
+			
+		} else if ($step == 'buttons') {
+			$html .= form_open("#", array('id' => 'remove-member-buttons'));
+		}
+		$data['ajax'] = true;
+		
+		$user = $this->input->get('id');
+		$user = $this->member_model->get_member($user);
 	}
 }
 

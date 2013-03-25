@@ -53,11 +53,15 @@ function roleRights(sourceId, targetId, labelId) {
 
 function registerMember(target, caller) {
 	$(caller).toggleClass('active');
+	$(caller).toggleClass('disabled');
 	if( !$('#'+target).is(':visible') ) {
 		$.get('/member/register', {"ajax": "true"}, function(html) {
 			$("#"+target).html(html);
 			$("#"+target).foundationCustomForms();
+			$(caller).toggleClass('disabled');
 		});
+	} else {
+		$(caller).toggleClass('disabled');
 	}
 	$("#"+target).slideToggle(200);
 }
@@ -66,6 +70,12 @@ function doRegisterMember(sourceForm, target) {
 	$.post('/member/register', $("#"+sourceForm).serialize(), function(html) {
 		$("#"+target).html(html);
 		$("#"+target).foundationCustomForms();
+	});
+}
+
+function doUpdateMember(sourceForm, target) {
+	$.post('/member/update', $("#"+sourceForm).serialize(), function(html) {
+		$("#"+target).html(html);
 	});
 }
 
@@ -90,5 +100,16 @@ function viewMember(caller) {
 	$.get("/member/view", {"id": $(caller).data("member")}, function(html) {
 		$("#member-view-ajax-receiver").html(html);
 		$("#member-view-ajax-receiver").foundationCustomForms();
+	});
+}
+
+function removeMember(memberId) {
+	$("#member-remove-modal").reveal();
+	$.get("/member/name", {"id": memberId}, function(text) {
+		$("#member-remove-name").removeClass("radius label");
+		$("#member-remove-name").text(text+".");
+	});
+	$.get("/member/remove/buttons", {"id": memberId}, function(html) {
+		
 	});
 }

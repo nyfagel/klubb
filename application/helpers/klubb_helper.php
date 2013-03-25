@@ -39,4 +39,33 @@ if ( ! function_exists('very_random_string')) {
 		return $randstring;
 	}
 }
+
+if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
+	/**
+	 * mb_ucfirst function.
+	 * 
+	 * @access public
+	 * @param mixed $string
+	 * @return void
+	 */
+	function mb_ucfirst($string) {
+		$string = mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
+		return $string;
+	}
+}
+
+if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
+	/**
+	 * mb_lcfirst function.
+	 * 
+	 * @access public
+	 * @param mixed $str
+	 * @param mixed $enc (default: null)
+	 * @return void
+	 */
+	function mb_lcfirst($str, $enc = null) {
+		if($enc === null) $enc = mb_internal_encoding();
+		return mb_strtolower(mb_substr($str, 0, 1, $enc), $enc).mb_substr($str, 1, mb_strlen($str, $enc), $enc);
+	}
+}
 ?>

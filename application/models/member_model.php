@@ -258,5 +258,38 @@ class Member_model extends CI_Model {
 			return $query->result_array();
 		}
 	}
+	
+	/**
+	 * get_type_flag function.
+	 * 
+	 * @access public
+	 * @param int $type (default: -1)
+	 * @param string $key (default: '')
+	 * @return void
+	 */
+	public function get_type_flag($type = -1, $key = '') {
+		$query = $this->db->get_where('member_flags', array('type' => intval($type), 'key' => $key));
+		if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			return $row['desc'];
+		}
+		return null;
+	}
+	
+	/**
+	 * set_type_flag function.
+	 * 
+	 * @access public
+	 * @param int $type (default: -1)
+	 * @param string $key (default: '')
+	 * @param string $value (default: '')
+	 * @return void
+	 */
+	public function set_type_flag($type = -1, $key = '', $value = '') {
+		$this->db->where('type', intval($type));
+		$this->db->where('key', $key);
+		$this->db->set('value', $value);
+		return $this->db->update('member_flags');
+	}
 }
 ?>
