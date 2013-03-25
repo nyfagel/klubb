@@ -75,3 +75,20 @@ function registerAnotherMember(target, caller) {
 		$("#"+target).foundationCustomForms();
 	});
 }
+
+function viewMember(caller) {
+	$("#member-name").text("Medlemsdata");
+	$("#member-type").text("");
+	$("#member-view-ajax-receiver").html($("#template-loading").html());
+	$("#member-modal").reveal();
+	$.get("/member/name", {"id": $(caller).data("member")}, function(text) {
+		$("#member-name").text(text);
+	});
+	$.get("/member/type", {"id": $(caller).data("member")}, function(text) {
+		$("#member-type").text(" ("+text+")");
+	});
+	$.get("/member/view", {"id": $(caller).data("member")}, function(html) {
+		$("#member-view-ajax-receiver").html(html);
+		$("#member-view-ajax-receiver").foundationCustomForms();
+	});
+}

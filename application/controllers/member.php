@@ -6,7 +6,7 @@
  * @extends CI_Controller
  * @version 0.1
  * @author Jan Lindblom <jan@nyfagel.se>
- * @copyright Copyright (c) 2012-2013 Ung Cancer.
+ * @copyright Copyright (c) 2013 Ung Cancer.
  */
 class Member extends CI_Controller {
 
@@ -41,7 +41,7 @@ class Member extends CI_Controller {
 	 * @return void
 	 */
 	public function memberlist() {
-		$this->output->enable_profiler(true);
+		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
@@ -142,9 +142,8 @@ class Member extends CI_Controller {
 		} else {
 			array_push($tdata, array(array('data' => 'Inget resultat!', 'colspan' => $colspan)));
 		}
-		$spinner = $this->config->item('javascript_ajax_img');
-		$spinner = div(div(heading(span('Medlemsdata', 'member-name', 'member-name'), 4).p('Laddar medlem, vänta lite!', 'lead'), 'twelve columns'), 'row').div(div(img(array('src' => asset_url('img/ajax-bar.gif'), 'alt' => 'Laddar...')), 'twelve columns text-center'), 'row');
-		$this->javascript->click('.member-link', '$("#member-modal-ajax-receiver").html('."'".$spinner."'".'); $("#member-modal").reveal(); $.get("/member/name", {"id": $(this).data("member")}, function(text) { $("#member-name").text(text); }); $.get("/member/view", {"id": $(this).data("member")}, function(html) { $("#member-modal-ajax-receiver").html(html); });');
+
+		$this->javascript->click('.member-link', 'viewMember(this);');
 
 		$this->table->set_template(array('table_open' => '<table cellpadding="4" cellspacing="0" class="radius" id="members">'));
 		$data['table'] = $this->table->generate($tdata);
@@ -376,12 +375,13 @@ class Member extends CI_Controller {
 
 	/**
 	 * format_input_field function.
-	 *
+	 * 
 	 * @access private
 	 * @param array $data (default: array())
+	 * @param mixed $value (default: null)
 	 * @return void
 	 */
-	private function format_input_field($data = array()) {
+	private function format_input_field($data = array(), $value = null) {
 		if (empty($data)) {
 			return null;
 		}
@@ -394,7 +394,7 @@ class Member extends CI_Controller {
 					'name' => $data['fieldname'],
 					'id' => 'type'.$data['type'].$data['fieldname'],
 					'placeholder' => $data['placeholder'],
-					'value' => $this->input->post($data['fieldname'])
+					'value' => ($this->input->post($data['fieldname'])) ? $this->input->post($data['fieldname']) : $value
 				)
 			);
 		} else if ($data['fieldtype'] == 'checkbox') {
@@ -404,7 +404,7 @@ class Member extends CI_Controller {
 							'type' => 'checkbox',
 							'name' => $data['fieldname'],
 							'id' => 'type'.$data['type'].$data['fieldname'],
-							'value' => $this->input->post($data['fieldname'])
+							'value' => ($this->input->post($data['fieldname'])) ? $this->input->post($data['fieldname']) : $value
 						)
 					).nbs().lang($data['fieldname']), 'type'.$data['type'].$data['fieldname']);
 			} else {
@@ -416,7 +416,7 @@ class Member extends CI_Controller {
 					'id' => 'type'.$data['type'].$data['fieldname'],
 					'placeholder' => $data['placeholder'],
 					'class' => 'expand',
-					'value' => $this->input->post($data['fieldname'])
+					'value' => ($this->input->post($data['fieldname'])) ? $this->input->post($data['fieldname']) : $value
 				)
 			);
 		}
@@ -425,6 +425,12 @@ class Member extends CI_Controller {
 		return $html;
 	}
 	
+	/**
+	 * name function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function name() {
 		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
@@ -432,6 +438,21 @@ class Member extends CI_Controller {
 		}
 		$mid = $this->input->get_post('id');
 		echo $this->member_model->get_name($mid);
+	}
+	
+	/**
+	 * type function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function type() {
+		$this->output->enable_profiler(false);
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		$mid = $this->input->get_post('id');
+		echo $this->member_model->get_type_of($mid);
 	}
 
 	/**
@@ -471,6 +492,56 @@ class Member extends CI_Controller {
 		$data['html'] = $html;
 		$data['ajax'] = $ajax;
 		$this->system_model->view('template', $data);
+	}
+	
+	/**
+	 * view function.
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function view() {
+		$this->output->enable_profiler(false);
+		if (!$this->auth->loggedin()) {
+			redirect('user/login');
+		}
+		$ajax = true;
+		$uid = intval($this->auth->userid());
+		$user = $this->user_model->get_user($uid);
+		
+		$user = $this->input->get('id');
+		$user = $this->member_model->get_member($user);
+		$html = '';
+		$main = '';
+		$main = '<div class="gridster"><ul class="no-bullet">';
+		$side = '';
+		$reqs = $this->member_model->get_type_requirements($user['type']);
+		
+		
+		$html .= form_open("#", array('id' => 'member-data-form', 'class' => 'custom'));
+		foreach ($reqs as $field) {
+			if ($field['rule'] == 'optional') {
+				$side .= $this->format_input_field($field, $user[$field['fieldname']]);
+			} else {
+				$main .= '<li data-row="'.$field['row'].'" data-col="'.$field['column'].'"  data-sizex="1" data-sizey="1" class="six columns">'.$this->format_input_field($field, $user[$field['fieldname']]).'</li>';
+			}
+		}
+		$main .= '</ul></div>';
+		$html .= 
+			div(
+				div(
+					$main, 'eight columns'
+				).div(
+					$side, 'four columns'
+				), 'row'
+			);
+		$html .= form_close();
+		
+		$data['title'] = $this->system_model->get('app_name');
+		$data['partial'] = 'ajax';
+		$data['html'] = $html;
+		$data['ajax'] = true;
+		$this->system_model->view('ajax', $data);
 	}
 }
 

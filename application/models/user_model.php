@@ -5,7 +5,7 @@
  * @extends CI_Model
  * @version 0.1
  * @author Jan Lindblom <jan@nyfagel.se>
- * @copyright Copyright (c) 2012-2013 Ung Cancer.
+ * @copyright Copyright (c) 2013 Ung Cancer.
  */
 class User_model extends CI_Model {
 

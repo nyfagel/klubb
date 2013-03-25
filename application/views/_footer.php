@@ -12,9 +12,36 @@
 	</div>
 </footer>
 
-<div id="member-modal" class="large reveal-modal">
-	<div id="member-modal-ajax-receiver"></div>
+<div id="member-modal" class="expand reveal-modal">
+	<div id="member-modal-ajax-receiver">
+		<div class="row">
+			<div class="twelve columns">
+				<h4><span class="member-name" id="member-name">Medlemsdata</span><span class="member-type" id="member-type"></span></h4>
+			</div>
+		</div>
+		<div class="row" id="member-view-ajax-receiver">
+			<div class="twelve columns">
+				<p class="lead">Laddar medlem, vänta lite!</p>
+				<div class="row">
+					<div class="twelve columns text-center">
+						<img src="/assets/img/ajax-bar.gif" alt="Laddar...">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="template-loading" style="display: none;">
+	<div class="twelve columns">
+		<p class="lead">Laddar medlem, vänta lite!</p>
+		<div class="row">
+			<div class="twelve columns text-center">
+				<img src="<?php echo asset_url('img/ajax-bar.gif'); ?>" alt="Laddar...">
+			</div>
+		</div>
+	</div>
 </div>
 
 <?php echo (isset($library_src)) ? "<!-- Load JQuery -->\n".$library_src."<!-- End Load JQuery -->\n" : ''; ?>

@@ -126,6 +126,18 @@ class Member_model extends CI_Model {
 		return "J. Doe";
 	}
 	
+	public function get_type_of($member = -1) {
+		$data = array('id' => intval($member));
+		
+		$query = $this->db->get_where('members', $data);
+		if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			$type = $this->get_type($row['type']);
+			return lcfirst($type['name']);
+		}
+		return "unknown";
+	}
+	
 	/**
 	 * update_member function.
 	 * 
@@ -214,6 +226,7 @@ class Member_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_type($id) {
+		log_message('debug', "member_model->get_type($id)");
 		$query = $this->db->get_where('types', array('id' => intval($id)));
 		return $query->row_array();
 	}
@@ -238,6 +251,7 @@ class Member_model extends CI_Model {
 	 * @return void
 	 */
 	public function get_type_requirements($type = -1) {
+		log_message('debug', "member_model->get_type_requirements($type)");
 		$this->db->order_by('sort_order ASC, row ASC, column ASC');
 		$query = $this->db->get_where('types_requirements', array('type' => intval($type)));
 		if ($query->num_rows() > 0) {
