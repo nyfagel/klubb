@@ -5,7 +5,7 @@
  * 
  * @package		helpers
  * @author		Jan Lindblom <jan@nyfagel.se>
- * @copyright	Copyright (c) 2012, Ny fågel.
+ * @copyright	Copyright (c) 2013, Ung Cancer.
  * @license		MIT
  * @version		1.0
  */

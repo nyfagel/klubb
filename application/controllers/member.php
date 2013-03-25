@@ -4,7 +4,7 @@
  * Member controller.
  *
  * @extends CI_Controller
- * @version 0.1
+ * @version 0.9.1
  * @author Jan Lindblom <jan@nyfagel.se>
  * @copyright Copyright (c) 2013 Ung Cancer.
  */

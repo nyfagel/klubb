@@ -3,7 +3,7 @@
  * Member_model class.
  * 
  * @extends CI_Model
- * @version 1.0
+ * @version 0.9.1
  * @author Jan Lindblom <jan@nyfagel.se>
  * @copyright Copyright (c) 2013 Ung Cancer.
  */

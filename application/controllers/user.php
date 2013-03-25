@@ -4,9 +4,9 @@
  * User class.
  *
  * @extends CI_Controller
- * @version 0.1
+ * @version 0.9.1
  * @author Jan Lindblom <jan@nyfagel.se>
- * @copyright Copyright (c) 2012-2013 Ung Cancer.
+ * @copyright Copyright (c) 2013 Ung Cancer.
  */
 class User extends CI_Controller {
 
