@@ -105,11 +105,21 @@ function viewMember(caller) {
 
 function removeMember(memberId) {
 	$("#member-remove-modal").reveal();
+	$("#member-remove-name").text("hämtar namn...");
+	$("#member-remove-name").addClass("radius label");
+	
+	$.get("/member/remove", {"step": "buttons", "id": memberId}, function(html) {
+		$("#member-remove-ajax-receiver").html(html);
+	});
+	
 	$.get("/member/name", {"id": memberId}, function(text) {
 		$("#member-remove-name").removeClass("radius label");
 		$("#member-remove-name").text(text+".");
 	});
-	$.get("/member/remove/buttons", {"id": memberId}, function(html) {
-		
+}
+
+function doRemove(sourceForm) {
+	$.post("/member/remove", $("#"+sourceForm).serialize(), function(html) {
+		$("#member-remove-ajax-receiver").html(html);
 	});
 }

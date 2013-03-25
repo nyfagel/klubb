@@ -528,7 +528,7 @@ class Member extends CI_Controller {
 		$main .= '</ul></div>';
 		$side .= heading('Medlemsstatus', 6);
 		$msl = $this->member_model->get_type_flag($user['type'], 'inactive');
-		$side .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'inactive', 'id' => 'member-inactive', 'value' => $user['id'])).nbs().$msl, 'member-active');
+		$side .= form_label(form_checkbox(array('type' => 'checkbox', 'name' => 'inactive', 'id' => 'member-inactive', 'value' => $user['id'])).nbs().$msl, 'member-inactive');
 		$html .= 
 			div(
 				div(
@@ -551,25 +551,34 @@ class Member extends CI_Controller {
 	 * remove function.
 	 * 
 	 * @access public
-	 * @param string $step (default: 'verify')
 	 * @return void
 	 */
-	public function remove($step = 'verify') {
+	public function remove() {
 		$this->output->enable_profiler(false);
 		if (!$this->auth->loggedin()) {
 			redirect('user/login');
 		}
-		
+		$user = $this->input->get_post('id');
+		$step = $this->input->get_post('step');
 		$html = '';
 		if ($step == 'verify') {
-			
+			$user = $this->member_model->get_member($user);
+			$html .= p("Du har nu avregistrerat ".$user['firstname'].' '.$user['lastname'].'!', 'lead');
+			$this->member_model->remove_member($user['id']);
 		} else if ($step == 'buttons') {
 			$html .= form_open("#", array('id' => 'remove-member-buttons'));
+			$html .= form_hidden('id', $user);
+			$html .= form_hidden('step', 'verify');
+			$html .= ul(array(form_input(array('type' => 'button', 'name' => 'cancel', 'id' => 'member-remove-cancel', 'class' => 'radius button', 'value' => 'Nej', 'data-member' => $user)), form_input(array('type' => 'button', 'name' => 'remove', 'id' => 'member-remove-confirm', 'class' => 'radius button', 'value' => 'Ja, avregistrera', 'data-member' => $user, 'onclick' => "doRemove('remove-member-buttons');"))), array('class' => 'radius button-group'));
+			$html .= form_close();
 		}
 		$data['ajax'] = true;
 		
-		$user = $this->input->get('id');
-		$user = $this->member_model->get_member($user);
+		$data['partial'] = 'ajax';
+		$data['html'] = $html;
+		$data['ajax'] = true;
+		$this->system_model->view('ajax', $data);
+//		$user = $this->member_model->get_member($user);
 	}
 }
 
