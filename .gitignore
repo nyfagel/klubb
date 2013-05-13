@@ -16,3 +16,6 @@ application/logs/*
 .sass-cache
 .sonar
 Gemfile.lock
+
+# Bundler
+/bundler_stubs
