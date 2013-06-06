@@ -35,7 +35,7 @@ class User_model extends CI_Model {
 	public function create_user($data = array()) {
 		$data['password'] = $this->hash($data['password']);
 		$data['registered'] = time();
-		$data['key'] = $this->encrypt->encode($data['email'], $data['password']);
+		$data['key'] = $this->encrypt->encode($this->config->item('encryption_key'), $data['password']);
 		
 		$query = $this->db->get_where('users', $data);
 		if ($query->num_rows() < 1) {
@@ -191,6 +191,38 @@ class User_model extends CI_Model {
 		}
 		$this->benchmark->mark('user_model_get_active_end');
 		return $active;
+	}
+	
+	/**
+	 * set_key function.
+	 * 
+	 * @access public
+	 * @param float $user (default: -1)
+	 * @param mixed $key (default: null)
+	 * @return void
+	 */
+	public function set_key($user = -1, $key = null) {
+		$this->load->library('encrypt');
+		$user = $this->get_user(intval($user));
+		$key = $this->encrypt->encode($key, $user['password']);
+		return $this->update_user($user['id'], array('key' => $key));
+	}
+	
+	/**
+	 * get_key function.
+	 * 
+	 * @access public
+	 * @param float $user (default: -1)
+	 * @return void
+	 */
+	public function get_key($user = -1) {
+		$this->load->library('encrypt');
+		$query = $this->db->get_where('users', array('id' => intval($user)));
+		if ($query->num_rows() > 0) {
+			$row = $query->row_array();
+			return $this->encrypt->decode($row['key'], $row['password']);
+		}
+		return null;
 	}
 	
 	/**

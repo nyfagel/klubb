@@ -22,6 +22,7 @@ class Member extends CI_Controller {
 		$this->load->model('system_model');
 		$this->load->model('user_model');
 		$this->load->model('member_model');
+		
 		$this->load->helper('html');
 		$this->load->helper('form');
 		$this->load->helper('text');

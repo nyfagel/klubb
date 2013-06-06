@@ -38,6 +38,10 @@ class Member_model extends CI_Model {
 		return intval($row['id']);
 	}
 	
+	public function secure_member($member = -1) {
+		$this->load->model('system_model');
+	}
+	
 	/**
 	 * remove_member function.
 	 * 

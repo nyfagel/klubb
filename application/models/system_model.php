@@ -76,6 +76,32 @@ class System_model extends CI_Model {
 	}
 	
 	/**
+	 * encrypt_data function.
+	 * 
+	 * @access public
+	 * @param mixed $data (default: null)
+	 * @param mixed $key (default: null)
+	 * @return void
+	 */
+	public function encrypt_data($data = null, $key = null) {
+		$this->load->library('encrypt');
+		return $this->encrypt->encode($data, $key);
+	}
+	
+	/**
+	 * decrypt_data function.
+	 * 
+	 * @access public
+	 * @param mixed $data (default: null)
+	 * @param mixed $key (default: null)
+	 * @return void
+	 */
+	public function decrypt_data($data = null, $key = null) {
+		$this->load->library('encrypt');
+		return $this->encrypt->decode($data, $key);
+	}
+	
+	/**
 	 * get function.
 	 * 
 	 * @access public
